@@ -29,8 +29,8 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * @author <a href="mailto:bill@burkecentral.com">Bill Burke</a>
- * @version $Revision: 1 $
+ * @author andr_vasil@mail.ru
+ * @version 1
  */
 public class UserAdapter extends AbstractUserAdapterFederatedStorage {
     private static final Logger log = Logger.getLogger(UserAdapter.class);

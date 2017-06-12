@@ -191,6 +191,7 @@ public class EjbExampleUserStorageProvider implements UserStorageProvider,
         return true;
     }
 
+    // Получает пользоателя. Если пользователь есть в кеше то берет из кеша
     public UserAdapter getUserAdapter(UserModel user) {
         log.info("getUserAdapter");
         UserAdapter adapter = null;
@@ -413,121 +414,138 @@ public class EjbExampleUserStorageProvider implements UserStorageProvider,
 
     @Override
     public Set<FederatedIdentityModel> getFederatedIdentities(String string, RealmModel rm) {
+        log.info("");    
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
     public FederatedIdentityModel getFederatedIdentity(String string, String string1, RealmModel rm) {
+        log.info("");    
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
     public void addConsent(RealmModel rm, String string, UserConsentModel ucm) {
+        log.info("");    
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
     public UserConsentModel getConsentByClient(RealmModel rm, String string, String string1) {
+        log.info("");    
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
     public List<UserConsentModel> getConsents(RealmModel rm, String string) {
+        log.info("");    
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
     public void updateConsent(RealmModel rm, String string, UserConsentModel ucm) {
+        log.info("updateConsent");    
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
     public boolean revokeConsentForClient(RealmModel rm, String string, String string1) {
+        log.info("revokeConsentForClient");    
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
     public Set<GroupModel> getGroups(RealmModel rm, String string) {
+        log.info("getGroups");    
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
     public void joinGroup(RealmModel rm, String string, GroupModel gm) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        log.info("joinGroup");            
     }
 
     @Override
     public void leaveGroup(RealmModel rm, String string, GroupModel gm) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        log.info("");            
     }
 
     @Override
     public List<String> getMembership(RealmModel rm, GroupModel gm, int i, int i1) {
+        log.info("getMembership");    
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
     public Set<String> getRequiredActions(RealmModel rm, String string) {
+        log.info("");    
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
     public void addRequiredAction(RealmModel rm, String string, String string1) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        log.info("addRequiredAction");            
     }
 
     @Override
     public void removeRequiredAction(RealmModel rm, String string, String string1) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        log.info("");            
     }
 
     @Override
     public void grantRole(RealmModel rm, String string, RoleModel rm1) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        log.info("grantRole");            
     }
 
     @Override
     public Set<RoleModel> getRoleMappings(RealmModel rm, String string) {
+        log.info("getRoleMappings");    
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
     public void deleteRoleMapping(RealmModel rm, String string, RoleModel rm1) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        log.info("deleteRoleMapping");            
     }
 
     @Override
     public void updateCredential(RealmModel rm, String string, CredentialModel cm) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        log.info("updateCredential");            
     }
 
     @Override
     public CredentialModel createCredential(RealmModel rm, String string, CredentialModel cm) {
+        log.info("createCredential");    
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
     public boolean removeStoredCredential(RealmModel rm, String string, String string1) {
+        log.info("removeStoredCredential");    
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
     public CredentialModel getStoredCredentialById(RealmModel rm, String string, String string1) {
+        log.info("getStoredCredentialById");    
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
     public List<CredentialModel> getStoredCredentials(RealmModel rm, String string) {
+        log.info("getStoredCredentials");    
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
     public List<CredentialModel> getStoredCredentialsByType(RealmModel rm, String string, String string1) {
+        log.info("getStoredCredentialsByType");    
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
     public CredentialModel getStoredCredentialByNameAndType(RealmModel rm, String string, String string1, String string2) {
+        log.info("getStoredCredentialByNameAndType");    
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }
