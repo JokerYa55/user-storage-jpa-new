@@ -49,6 +49,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
+import org.keycloak.common.util.MultivaluedHashMap;
+import org.keycloak.models.ClientModel;
+import org.keycloak.models.FederatedIdentityModel;
+import org.keycloak.models.ProtocolMapperModel;
+import org.keycloak.models.UserConsentModel;
+import org.keycloak.storage.federated.UserFederatedStorageProvider;
 
 /**
  * @author <a href="mailto:bill@burkecentral.com">Bill Burke</a>
@@ -62,7 +68,8 @@ public class EjbExampleUserStorageProvider implements UserStorageProvider,
         UserQueryProvider,
         CredentialInputUpdater,
         CredentialInputValidator,
-        OnUserCache
+        OnUserCache, 
+        UserFederatedStorageProvider
 {
     private static final Logger log = Logger.getLogger(EjbExampleUserStorageProvider.class);
     public static final String PASSWORD_CACHE_KEY = UserAdapter.class.getName() + ".password";
@@ -321,5 +328,206 @@ public class EjbExampleUserStorageProvider implements UserStorageProvider,
     public List<UserModel> searchForUserByUserAttribute(String attrName, String attrValue, RealmModel realm) {
         log.info("searchForUserByUserAttribute");
         return Collections.EMPTY_LIST;
+    }
+
+    @Override
+    public List<String> getStoredUsers(RealmModel rm, int i, int i1) {
+        log.info("getStoredUsers");
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public int getStoredUsersCount(RealmModel rm) {
+        log.info("getStoredUsersCount");
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void preRemove(RealmModel rm, ClientModel cm) {
+        log.info("preRemove_1");        
+    }
+
+    @Override
+    public void preRemove(ProtocolMapperModel pmm) {
+        log.info("preRemove_2");        
+    }
+
+    @Override
+    public void preRemove(RealmModel rm, UserModel um) {
+        log.info("preRemove_3");
+    }
+
+    @Override
+    public void preRemove(RealmModel rm, ComponentModel cm) {
+        log.info("preRemove_4");
+    }
+
+    @Override
+    public void setSingleAttribute(RealmModel rm, String string, String string1, String string2) {
+        log.info("setSingleAttribute");
+    }
+
+    @Override
+    public void setAttribute(RealmModel rm, String string, String string1, List<String> list) {
+        log.info("setAttribute_1");
+    }
+
+    @Override
+    public void removeAttribute(RealmModel rm, String string, String string1) {
+        log.info("setAttribute_2");
+    }
+
+    @Override
+    public MultivaluedHashMap<String, String> getAttributes(RealmModel rm, String string) {
+        log.info("getAttributes");
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public List<String> getUsersByUserAttribute(RealmModel rm, String string, String string1) {
+        log.info("getUsersByUserAttribute");
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public String getUserByFederatedIdentity(FederatedIdentityModel fim, RealmModel rm) {
+        log.info("getUserByFederatedIdentity");
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void addFederatedIdentity(RealmModel rm, String string, FederatedIdentityModel fim) {
+        log.info("addFederatedIdentity");        
+    }
+
+    @Override
+    public boolean removeFederatedIdentity(RealmModel rm, String string, String string1) {
+        log.info("removeFederatedIdentity");
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void updateFederatedIdentity(RealmModel rm, String string, FederatedIdentityModel fim) {
+        log.info("updateFederatedIdentity");        
+    }
+
+    @Override
+    public Set<FederatedIdentityModel> getFederatedIdentities(String string, RealmModel rm) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public FederatedIdentityModel getFederatedIdentity(String string, String string1, RealmModel rm) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void addConsent(RealmModel rm, String string, UserConsentModel ucm) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public UserConsentModel getConsentByClient(RealmModel rm, String string, String string1) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public List<UserConsentModel> getConsents(RealmModel rm, String string) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void updateConsent(RealmModel rm, String string, UserConsentModel ucm) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public boolean revokeConsentForClient(RealmModel rm, String string, String string1) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public Set<GroupModel> getGroups(RealmModel rm, String string) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void joinGroup(RealmModel rm, String string, GroupModel gm) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void leaveGroup(RealmModel rm, String string, GroupModel gm) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public List<String> getMembership(RealmModel rm, GroupModel gm, int i, int i1) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public Set<String> getRequiredActions(RealmModel rm, String string) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void addRequiredAction(RealmModel rm, String string, String string1) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void removeRequiredAction(RealmModel rm, String string, String string1) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void grantRole(RealmModel rm, String string, RoleModel rm1) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public Set<RoleModel> getRoleMappings(RealmModel rm, String string) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void deleteRoleMapping(RealmModel rm, String string, RoleModel rm1) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void updateCredential(RealmModel rm, String string, CredentialModel cm) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public CredentialModel createCredential(RealmModel rm, String string, CredentialModel cm) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public boolean removeStoredCredential(RealmModel rm, String string, String string1) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public CredentialModel getStoredCredentialById(RealmModel rm, String string, String string1) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public List<CredentialModel> getStoredCredentials(RealmModel rm, String string) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public List<CredentialModel> getStoredCredentialsByType(RealmModel rm, String string, String string1) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public CredentialModel getStoredCredentialByNameAndType(RealmModel rm, String string, String string1, String string2) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }
