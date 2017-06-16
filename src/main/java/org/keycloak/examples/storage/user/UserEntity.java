@@ -1,9 +1,11 @@
 package org.keycloak.examples.storage.user;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.Table;
 
 /**
  * @version 1
@@ -17,15 +19,20 @@ import javax.persistence.NamedQuery;
                 "( lower(u.username) like :search or u.email like :search ) order by u.username"),
 })
 @Entity
+@Table(name="userentity")
 public class UserEntity {
     @Id
+    @Column(name="id")
     private String id;
-
-
+    @Column(name="username")
     private String username;
+    @Column(name="email")
     private String email;
+    @Column(name="password")
     private String password;
+    @Column(name="phone")
     private String phone;
+    @Column(name="address")
     private String address;
 
     public String getId() {
