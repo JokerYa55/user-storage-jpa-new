@@ -93,7 +93,7 @@ public class EjbExampleUserStorageProvider implements UserStorageProvider,
 
     @Override
     public UserModel getUserById(String id, RealmModel realm) {
-        log.info("getUserById: " + id);
+        log.info("getUserById\n\n\tid = " + id + "\n\t realm = " + realm.getName());
         String persistenceId = StorageId.externalId(id);
         UserEntity entity = em.find(UserEntity.class, persistenceId);
         if (entity == null) {
@@ -150,7 +150,7 @@ public class EjbExampleUserStorageProvider implements UserStorageProvider,
 
     @Override
     public void onCache(RealmModel realm, CachedUserModel user, UserModel delegate) {
-        log.info("onCache");
+        log.info("onCache\n\n\trealm = " + realm.getName() + "\n\tuser = " + user.getUsername() + "\n\tdelegate = " + delegate.getUsername());
         String password = ((UserAdapter)delegate).getPassword();
         if (password != null) {
             user.getCachedWith().put(PASSWORD_CACHE_KEY, password);
@@ -159,13 +159,13 @@ public class EjbExampleUserStorageProvider implements UserStorageProvider,
 
     @Override
     public boolean supportsCredentialType(String credentialType) {
-        log.info("supportsCredentialType");
+        log.info("supportsCredentialType\n\n\tcredentialType = " + credentialType);
         return CredentialModel.PASSWORD.equals(credentialType);
     }
 
     @Override
     public boolean updateCredential(RealmModel realm, UserModel user, CredentialInput input) {
-        log.info("updateCredential");
+        log.info("updateCredential \n\n\trealm = " + realm.getName() + "\n\tuser = " + user.getUsername() + "\n\tinput = " + input.toString());
         if (!supportsCredentialType(input.getType()) || !(input instanceof UserCredentialModel)) return false;
         UserCredentialModel cred = (UserCredentialModel)input;
         UserAdapter adapter = getUserAdapter(user);
@@ -176,7 +176,7 @@ public class EjbExampleUserStorageProvider implements UserStorageProvider,
 
     // Получает пользоателя. Если пользователь есть в кеше то берет из кеша
     public UserAdapter getUserAdapter(UserModel user) {
-        log.info("getUserAdapter");
+        log.info("getUserAdapter\n\tuser = "+user.getUsername());
         UserAdapter adapter = null;
         if (user instanceof CachedUserModel) {
             adapter = (UserAdapter)((CachedUserModel)user).getDelegateForUpdate();
@@ -195,7 +195,7 @@ public class EjbExampleUserStorageProvider implements UserStorageProvider,
 
     @Override
     public Set<String> getDisableableCredentialTypes(RealmModel realm, UserModel user) {
-        log.info("getDisableableCredentialTypes");
+        log.info("getDisableableCredentialTypes\n\n\trealm = " + realm.getName() + "\n\tuser = " + user.getUsername());
         if (getUserAdapter(user).getPassword() != null) {
             Set<String> set = new HashSet<>();
             set.add(CredentialModel.PASSWORD);
@@ -213,7 +213,7 @@ public class EjbExampleUserStorageProvider implements UserStorageProvider,
 
     @Override
     public boolean isValid(RealmModel realm, UserModel user, CredentialInput input) {
-        log.info("isValid");
+        log.info("isValid\n\trealm = " + realm.getName() + "\n\tuser = " + user.getUsername() + "\n\tinput = " + input.getType());
         if (!supportsCredentialType(input.getType()) || !(input instanceof UserCredentialModel)) return false;
         UserCredentialModel cred = (UserCredentialModel)input;
         String password = getPassword(user);
@@ -247,7 +247,7 @@ public class EjbExampleUserStorageProvider implements UserStorageProvider,
 
     @Override
     public List<UserModel> getUsers(RealmModel realm, int firstResult, int maxResults) {
-        log.info("getUsers_1");
+        log.info("getUsers_1\n\n\trealm = " + realm.getName() + "\n\tfirstResult = "+ firstResult + "\n\tmaxResults = " + maxResults);
         TypedQuery<UserEntity> query = em.createNamedQuery("getAllUsers", UserEntity.class);
         if (firstResult != -1) {
             query.setFirstResult(firstResult);
