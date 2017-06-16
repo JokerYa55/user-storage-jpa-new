@@ -153,6 +153,7 @@ public class EjbExampleUserStorageProvider implements UserStorageProvider,
         log.info("onCache\n\n\trealm = " + realm.getName() + "\n\tuser = " + user.getUsername() + "\n\tdelegate = " + delegate.getUsername());
         String password = ((UserAdapter)delegate).getPassword();
         if (password != null) {
+            log.info("Add password in CACHE password = " + password);
             user.getCachedWith().put(PASSWORD_CACHE_KEY, password);
         }
     }
