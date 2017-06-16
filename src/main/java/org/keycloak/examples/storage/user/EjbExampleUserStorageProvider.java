@@ -51,9 +51,9 @@ public class EjbExampleUserStorageProvider implements UserStorageProvider,
         UserQueryProvider,
         CredentialInputUpdater,
         CredentialInputValidator,
-        OnUserCache, 
-        UserFederatedStorageProvider
-{
+        OnUserCache,
+        UserFederatedStorageProvider {
+
     private static final Logger log = Logger.getLogger(EjbExampleUserStorageProvider.class);
     public static final String PASSWORD_CACHE_KEY = UserAdapter.class.getName() + ".password";
 
@@ -153,7 +153,9 @@ public class EjbExampleUserStorageProvider implements UserStorageProvider,
         TypedQuery<UserEntity> query = em.createNamedQuery("getUserByEmail", UserEntity.class);
         query.setParameter("email", email);
         List<UserEntity> result = query.getResultList();
-        if (result.isEmpty()) return null;
+        if (result.isEmpty()) {
+            return null;
+        }
         return new UserAdapter(session, realm, model, result.get(0));
     }
 
@@ -185,7 +187,9 @@ public class EjbExampleUserStorageProvider implements UserStorageProvider,
         log.info("removeUser");
         String persistenceId = StorageId.externalId(user.getId());
         UserEntity entity = em.find(UserEntity.class, persistenceId);
-        if (entity == null) return false;
+        if (entity == null) {
+            return false;
+        }
         em.remove(entity);
         return true;
     }
@@ -199,7 +203,7 @@ public class EjbExampleUserStorageProvider implements UserStorageProvider,
     @Override
     public void onCache(RealmModel realm, CachedUserModel user, UserModel delegate) {
         log.info("onCache\n\n\trealm = " + realm.getName() + "\n\tuser = " + user.getUsername() + "\n\tdelegate = " + delegate.getUsername());
-        String password = ((UserAdapter)delegate).getPassword();
+        String password = ((UserAdapter) delegate).getPassword();
         log.info("password = " + password);
         log.info("PASSWORD_CACHE_KEY = " + PASSWORD_CACHE_KEY);
         if (password != null) {
@@ -229,38 +233,54 @@ public class EjbExampleUserStorageProvider implements UserStorageProvider,
     @Override
     public boolean updateCredential(RealmModel realm, UserModel user, CredentialInput input) {
         log.info("updateCredential \n\n\trealm = " + realm.getName() + "\n\tuser = " + user.getUsername() + "\n\tinput = " + input.toString());
-        if (!supportsCredentialType(input.getType()) || !(input instanceof UserCredentialModel)) return false;
-        UserCredentialModel cred = (UserCredentialModel)input;
+        if (!supportsCredentialType(input.getType()) || !(input instanceof UserCredentialModel)) {
+            return false;
+        }
+        UserCredentialModel cred = (UserCredentialModel) input;
         UserAdapter adapter = getUserAdapter(user);
         adapter.setPassword(cred.getValue());
 
         return true;
     }
 
-
     /**
      * Получает пользоателя. Если пользователь есть в кеше то берет из кеша
+     *
      * @param user
      * @return
      */
     public UserAdapter getUserAdapter(UserModel user) {
-        log.info("getUserAdapter\n\tuser = "+user.getUsername());
+        log.info("getUserAdapter\n\tuser = " + user.getUsername());
         UserAdapter adapter = null;
         if (user instanceof CachedUserModel) {
-            adapter = (UserAdapter)((CachedUserModel)user).getDelegateForUpdate();
+            adapter = (UserAdapter) ((CachedUserModel) user).getDelegateForUpdate();
         } else {
-            adapter = (UserAdapter)user;
+            adapter = (UserAdapter) user;
         }
         return adapter;
     }
 
+    /**
+     *
+     * @param realm
+     * @param user
+     * @param credentialType
+     */
     @Override
     public void disableCredentialType(RealmModel realm, UserModel user, String credentialType) {
         log.info("disableCredentialType");
-        if (!supportsCredentialType(credentialType)) return;
+        if (!supportsCredentialType(credentialType)) {
+            return;
+        }
         getUserAdapter(user).setPassword(null);
     }
 
+    /**
+     *
+     * @param realm
+     * @param user
+     * @return
+     */
     @Override
     public Set<String> getDisableableCredentialTypes(RealmModel realm, UserModel user) {
         log.info("getDisableableCredentialTypes\n\n\trealm = " + realm.getName() + "\n\tuser = " + user.getUsername());
@@ -273,36 +293,47 @@ public class EjbExampleUserStorageProvider implements UserStorageProvider,
         }
     }
 
+    /**
+     *
+     * @param realm
+     * @param user
+     * @param credentialType
+     * @return
+     */
     @Override
     public boolean isConfiguredFor(RealmModel realm, UserModel user, String credentialType) {
         log.info("isConfiguredFor");
         return supportsCredentialType(credentialType) && getPassword(user) != null;
     }
-    
+
     /**
-     * Функция проверяет пароль введенный пользователем и пароль сохраненный в базе
+     * Функция проверяет пароль введенный пользователем и пароль сохраненный в
+     * базе
+     *
      * @param realm
      * @param user
      * @param input
      * @return
      */
-
     @Override
     public boolean isValid(RealmModel realm, UserModel user, CredentialInput input) {
         log.info("isValid\n\trealm = " + realm.getName() + "\n\tuser = " + user.getUsername() + "\n\tinput = " + input.getType());
-        if (!supportsCredentialType(input.getType()) || !(input instanceof UserCredentialModel)) return false;
-        UserCredentialModel cred = (UserCredentialModel)input;
-        
+        if (!supportsCredentialType(input.getType()) || !(input instanceof UserCredentialModel)) {
+            return false;
+        }
+        UserCredentialModel cred = (UserCredentialModel) input;
+
         String password = getPassword(user);
         log.info("\n\tcred device= " + cred.getDevice() + "\n\tpassword = " + password + "\n\tuserpass = " + cred.getValue());
         return (password != null) && (password.equals(cred.getValue()));
     }
 
-    
     /**
-     * Функция получает значение пароля из БД или из Кеша в зависимости есть ли пользователь в кеше
+     * Функция получает значение пароля из БД или из Кеша в зависимости есть ли
+     * пользователь в кеше
+     *
      * @param user
-     * @return 
+     * @return
      */
     private String getPassword(UserModel user) {
         log.info("getPassword");
@@ -310,20 +341,24 @@ public class EjbExampleUserStorageProvider implements UserStorageProvider,
         String password = null;
         if (user instanceof CachedUserModel) {
             log.info("User in cache");
-            password = (String)((CachedUserModel)user).getCachedWith().get(PASSWORD_CACHE_KEY);
+            password = (String) ((CachedUserModel) user).getCachedWith().get(PASSWORD_CACHE_KEY);
         } else if (user instanceof UserAdapter) {
             log.info("User not in cache");
-            password = ((UserAdapter)user).getPassword();
+            password = ((UserAdapter) user).getPassword();
         }
         return password;
     }
 
+    /**
+     *
+     * @param realm
+     * @return
+     */
     @Override
     public int getUsersCount(RealmModel realm) {
         log.info("getUsersCount");
-        Object count = em.createNamedQuery("getUserCount")
-                .getSingleResult();
-        return ((Number)count).intValue();
+        Object count = em.createNamedQuery("getUserCount").getSingleResult();
+        return ((Number) count).intValue();
     }
 
     @Override
@@ -332,9 +367,16 @@ public class EjbExampleUserStorageProvider implements UserStorageProvider,
         return getUsers(realm, -1, -1);
     }
 
+    /**
+     *
+     * @param realm
+     * @param firstResult
+     * @param maxResults
+     * @return
+     */
     @Override
     public List<UserModel> getUsers(RealmModel realm, int firstResult, int maxResults) {
-        log.info("getUsers_1\n\n\trealm = " + realm.getName() + "\n\tfirstResult = "+ firstResult + "\n\tmaxResults = " + maxResults);
+        log.info("getUsers_1\n\n\trealm = " + realm.getName() + "\n\tfirstResult = " + firstResult + "\n\tmaxResults = " + maxResults);
         TypedQuery<UserEntity> query = em.createNamedQuery("getAllUsers", UserEntity.class);
         if (firstResult != -1) {
             query.setFirstResult(firstResult);
@@ -344,16 +386,32 @@ public class EjbExampleUserStorageProvider implements UserStorageProvider,
         }
         List<UserEntity> results = query.getResultList();
         List<UserModel> users = new LinkedList<>();
-        for (UserEntity entity : results) users.add(new UserAdapter(session, realm, model, entity));
+        for (UserEntity entity : results) {
+            users.add(new UserAdapter(session, realm, model, entity));
+        }
         return users;
     }
 
+    /**
+     *
+     * @param search
+     * @param realm
+     * @return
+     */
     @Override
     public List<UserModel> searchForUser(String search, RealmModel realm) {
         log.info("searchForUser");
         return searchForUser(search, realm, -1, -1);
     }
 
+    /**
+     *
+     * @param search
+     * @param realm
+     * @param firstResult
+     * @param maxResults
+     * @return
+     */
     @Override
     public List<UserModel> searchForUser(String search, RealmModel realm, int firstResult, int maxResults) {
         log.info("searchForUser");
@@ -367,10 +425,18 @@ public class EjbExampleUserStorageProvider implements UserStorageProvider,
         }
         List<UserEntity> results = query.getResultList();
         List<UserModel> users = new LinkedList<>();
-        for (UserEntity entity : results) users.add(new UserAdapter(session, realm, model, entity));
+        for (UserEntity entity : results) {
+            users.add(new UserAdapter(session, realm, model, entity));
+        }
         return users;
     }
 
+    /**
+     *
+     * @param params
+     * @param realm
+     * @return
+     */
     @Override
     public List<UserModel> searchForUser(Map<String, String> params, RealmModel realm) {
         log.info("searchForUser_1");
@@ -415,12 +481,12 @@ public class EjbExampleUserStorageProvider implements UserStorageProvider,
 
     @Override
     public void preRemove(RealmModel rm, ClientModel cm) {
-        log.info("preRemove_1");        
+        log.info("preRemove_1");
     }
 
     @Override
     public void preRemove(ProtocolMapperModel pmm) {
-        log.info("preRemove_2");        
+        log.info("preRemove_2");
     }
 
     @Override
@@ -468,7 +534,7 @@ public class EjbExampleUserStorageProvider implements UserStorageProvider,
 
     @Override
     public void addFederatedIdentity(RealmModel rm, String string, FederatedIdentityModel fim) {
-        log.info("addFederatedIdentity");        
+        log.info("addFederatedIdentity");
     }
 
     @Override
@@ -479,143 +545,143 @@ public class EjbExampleUserStorageProvider implements UserStorageProvider,
 
     @Override
     public void updateFederatedIdentity(RealmModel rm, String string, FederatedIdentityModel fim) {
-        log.info("updateFederatedIdentity");        
+        log.info("updateFederatedIdentity");
     }
 
     @Override
     public Set<FederatedIdentityModel> getFederatedIdentities(String string, RealmModel rm) {
-        log.info("");    
+        log.info("");
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
     public FederatedIdentityModel getFederatedIdentity(String string, String string1, RealmModel rm) {
-        log.info("");    
+        log.info("");
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
     public void addConsent(RealmModel rm, String string, UserConsentModel ucm) {
-        log.info("");    
+        log.info("");
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
     public UserConsentModel getConsentByClient(RealmModel rm, String string, String string1) {
-        log.info("");    
+        log.info("");
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
     public List<UserConsentModel> getConsents(RealmModel rm, String string) {
-        log.info("");    
+        log.info("");
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
     public void updateConsent(RealmModel rm, String string, UserConsentModel ucm) {
-        log.info("updateConsent");    
+        log.info("updateConsent");
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
     public boolean revokeConsentForClient(RealmModel rm, String string, String string1) {
-        log.info("revokeConsentForClient");    
+        log.info("revokeConsentForClient");
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
     public Set<GroupModel> getGroups(RealmModel rm, String string) {
-        log.info("getGroups");    
+        log.info("getGroups");
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
     public void joinGroup(RealmModel rm, String string, GroupModel gm) {
-        log.info("joinGroup");            
+        log.info("joinGroup");
     }
 
     @Override
     public void leaveGroup(RealmModel rm, String string, GroupModel gm) {
-        log.info("");            
+        log.info("");
     }
 
     @Override
     public List<String> getMembership(RealmModel rm, GroupModel gm, int i, int i1) {
-        log.info("getMembership");    
+        log.info("getMembership");
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
     public Set<String> getRequiredActions(RealmModel rm, String string) {
-        log.info("");    
+        log.info("");
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
     public void addRequiredAction(RealmModel rm, String string, String string1) {
-        log.info("addRequiredAction");            
+        log.info("addRequiredAction");
     }
 
     @Override
     public void removeRequiredAction(RealmModel rm, String string, String string1) {
-        log.info("");            
+        log.info("");
     }
 
     @Override
     public void grantRole(RealmModel rm, String string, RoleModel rm1) {
-        log.info("grantRole");            
+        log.info("grantRole");
     }
 
     @Override
     public Set<RoleModel> getRoleMappings(RealmModel rm, String string) {
-        log.info("getRoleMappings");    
+        log.info("getRoleMappings");
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
     public void deleteRoleMapping(RealmModel rm, String string, RoleModel rm1) {
-        log.info("deleteRoleMapping");            
+        log.info("deleteRoleMapping");
     }
 
     @Override
     public void updateCredential(RealmModel rm, String string, CredentialModel cm) {
-        log.info("updateCredential");            
+        log.info("updateCredential");
     }
 
     @Override
     public CredentialModel createCredential(RealmModel rm, String string, CredentialModel cm) {
-        log.info("createCredential");    
+        log.info("createCredential");
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
     public boolean removeStoredCredential(RealmModel rm, String string, String string1) {
-        log.info("removeStoredCredential");    
+        log.info("removeStoredCredential");
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
     public CredentialModel getStoredCredentialById(RealmModel rm, String string, String string1) {
-        log.info("getStoredCredentialById");    
+        log.info("getStoredCredentialById");
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
     public List<CredentialModel> getStoredCredentials(RealmModel rm, String string) {
-        log.info("getStoredCredentials");    
+        log.info("getStoredCredentials");
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
     public List<CredentialModel> getStoredCredentialsByType(RealmModel rm, String string, String string1) {
-        log.info("getStoredCredentialsByType");    
+        log.info("getStoredCredentialsByType");
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
     public CredentialModel getStoredCredentialByNameAndType(RealmModel rm, String string, String string1, String string2) {
-        log.info("getStoredCredentialByNameAndType");    
+        log.info("getStoredCredentialByNameAndType");
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }
