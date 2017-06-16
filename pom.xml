@@ -28,30 +28,38 @@
     <artifactId>user-storage-jpa-example</artifactId>
     <packaging>jar</packaging>
 
+    <properties>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
+        <version.keycloak>3.1.0.Final</version.keycloak>
+        <version.jboss-logging>3.3.1.Final</version.jboss-logging>
+        <version.hibernate-jpa-api>1.0.0.Draft-16</version.hibernate-jpa-api>
+    </properties>
+
     <dependencies>
         <dependency>
             <groupId>org.keycloak</groupId>
             <artifactId>keycloak-core</artifactId>
             <scope>provided</scope>
-            <version>3.1.0.Final</version>
+            <version>${version.keycloak}</version>
         </dependency>
         <dependency>
             <groupId>org.keycloak</groupId>
             <artifactId>keycloak-server-spi</artifactId>
             <scope>provided</scope>
-            <version>3.1.0.Final</version>
+            <version>${version.keycloak}</version>
         </dependency>
         <dependency>
             <groupId>org.jboss.logging</groupId>
             <artifactId>jboss-logging</artifactId>
             <scope>provided</scope>
-            <version>3.3.1.Final</version>
+            <version>${version.jboss-logging}</version>
         </dependency>
         <dependency>
             <groupId>org.hibernate.javax.persistence</groupId>
             <artifactId>hibernate-jpa-2.1-api</artifactId>
             <scope>provided</scope>
-            <version>1.0.0.Draft-16</version>
+            <version>${version.hibernate-jpa-api}</version>
         </dependency>
         <dependency>
             <groupId>org.hibernate</groupId>
@@ -73,14 +81,16 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.6.1</version>
                 <configuration>
-                    <source>1.8</source>
-                    <target>1.8</target>
+                    <source>${maven.compiler.source}</source>
+                    <target>${maven.compiler.target}</target>
                 </configuration>
             </plugin>
             <plugin>
                 <groupId>org.wildfly.plugins</groupId>
                 <artifactId>wildfly-maven-plugin</artifactId>
+                <version>1.1.0.Final</version>
                 <configuration>
                     <skip>false</skip>
                 </configuration>
@@ -88,7 +98,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-javadoc-plugin</artifactId>
-                <version>2.9</version>
+                <version>2.10.4</version>
                 <configuration>
                     
                 </configuration>
