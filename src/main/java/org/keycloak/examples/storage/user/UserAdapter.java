@@ -11,6 +11,8 @@ import org.keycloak.storage.adapter.AbstractUserAdapterFederatedStorage;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+import org.keycloak.models.GroupModel;
 
 /**
  * Класс для представления пользователя внутри Keycloak
@@ -89,14 +91,19 @@ public class UserAdapter extends AbstractUserAdapterFederatedStorage {
 
     /**
      * Обновляет аттрибуты из интерфейса Keycloak
+     *
      * @param name имя аттрибута
-     * @param values Значения аттрибута (берется из локальной базы + из внешней базы в случае федерации)
+     * @param values Значения аттрибута (берется из локальной базы + из внешней
+     * базы в случае федерации)
      */
     @Override
     public void setAttribute(String name, List<String> values) {
         log.debug("setAttribute");
         if (name.equals("phone")) {
             entity.setPhone(values.get(0));
+        }
+        if (name.equals("address")) {
+            entity.setAddress(values.get(0));
         } else {
             super.setAttribute(name, values);
         }
@@ -114,7 +121,9 @@ public class UserAdapter extends AbstractUserAdapterFederatedStorage {
 
     /**
      * Метод позволяет добавлять аттрибуты из внешней базы в интерфейс Keycloak
+     * @return списое аттрибутов пользователя
      */
+  
     @Override
     public Map<String, List<String>> getAttributes() {
         log.debug("getAttributes");
@@ -135,6 +144,11 @@ public class UserAdapter extends AbstractUserAdapterFederatedStorage {
         return all;
     }
 
+    /**
+     * 
+     * @param name Имя параметра
+     * @return 
+     */
     @Override
     public List<String> getAttribute(String name) {
         log.debug("getAttribute");
@@ -146,4 +160,16 @@ public class UserAdapter extends AbstractUserAdapterFederatedStorage {
             return super.getAttribute(name);
         }
     }
+
+    /**
+     * 
+     * @return возвращает списое групп пользователя 
+     */
+    @Override
+    public Set<GroupModel> getGroups() {
+        log.info("getGroups()");
+        return super.getGroups(); //To change body of generated methods, choose Tools | Templates.
+    }
+    
+    
 }
