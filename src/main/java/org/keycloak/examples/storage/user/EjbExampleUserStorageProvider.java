@@ -210,7 +210,10 @@ public class EjbExampleUserStorageProvider implements UserStorageProvider,
         log.info("isConfiguredFor");
         return supportsCredentialType(credentialType) && getPassword(user) != null;
     }
-
+    
+    /*
+    * Функция проверяет пароль введенный пользователем и пароль сохраненный в базе
+    */
     @Override
     public boolean isValid(RealmModel realm, UserModel user, CredentialInput input) {
         log.info("isValid\n\trealm = " + realm.getName() + "\n\tuser = " + user.getUsername() + "\n\tinput = " + input.getType());
@@ -222,12 +225,18 @@ public class EjbExampleUserStorageProvider implements UserStorageProvider,
         return (password != null) && (password.equals(cred.getValue()));
     }
 
-    public String getPassword(UserModel user) {
+    /*
+    * Функция получает значение пароля из БД или из Кеша в зависимости есть ли пользователь в кеше
+    */
+    private String getPassword(UserModel user) {
         log.info("getPassword");
+        log.info("Class type user = " + user.getClass().getName());
         String password = null;
         if (user instanceof CachedUserModel) {
+            log.info("User in cache");
             password = (String)((CachedUserModel)user).getCachedWith().get(PASSWORD_CACHE_KEY);
         } else if (user instanceof UserAdapter) {
+            log.info("User not in cache");
             password = ((UserAdapter)user).getPassword();
         }
         return password;
