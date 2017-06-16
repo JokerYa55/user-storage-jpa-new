@@ -1,5 +1,6 @@
 package org.keycloak.examples.storage.user;
 
+import java.util.Iterator;
 import org.jboss.logging.Logger;
 import org.keycloak.common.util.MultivaluedHashMap;
 import org.keycloak.component.ComponentModel;
@@ -7,23 +8,27 @@ import org.keycloak.models.KeycloakSession;
 import org.keycloak.models.RealmModel;
 import org.keycloak.storage.StorageId;
 import org.keycloak.storage.adapter.AbstractUserAdapterFederatedStorage;
-
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
 /**
- * @version 1
+ * Класс для представления пользователя внутри Keycloak
+ * @version 1 
+ * @author Vasiliy Andritsov
+ * 
  */
 public class UserAdapter extends AbstractUserAdapterFederatedStorage {
+
     private static final Logger log = Logger.getLogger(UserAdapter.class);
     protected UserEntity entity;
     protected String keycloakId;
 
-    public UserAdapter(KeycloakSession session, RealmModel realm, ComponentModel model, UserEntity entity) {        
+    public UserAdapter(KeycloakSession session, RealmModel realm, ComponentModel model, UserEntity entity) {
         super(session, realm, model);
         log.debug("UserAdapter");
         this.entity = entity;
+        // внутренний ID
         keycloakId = StorageId.keycloakId(model, entity.getId());
     }
 
@@ -81,6 +86,9 @@ public class UserAdapter extends AbstractUserAdapterFederatedStorage {
         }
     }
 
+    /*
+    * Обновляет аттрибуты из интерфейса Keycloak
+     */
     @Override
     public void setAttribute(String name, List<String> values) {
         log.debug("setAttribute");
@@ -101,13 +109,24 @@ public class UserAdapter extends AbstractUserAdapterFederatedStorage {
         }
     }
 
+    // Метод позволяет добавлять аттрибуты из внешней базы в интерфейс Keycloak
     @Override
     public Map<String, List<String>> getAttributes() {
         log.debug("getAttributes");
         Map<String, List<String>> attrs = super.getAttributes();
+
+        Iterator it = attrs.entrySet().iterator();
+        while (it.hasNext()) {
+            Map.Entry<String, String> pair = (Map.Entry<String, String>) it.next();
+            //log.info("key = "+ pair.getKey() + " val = " + pair.getValue());
+            log.info("pair = " + pair.toString());
+        }
+
         MultivaluedHashMap<String, String> all = new MultivaluedHashMap<>();
         all.putAll(attrs);
+        // Добавляем доп. аттрибуты в Keycloak
         all.add("phone", entity.getPhone());
+        all.add("address", entity.getAddress());
         return all;
     }
 
