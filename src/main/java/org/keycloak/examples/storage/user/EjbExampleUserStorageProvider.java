@@ -216,8 +216,10 @@ public class EjbExampleUserStorageProvider implements UserStorageProvider,
         log.info("isValid\n\trealm = " + realm.getName() + "\n\tuser = " + user.getUsername() + "\n\tinput = " + input.getType());
         if (!supportsCredentialType(input.getType()) || !(input instanceof UserCredentialModel)) return false;
         UserCredentialModel cred = (UserCredentialModel)input;
+        
         String password = getPassword(user);
-        return password != null && password.equals(cred.getValue());
+        log.info("\n\tcred device= " + cred.getDevice() + "\n\tpassword = " + password + "\n\tuserpass = " + cred.getValue());
+        return (password != null) && (password.equals(cred.getValue()));
     }
 
     public String getPassword(UserModel user) {
