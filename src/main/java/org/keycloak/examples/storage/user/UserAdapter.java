@@ -27,6 +27,13 @@ public class UserAdapter extends AbstractUserAdapterFederatedStorage {
     protected UserEntity entity;
     protected String keycloakId;
 
+    /**
+     *
+     * @param session
+     * @param realm
+     * @param model
+     * @param entity
+     */
     public UserAdapter(KeycloakSession session, RealmModel realm, ComponentModel model, UserEntity entity) {
         super(session, realm, model);
         log.debug("UserAdapter");
@@ -35,40 +42,73 @@ public class UserAdapter extends AbstractUserAdapterFederatedStorage {
         keycloakId = StorageId.keycloakId(model, entity.getId());
     }
 
+    /**
+     *
+     * @return
+     */
     public String getPassword() {
         return entity.getPassword();
     }
 
+    /**
+     *
+     * @param password
+     */
     public void setPassword(String password) {
         entity.setPassword(password);
     }
 
+    /**
+     *
+     * @return
+     */
     @Override
     public String getUsername() {
         return entity.getUsername();
     }
 
+    /**
+     *
+     * @param username
+     */
     @Override
     public void setUsername(String username) {
         entity.setUsername(username);
 
     }
 
+    /**
+     *
+     * @param email
+     */
     @Override
     public void setEmail(String email) {
         entity.setEmail(email);
     }
 
+    /**
+     *
+     * @return
+     */
     @Override
     public String getEmail() {
         return entity.getEmail();
     }
 
+    /**
+     *
+     * @return
+     */
     @Override
     public String getId() {
         return keycloakId;
     }
 
+    /**
+     *
+     * @param name
+     * @param value
+     */
     @Override
     public void setSingleAttribute(String name, String value) {
         log.debug("setSingleAttribute");
@@ -109,6 +149,11 @@ public class UserAdapter extends AbstractUserAdapterFederatedStorage {
         }
     }
 
+    /**
+     *
+     * @param name
+     * @return
+     */
     @Override
     public String getFirstAttribute(String name) {
         log.debug("getFirstAttribute");
@@ -121,9 +166,9 @@ public class UserAdapter extends AbstractUserAdapterFederatedStorage {
 
     /**
      * Метод позволяет добавлять аттрибуты из внешней базы в интерфейс Keycloak
+     *
      * @return списое аттрибутов пользователя
      */
-  
     @Override
     public Map<String, List<String>> getAttributes() {
         log.debug("getAttributes");
@@ -145,9 +190,9 @@ public class UserAdapter extends AbstractUserAdapterFederatedStorage {
     }
 
     /**
-     * 
+     *
      * @param name Имя параметра
-     * @return 
+     * @return
      */
     @Override
     public List<String> getAttribute(String name) {
@@ -163,13 +208,13 @@ public class UserAdapter extends AbstractUserAdapterFederatedStorage {
 
     /**
      * Метод возвращает группы пользователя. Позволяет добавлять группы.
-     * @return возвращает списое групп пользователя 
+     *
+     * @return возвращает списое групп пользователя
      */
     @Override
     public Set<GroupModel> getGroups() {
         log.info("getGroups()");
         return super.getGroups(); //To change body of generated methods, choose Tools | Templates.
     }
-    
-    
+
 }

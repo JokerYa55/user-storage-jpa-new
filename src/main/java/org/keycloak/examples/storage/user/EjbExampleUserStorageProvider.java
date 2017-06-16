@@ -62,14 +62,26 @@ public class EjbExampleUserStorageProvider implements UserStorageProvider,
     protected ComponentModel model;
     protected KeycloakSession session;
 
+    /**
+     *
+     * @param model
+     */
     public void setModel(ComponentModel model) {
         this.model = model;
     }
 
+    /**
+     *
+     * @param session
+     */
     public void setSession(KeycloakSession session) {
         this.session = session;
     }
 
+    /**
+     *
+     * @param realm
+     */
     @Override
     public void preRemove(RealmModel realm) {
 
@@ -91,6 +103,12 @@ public class EjbExampleUserStorageProvider implements UserStorageProvider,
         log.debug("close");
     }
 
+    /**
+     *
+     * @param id
+     * @param realm
+     * @return
+     */
     @Override
     public UserModel getUserById(String id, RealmModel realm) {
         log.info("getUserById\n\n\tid = " + id + "\n\t realm = " + realm.getName());
@@ -103,6 +121,12 @@ public class EjbExampleUserStorageProvider implements UserStorageProvider,
         return new UserAdapter(session, realm, model, entity);
     }
 
+    /**
+     *
+     * @param username
+     * @param realm
+     * @return
+     */
     @Override
     public UserModel getUserByUsername(String username, RealmModel realm) {
         log.info("getUserByUsername: " + username);
@@ -117,6 +141,12 @@ public class EjbExampleUserStorageProvider implements UserStorageProvider,
         return new UserAdapter(session, realm, model, result.get(0));
     }
 
+    /**
+     *
+     * @param email
+     * @param realm
+     * @return
+     */
     @Override
     public UserModel getUserByEmail(String email, RealmModel realm) {
         log.info("getUserByEmail");
@@ -127,6 +157,12 @@ public class EjbExampleUserStorageProvider implements UserStorageProvider,
         return new UserAdapter(session, realm, model, result.get(0));
     }
 
+    /**
+     *
+     * @param realm
+     * @param username
+     * @return
+     */
     @Override
     public UserModel addUser(RealmModel realm, String username) {
         log.info("addUser");
@@ -138,6 +174,12 @@ public class EjbExampleUserStorageProvider implements UserStorageProvider,
         return new UserAdapter(session, realm, model, entity);
     }
 
+    /**
+     *
+     * @param realm
+     * @param user
+     * @return
+     */
     @Override
     public boolean removeUser(RealmModel realm, UserModel user) {
         log.info("removeUser");
@@ -148,6 +190,12 @@ public class EjbExampleUserStorageProvider implements UserStorageProvider,
         return true;
     }
 
+    /**
+     *
+     * @param realm
+     * @param user
+     * @param delegate
+     */
     @Override
     public void onCache(RealmModel realm, CachedUserModel user, UserModel delegate) {
         log.info("onCache\n\n\trealm = " + realm.getName() + "\n\tuser = " + user.getUsername() + "\n\tdelegate = " + delegate.getUsername());
@@ -160,12 +208,24 @@ public class EjbExampleUserStorageProvider implements UserStorageProvider,
         }
     }
 
+    /**
+     *
+     * @param credentialType
+     * @return
+     */
     @Override
     public boolean supportsCredentialType(String credentialType) {
         log.info("supportsCredentialType\n\n\tcredentialType = " + credentialType);
         return CredentialModel.PASSWORD.equals(credentialType);
     }
 
+    /**
+     *
+     * @param realm
+     * @param user
+     * @param input
+     * @return
+     */
     @Override
     public boolean updateCredential(RealmModel realm, UserModel user, CredentialInput input) {
         log.info("updateCredential \n\n\trealm = " + realm.getName() + "\n\tuser = " + user.getUsername() + "\n\tinput = " + input.toString());
@@ -177,7 +237,12 @@ public class EjbExampleUserStorageProvider implements UserStorageProvider,
         return true;
     }
 
-    // Получает пользоателя. Если пользователь есть в кеше то берет из кеша
+
+    /**
+     * Получает пользоателя. Если пользователь есть в кеше то берет из кеша
+     * @param user
+     * @return
+     */
     public UserAdapter getUserAdapter(UserModel user) {
         log.info("getUserAdapter\n\tuser = "+user.getUsername());
         UserAdapter adapter = null;
@@ -214,9 +279,14 @@ public class EjbExampleUserStorageProvider implements UserStorageProvider,
         return supportsCredentialType(credentialType) && getPassword(user) != null;
     }
     
-    /*
-    * Функция проверяет пароль введенный пользователем и пароль сохраненный в базе
-    */
+    /**
+     * Функция проверяет пароль введенный пользователем и пароль сохраненный в базе
+     * @param realm
+     * @param user
+     * @param input
+     * @return
+     */
+
     @Override
     public boolean isValid(RealmModel realm, UserModel user, CredentialInput input) {
         log.info("isValid\n\trealm = " + realm.getName() + "\n\tuser = " + user.getUsername() + "\n\tinput = " + input.getType());
@@ -228,9 +298,12 @@ public class EjbExampleUserStorageProvider implements UserStorageProvider,
         return (password != null) && (password.equals(cred.getValue()));
     }
 
-    /*
-    * Функция получает значение пароля из БД или из Кеша в зависимости есть ли пользователь в кеше
-    */
+    
+    /**
+     * Функция получает значение пароля из БД или из Кеша в зависимости есть ли пользователь в кеше
+     * @param user
+     * @return 
+     */
     private String getPassword(UserModel user) {
         log.info("getPassword");
         log.info("Class type user = " + user.getClass().getName());
