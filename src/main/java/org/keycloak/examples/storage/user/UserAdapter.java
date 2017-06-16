@@ -14,9 +14,10 @@ import java.util.Map;
 
 /**
  * Класс для представления пользователя внутри Keycloak
- * @version 1 
+ *
+ * @version 1
  * @author Vasiliy Andritsov
- * 
+ *
  */
 public class UserAdapter extends AbstractUserAdapterFederatedStorage {
 
@@ -87,7 +88,7 @@ public class UserAdapter extends AbstractUserAdapterFederatedStorage {
     }
 
     /*
-    * Обновляет аттрибуты из интерфейса Keycloak
+     * Обновляет аттрибуты из интерфейса Keycloak
      */
     @Override
     public void setAttribute(String name, List<String> values) {
@@ -109,7 +110,9 @@ public class UserAdapter extends AbstractUserAdapterFederatedStorage {
         }
     }
 
-    // Метод позволяет добавлять аттрибуты из внешней базы в интерфейс Keycloak
+    /*
+    * Метод позволяет добавлять аттрибуты из внешней базы в интерфейс Keycloak
+     */
     @Override
     public Map<String, List<String>> getAttributes() {
         log.debug("getAttributes");
