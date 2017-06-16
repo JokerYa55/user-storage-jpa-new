@@ -87,8 +87,10 @@ public class UserAdapter extends AbstractUserAdapterFederatedStorage {
         }
     }
 
-    /*
+    /**
      * Обновляет аттрибуты из интерфейса Keycloak
+     * @param name имя аттрибута
+     * @param values Значения аттрибута (берется из локальной базы + из внешней базы в случае федерации)
      */
     @Override
     public void setAttribute(String name, List<String> values) {
@@ -110,8 +112,8 @@ public class UserAdapter extends AbstractUserAdapterFederatedStorage {
         }
     }
 
-    /*
-    * Метод позволяет добавлять аттрибуты из внешней базы в интерфейс Keycloak
+    /**
+     * Метод позволяет добавлять аттрибуты из внешней базы в интерфейс Keycloak
      */
     @Override
     public Map<String, List<String>> getAttributes() {
