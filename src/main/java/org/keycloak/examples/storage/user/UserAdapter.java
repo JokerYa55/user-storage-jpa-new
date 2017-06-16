@@ -162,7 +162,7 @@ public class UserAdapter extends AbstractUserAdapterFederatedStorage {
     }
 
     /**
-     * 
+     * Метод возвращает группы пользователя. Позволяет добавлять группы.
      * @return возвращает списое групп пользователя 
      */
     @Override
