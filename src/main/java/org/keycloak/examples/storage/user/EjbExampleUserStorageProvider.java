@@ -253,8 +253,10 @@ public class EjbExampleUserStorageProvider implements UserStorageProvider,
         log.info("getUserAdapter\n\tuser = " + user.getUsername());
         UserAdapter adapter = null;
         if (user instanceof CachedUserModel) {
+            log.info("User in cache Keycloak");
             adapter = (UserAdapter) ((CachedUserModel) user).getDelegateForUpdate();
         } else {
+            log.info("User not in cache Keycloak");
             adapter = (UserAdapter) user;
         }
         return adapter;
@@ -285,8 +287,10 @@ public class EjbExampleUserStorageProvider implements UserStorageProvider,
     public Set<String> getDisableableCredentialTypes(RealmModel realm, UserModel user) {
         log.info("getDisableableCredentialTypes\n\n\trealm = " + realm.getName() + "\n\tuser = " + user.getUsername());
         if (getUserAdapter(user).getPassword() != null) {
+            log.info("\n\tpassword is not null : " + getUserAdapter(user).getPassword());
             Set<String> set = new HashSet<>();
             set.add(CredentialModel.PASSWORD);
+            log.info("\n\treturn CredentialModel.PASSWORD = " + CredentialModel.PASSWORD);
             return set;
         } else {
             return Collections.emptySet();

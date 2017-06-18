@@ -36,7 +36,7 @@ public class UserAdapter extends AbstractUserAdapterFederatedStorage {
      */
     public UserAdapter(KeycloakSession session, RealmModel realm, ComponentModel model, UserEntity entity) {
         super(session, realm, model);
-        log.debug("UserAdapter");
+        log.debug("UserAdapter CONSTRUCTOR");
         this.entity = entity;
         // внутренний ID
         keycloakId = StorageId.keycloakId(model, entity.getId());
