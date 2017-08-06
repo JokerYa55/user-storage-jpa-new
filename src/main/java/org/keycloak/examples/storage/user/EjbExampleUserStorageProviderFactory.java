@@ -20,7 +20,7 @@ public class EjbExampleUserStorageProviderFactory implements UserStorageProvider
             log.debug("----------------------------------------------------------------------");
             log.debug("create");
             InitialContext ctx = new InitialContext();
-            EjbExampleUserStorageProvider provider = (EjbExampleUserStorageProvider)ctx.lookup("java:global/user-storage-jpa-example/" + EjbExampleUserStorageProvider.class.getSimpleName());
+            EjbExampleUserStorageProvider provider = (EjbExampleUserStorageProvider)ctx.lookup("java:global/user-storage-jpa-dbuser-1/" + EjbExampleUserStorageProvider.class.getSimpleName());
             log.debug("provider = " + provider + "  -> " + EjbExampleUserStorageProvider.class.getSimpleName());
             provider.setModel(model);
             provider.setSession(session);
@@ -33,12 +33,12 @@ public class EjbExampleUserStorageProviderFactory implements UserStorageProvider
 
     @Override
     public String getId() {
-        return "example-user-storage-jpa";
+        return "user-storage-dbuser1";
     }
 
     @Override
     public String getHelpText() {
-        return "JPA Example User Storage Provider";
+        return "JPA User Storage Provider for DBUsers1";
     }
 
     @Override
