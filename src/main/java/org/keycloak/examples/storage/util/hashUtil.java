@@ -5,10 +5,9 @@
  */
 package org.keycloak.examples.storage.util;
 
+import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
@@ -16,44 +15,61 @@ import java.util.logging.Logger;
  */
 public class hashUtil {
 
-    /**
-     * Функция для получения hash SHA-1 из текста в виде набора байтов
-     */
-    public static byte[] getSHA_1(String text) {
-        byte[] res = null;
+    private final static char[] ALPHABET
+            = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/".toCharArray();
+
+    public static String sha1(String plain) {
         try {
             MessageDigest md = MessageDigest.getInstance("sha");
-            md.update(text.getBytes());
-            res = md.digest();
-        } catch (NoSuchAlgorithmException ex) {
-            Logger.getLogger(hashUtil.class.getName()).log(Level.SEVERE, null, ex);
+            md.update(plain.getBytes());
+            byte[] digest = md.digest();
+
+            return encode(digest);
+            /* Альтернативные варианты:
+            return javax.xml.bind.DatatypeConverter.printBase64Binary(digest);
+            или
+            return com.sun.org.apache.xml.internal.security.utils.Base64.encode(digest);
+             */
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+            return null;
         }
-        return res;
     }
 
-    private static String convertToHexString(byte[] data) {
-        StringBuffer buf = new StringBuffer();
-        for (int i = 0; i < data.length; i++) {
-            int halfbyte = (data[i] >>> 4) & 0x0F;
-            int two_halfs = 0;
-            do {
-                if ((0 <= halfbyte) && (halfbyte <= 9)) {
-                    buf.append((char) ('0' + halfbyte));
-                } else {
-                    buf.append((char) ('a' + (halfbyte - 10)));
-                }
-                halfbyte = data[i] & 0x0F;
-            } while (two_halfs++ < 1);
+    public static String md5(String raw) {
+        try {
+            MessageDigest md = MessageDigest.getInstance("MD5");
+            md.update(raw.getBytes(), 0, raw.length());
+            return new BigInteger(1, md.digest()).toString(16);
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+            return null;
         }
-        return buf.toString();
     }
 
-    public static String bytesToHex(byte[] in) {
-        final StringBuilder builder = new StringBuilder();
-        for (byte b : in) {
-            builder.append(String.format("%02x", b));
+    public static String encode(byte[] buf) {
+        int size = buf.length;
+        char[] ar = new char[((size + 2) / 3) * 4];
+        int a = 0;
+        int i = 0;
+        while (i < size) {
+            byte b0 = buf[i++];
+            byte b1 = (i < size) ? buf[i++] : 0;
+            byte b2 = (i < size) ? buf[i++] : 0;
+
+            int mask = 0x3F;
+            ar[a++] = ALPHABET[(b0 >> 2) & mask];
+            ar[a++] = ALPHABET[((b0 << 4) | ((b1 & 0xFF) >> 4)) & mask];
+            ar[a++] = ALPHABET[((b1 << 2) | ((b2 & 0xFF) >> 6)) & mask];
+            ar[a++] = ALPHABET[b2 & mask];
         }
-        return builder.toString();
+        switch (size % 3) {
+            case 1:
+                ar[--a] = '=';
+            case 2:
+                ar[--a] = '=';
+        }
+        return new String(ar);
     }
 
 }
