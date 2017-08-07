@@ -139,13 +139,22 @@ public class UserAdapter extends AbstractUserAdapterFederatedStorage {
     @Override
     public void setAttribute(String name, List<String> values) {
         log.debug("setAttribute");
-        if (name.equals("phone")) {
-            entity.setPhone(values.get(0));
-        }
-        if (name.equals("address")) {
-            entity.setAddress(values.get(0));
-        } else {
-            super.setAttribute(name, values);
+        switch (name) {
+            case "phone":
+                entity.setPhone(values.get(0));
+                break;
+            case "address":
+                entity.setAddress(values.get(0));
+                break;
+            case "elk_id":
+                entity.setElk_id(values.get(0));
+                break;
+            case "hash":
+                entity.setHash(values.get(0));
+                break;
+            default:
+                super.setAttribute(name, values);
+                break;
         }
     }
 
@@ -156,11 +165,18 @@ public class UserAdapter extends AbstractUserAdapterFederatedStorage {
      */
     @Override
     public String getFirstAttribute(String name) {
-        log.debug("getFirstAttribute");
-        if (name.equals("phone")) {
-            return entity.getPhone();
-        } else {
-            return super.getFirstAttribute(name);
+        log.debug("getFirstAttribute => " + name);
+        switch (name) {
+            case "phone":
+                return entity.getPhone();
+            case "address":
+                return entity.getAddress();
+            case "elk_id":
+                return entity.getElk_id();
+            case "hash":
+                return entity.getHash();
+            default:
+                return super.getFirstAttribute(name);
         }
     }
 
@@ -184,8 +200,15 @@ public class UserAdapter extends AbstractUserAdapterFederatedStorage {
         MultivaluedHashMap<String, String> all = new MultivaluedHashMap<>();
         all.putAll(attrs);
         // Добавляем доп. аттрибуты в Keycloak
+        log.info("Add user attibutes");
+        log.info("Add phone");
         all.add("phone", entity.getPhone());
+        log.info("Add address");
         all.add("address", entity.getAddress());
+        log.info("Add hash");
+        all.add("hash", entity.getHash());
+        log.info("Add elk_id");
+        all.add("elk_id", entity.getElk_id());
         return all;
     }
 
