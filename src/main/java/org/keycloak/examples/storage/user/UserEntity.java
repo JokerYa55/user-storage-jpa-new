@@ -111,4 +111,20 @@ public class UserEntity {
         this.hash = hash;
     }
 
+    public String getElk_b2b_id() {
+        return elk_b2b_id;
+    }
+
+    public void setElk_b2b_id(String elk_b2b_id) {
+        this.elk_b2b_id = elk_b2b_id;
+    }
+
+    public String getHesh_type() {
+        return hesh_type;
+    }
+
+    public void setHesh_type(String hesh_type) {
+        this.hesh_type = hesh_type;
+    }
+
 }
