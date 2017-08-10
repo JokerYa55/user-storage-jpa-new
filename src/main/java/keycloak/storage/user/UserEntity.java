@@ -1,4 +1,4 @@
-package org.keycloak.examples.storage.user;
+package keycloak.storage.user;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -6,6 +6,7 @@ import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
+import keycloak.storage.util.hashUtil;
 
 /**
  * @version 1
@@ -108,7 +109,7 @@ public class UserEntity {
     }
 
     public void setHash(String hash) {
-        this.hash = hash;
+        this.hash = hashUtil.encode(this.password.getBytes());
     }
 
     public String getElk_b2b_id() {

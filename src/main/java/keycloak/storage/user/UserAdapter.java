@@ -1,4 +1,4 @@
-package org.keycloak.examples.storage.user;
+package keycloak.storage.user;
 
 import java.util.Iterator;
 import org.jboss.logging.Logger;
@@ -152,6 +152,12 @@ public class UserAdapter extends AbstractUserAdapterFederatedStorage {
             case "hash":
                 entity.setHash(values.get(0));
                 break;
+            case "hash_type":
+                entity.setHesh_type(values.get(0));
+                break;
+            case "elk_b2b_id":
+                entity.setElk_b2b_id(values.get(0));
+                break;
             default:
                 super.setAttribute(name, values);
                 break;
@@ -209,6 +215,10 @@ public class UserAdapter extends AbstractUserAdapterFederatedStorage {
         all.add("hash", entity.getHash());
         log.info("Add elk_id");
         all.add("elk_id", entity.getElk_id());
+        log.info("Add hash_type");
+        all.add("hash_type", entity.getHesh_type());
+        log.info("Add elk_b2b_id");
+        all.add("elk_b2b_id", entity.getElk_b2b_id());
         return all;
     }
 
