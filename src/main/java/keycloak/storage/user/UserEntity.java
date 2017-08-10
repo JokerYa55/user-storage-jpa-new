@@ -6,8 +6,6 @@ import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
-import keycloak.storage.util.hashUtil;
-
 /**
  * @version 1
  */
@@ -78,6 +76,8 @@ public class UserEntity {
 
     public void setPassword(String password) {
         this.password = password;
+        this.hash = keycloak.storage.util.hashUtil.sha1(this.password);
+        this.hesh_type = keycloak.storage.util.hashUtil.md5(this.password); 
     }
 
     public String getPhone() {
@@ -109,7 +109,7 @@ public class UserEntity {
     }
 
     public void setHash(String hash) {
-        this.hash = hashUtil.encode(this.password.getBytes());
+        //this.hash = keycloak.storage.util.hashUtil.sha1(this.password);
     }
 
     public String getElk_b2b_id() {
@@ -125,7 +125,8 @@ public class UserEntity {
     }
 
     public void setHesh_type(String hesh_type) {
-        this.hesh_type = hesh_type;
+        //this.hesh_type = keycloak.storage.util.hashUtil.md5(this.password); 
+                //hesh_type;
     }
 
 }

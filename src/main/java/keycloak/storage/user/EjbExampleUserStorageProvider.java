@@ -33,6 +33,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
+import keycloak.bean.logUser;
 import org.keycloak.common.util.MultivaluedHashMap;
 import static org.keycloak.examples.storage.HTTPUtil.Util.doGet;
 import org.keycloak.models.ClientModel;
@@ -173,6 +174,9 @@ public class EjbExampleUserStorageProvider implements UserStorageProvider,
         entity.setId(UUID.randomUUID().toString());
         entity.setUsername(username);
         em.persist(entity);
+        logUser lUser = new logUser();
+        lUser.setUsername(username);
+        em.persist(lUser);
         log.info("added user: " + username);
 
         try {
