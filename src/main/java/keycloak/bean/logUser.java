@@ -24,8 +24,10 @@ public class logUser implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "t_users_log_id_seq")
-    @SequenceGenerator(name = "t_users_log_id_seq", sequenceName = "t_users_log_id_seq", allocationSize = 100)
+    @SequenceGenerator(name = "t_users_log_id_seq", sequenceName = "t_users_log_id_seq")
     int id;
+    @Column(name = "user_id")
+    private String user_id;
     @Column(name = "username")
     private String username;
     @Column(name = "password")
@@ -58,9 +60,16 @@ public class logUser implements Serializable {
         this.password = password;
     }
 
+    public String getUser_id() {
+        return user_id;
+    }
+
+    public void setUser_id(String user_id) {
+        this.user_id = user_id;
+    }
+
     @Override
     public String toString() {
-        return "logUser{" + "id=" + id + ", username=" + username + ", password=" + password + '}';
+        return "logUser{" + "id=" + id + ", user_id=" + user_id + ", username=" + username + ", password=" + password + '}';
     }
-    
 }
