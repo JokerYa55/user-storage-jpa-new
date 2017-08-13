@@ -5,6 +5,7 @@
  */
 package keycloak.bean;
 
+import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -19,7 +20,7 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "t_users_log")
-public class logUser {
+public class logUser implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "t_users_log_id_seq")
@@ -57,4 +58,9 @@ public class logUser {
         this.password = password;
     }
 
+    @Override
+    public String toString() {
+        return "logUser{" + "id=" + id + ", username=" + username + ", password=" + password + '}';
+    }
+    
 }
