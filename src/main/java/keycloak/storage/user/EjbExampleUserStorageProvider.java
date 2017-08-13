@@ -1,5 +1,6 @@
 package keycloak.storage.user;
 
+import com.sun.org.apache.bcel.internal.generic.IUSHR;
 import org.jboss.logging.Logger;
 import org.keycloak.component.ComponentModel;
 import org.keycloak.credential.CredentialInput;
@@ -173,10 +174,13 @@ public class EjbExampleUserStorageProvider implements UserStorageProvider,
         UserEntity entity = new UserEntity();
         entity.setId(UUID.randomUUID().toString());
         entity.setUsername(username);
+        
         em.persist(entity);
         logUser lUser = new logUser();
         lUser.setUsername(username);
+        lUser.setUser_id(entity.getId());
         em.persist(lUser);
+
         log.info("added user: " + username);
 
         try {
@@ -252,6 +256,9 @@ public class EjbExampleUserStorageProvider implements UserStorageProvider,
         UserCredentialModel cred = (UserCredentialModel) input;
         UserAdapter adapter = getUserAdapter(user);
         adapter.setPassword(cred.getValue());
+        // Добавляем информацию о пароле в журнал изменений.
+        //logUser lUser = em.find(logUser.class, adapter.getId());
+        //log.debug("lUser = " + lUser.toString());
 
         return true;
     }
