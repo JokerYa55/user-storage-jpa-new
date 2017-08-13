@@ -1,6 +1,6 @@
 package keycloak.storage.user;
 
-import com.sun.org.apache.bcel.internal.generic.IUSHR;
+import DAO.logUserDAO;
 import org.jboss.logging.Logger;
 import org.keycloak.component.ComponentModel;
 import org.keycloak.credential.CredentialInput;
@@ -35,6 +35,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 import keycloak.bean.logUser;
+import keycloak.storage.util.hashUtil;
 import org.keycloak.common.util.MultivaluedHashMap;
 import static org.keycloak.examples.storage.HTTPUtil.Util.doGet;
 import org.keycloak.models.ClientModel;
@@ -174,7 +175,7 @@ public class EjbExampleUserStorageProvider implements UserStorageProvider,
         UserEntity entity = new UserEntity();
         entity.setId(UUID.randomUUID().toString());
         entity.setUsername(username);
-        
+
         em.persist(entity);
         logUser lUser = new logUser();
         lUser.setUsername(username);
@@ -241,6 +242,7 @@ public class EjbExampleUserStorageProvider implements UserStorageProvider,
     }
 
     /**
+     * Вызывается при редактировании учетных данных пользователя
      *
      * @param realm
      * @param user
@@ -255,11 +257,10 @@ public class EjbExampleUserStorageProvider implements UserStorageProvider,
         }
         UserCredentialModel cred = (UserCredentialModel) input;
         UserAdapter adapter = getUserAdapter(user);
+        log.info("cred.getValue() = > " + cred.getValue());
+        // Устанавливаем пароль
+        //adapter.setPassword(hashUtil.sha1(cred.getValue()));
         adapter.setPassword(cred.getValue());
-        // Добавляем информацию о пароле в журнал изменений.
-        //logUser lUser = em.find(logUser.class, adapter.getId());
-        //log.debug("lUser = " + lUser.toString());
-
         return true;
     }
 
@@ -370,6 +371,7 @@ public class EjbExampleUserStorageProvider implements UserStorageProvider,
             log.info("User not in cache");
             password = ((UserAdapter) user).getPassword();
         }
+        log.info("password => " + password);
         return password;
     }
 

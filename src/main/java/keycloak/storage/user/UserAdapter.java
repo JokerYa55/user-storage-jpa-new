@@ -47,6 +47,7 @@ public class UserAdapter extends AbstractUserAdapterFederatedStorage {
      * @return
      */
     public String getPassword() {
+        log.debug("getPassword => " + entity.getPassword());
         return entity.getPassword();
     }
 

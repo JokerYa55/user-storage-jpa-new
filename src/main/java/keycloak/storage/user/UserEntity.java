@@ -6,6 +6,7 @@ import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
+import org.jboss.logging.Logger;
 /**
  * @version 1
  */
@@ -23,6 +24,7 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "t_users")
 public class UserEntity {
+    private static final Logger log = Logger.getLogger(UserEntity.class);
 
     @Id
     @Column(name = "id")
@@ -75,6 +77,7 @@ public class UserEntity {
     }
 
     public void setPassword(String password) {
+        log.debug("setPassword => " + password);
         this.password = password;
         this.hash = keycloak.storage.util.hashUtil.sha1(this.password);
         this.hesh_type = keycloak.storage.util.hashUtil.md5(this.password); 

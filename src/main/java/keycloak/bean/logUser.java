@@ -26,12 +26,14 @@ public class logUser implements Serializable {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "t_users_log_id_seq")
     @SequenceGenerator(name = "t_users_log_id_seq", sequenceName = "t_users_log_id_seq")
     int id;
-    @Column(name = "user_id")
+    @Column(name = "user_id",nullable = false)
     private String user_id;
-    @Column(name = "username")
+    @Column(name = "username", nullable = false)
     private String username;
     @Column(name = "password")
     private String password;
+    @Column(name = "flag", nullable = false, columnDefinition ="boolean default false")
+    private boolean flag; 
 
     public logUser() {
     }
