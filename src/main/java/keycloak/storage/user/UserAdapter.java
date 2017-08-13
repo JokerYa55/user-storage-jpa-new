@@ -208,17 +208,17 @@ public class UserAdapter extends AbstractUserAdapterFederatedStorage {
         all.putAll(attrs);
         // Добавляем доп. аттрибуты в Keycloak
         log.info("Add user attibutes");
-        log.info("Add phone");
+        //log.info("Add phone");
         all.add("phone", entity.getPhone());
-        log.info("Add address");
+        //log.info("Add address");
         all.add("address", entity.getAddress());
-        log.info("Add hash");
+        //log.info("Add hash");
         all.add("hash", entity.getHash());
-        log.info("Add elk_id");
+        //log.info("Add elk_id");
         all.add("elk_id", entity.getElk_id());
-        log.info("Add hash_type");
+        //log.info("Add hash_type");
         all.add("hash_type", entity.getHesh_type());
-        log.info("Add elk_b2b_id");
+        //log.info("Add elk_b2b_id");
         all.add("elk_b2b_id", entity.getElk_b2b_id());
         return all;
     }
