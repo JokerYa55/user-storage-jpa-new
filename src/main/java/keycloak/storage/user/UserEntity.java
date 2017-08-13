@@ -27,21 +27,21 @@ public class UserEntity {
     private static final Logger log = Logger.getLogger(UserEntity.class);
 
     @Id
-    @Column(name = "id")
+    @Column(name = "id", unique = true, nullable = false)
     private String id;
-    @Column(name = "username")
+    @Column(name = "username", unique = true, nullable = false)
     private String username;
-    @Column(name = "email")
+    @Column(name = "email", unique = true)
     private String email;
-    @Column(name = "password")
+    @Column(name = "password", nullable = true)
     private String password;
     @Column(name = "phone")
     private String phone;
     @Column(name = "address")
     private String address;
-    @Column(name = "elk_id")
+    @Column(name = "elk_id", unique = true)
     private String elk_id;
-    @Column(name = "elk_b2b_id")
+    @Column(name = "elk_b2b_id", unique = true)
     private String elk_b2b_id;
     @Column(name = "hash_type")
     private String hesh_type;

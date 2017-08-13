@@ -189,9 +189,9 @@ public class UserAdapter extends AbstractUserAdapterFederatedStorage {
 
     /**
      * Метод позволяет добавлять аттрибуты из внешней базы в интерфейс Keycloak
-     *
-     * @return списое аттрибутов пользователя
+     * @return 
      */
+    
     @Override
     public Map<String, List<String>> getAttributes() {
         log.debug("getAttributes");

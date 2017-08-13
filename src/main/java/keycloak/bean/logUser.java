@@ -24,7 +24,7 @@ public class logUser implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "t_users_log_id_seq")
-    @SequenceGenerator(name = "t_users_log_id_seq", sequenceName = "t_users_log_id_seq")
+    @SequenceGenerator(name = "t_users_log_id_seq", sequenceName = "t_users_log_id_seq", allocationSize = 1)
     int id;
     @Column(name = "user_id",nullable = false)
     private String user_id;
