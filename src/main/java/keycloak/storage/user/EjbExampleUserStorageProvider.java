@@ -1,6 +1,5 @@
 package keycloak.storage.user;
 
-import DAO.logUserDAO;
 import org.jboss.logging.Logger;
 import org.keycloak.component.ComponentModel;
 import org.keycloak.credential.CredentialInput;
@@ -35,7 +34,6 @@ import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 import keycloak.bean.logUser;
-import keycloak.storage.util.hashUtil;
 import org.keycloak.common.util.MultivaluedHashMap;
 import static org.keycloak.examples.storage.HTTPUtil.Util.doGet;
 import org.keycloak.models.ClientModel;
