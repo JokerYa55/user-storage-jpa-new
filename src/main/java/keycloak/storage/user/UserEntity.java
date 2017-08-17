@@ -36,21 +36,21 @@ public class UserEntity {
     private Long id;
     @Column(name = "username", unique = true, nullable = false)
     private String username;
-    @Column(name = "email", unique = true)
+    @Column(name = "email", unique = true, nullable = true)
     private String email;
     @Column(name = "password", nullable = true)
     private String password;
-    @Column(name = "phone")
+    @Column(name = "phone", nullable = true)
     private String phone;
-    @Column(name = "address")
+    @Column(name = "address", nullable = true)
     private String address;
-    @Column(name = "elk_id", unique = true)
+    @Column(name = "elk_id", unique = true, nullable = true)
     private String elk_id;
-    @Column(name = "elk_b2b_id", unique = true)
+    @Column(name = "elk_b2b_id", unique = true, nullable = true)
     private String elk_b2b_id;
-    @Column(name = "hash_type")
+    @Column(name = "hash_type", nullable = true)
     private String hesh_type;
-    @Column(name = "hash")
+    @Column(name = "hash", nullable = true)
     private String hash;
 
     public Long getId() {

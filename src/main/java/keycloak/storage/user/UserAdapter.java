@@ -139,29 +139,31 @@ public class UserAdapter extends AbstractUserAdapterFederatedStorage {
      */
     @Override
     public void setAttribute(String name, List<String> values) {
-        log.debug("setAttribute");
-        switch (name) {
-            case "phone":
-                entity.setPhone(values.get(0));
-                break;
-            case "address":
-                entity.setAddress(values.get(0));
-                break;
-            case "elk_id":
-                entity.setElk_id(values.get(0));
-                break;
-            case "hash":
-                entity.setHash(values.get(0));
-                break;
-            case "hash_type":
-                entity.setHesh_type(values.get(0));
-                break;
-            case "elk_b2b_id":
-                entity.setElk_b2b_id(values.get(0));
-                break;
-            default:
-                super.setAttribute(name, values);
-                break;
+        log.debug("******* setAttribute => " + values.get(0) + " ******");
+        if ((values.get(0) != null) && (values.get(0).length() > 0)) {
+            switch (name) {
+                case "phone":
+                    entity.setPhone(values.get(0));
+                    break;
+                case "address":
+                    entity.setAddress(values.get(0));
+                    break;
+                case "elk_id":
+                    entity.setElk_id(values.get(0));
+                    break;
+                case "hash":
+                    entity.setHash(values.get(0));
+                    break;
+                case "hash_type":
+                    entity.setHesh_type(values.get(0));
+                    break;
+                case "elk_b2b_id":
+                    entity.setElk_b2b_id(values.get(0));
+                    break;
+                default:
+                    super.setAttribute(name, values);
+                    break;
+            }
         }
     }
 
@@ -189,9 +191,9 @@ public class UserAdapter extends AbstractUserAdapterFederatedStorage {
 
     /**
      * Метод позволяет добавлять аттрибуты из внешней базы в интерфейс Keycloak
-     * @return 
+     *
+     * @return
      */
-    
     @Override
     public Map<String, List<String>> getAttributes() {
         log.debug("getAttributes");
@@ -207,19 +209,50 @@ public class UserAdapter extends AbstractUserAdapterFederatedStorage {
         MultivaluedHashMap<String, String> all = new MultivaluedHashMap<>();
         all.putAll(attrs);
         // Добавляем доп. аттрибуты в Keycloak
-        log.info("Add user attibutes");
-        //log.info("Add phone");
-        all.add("phone", entity.getPhone());
-        //log.info("Add address");
-        all.add("address", entity.getAddress());
-        //log.info("Add hash");
-        all.add("hash", entity.getHash());
-        //log.info("Add elk_id");
-        all.add("elk_id", entity.getElk_id());
-        //log.info("Add hash_type");
-        all.add("hash_type", entity.getHesh_type());
-        //log.info("Add elk_b2b_id");
-        all.add("elk_b2b_id", entity.getElk_b2b_id());
+        log.info("************ Add user attibutes **************");
+
+        if ((entity.getPhone() != null) && (entity.getPhone().length() > 0)) {
+            log.info("Add phone => " + entity.getPhone());
+            all.add("phone", entity.getPhone());
+        } else {
+            all.add("phone", null);
+        }
+
+        if ((entity.getAddress() != null) && (entity.getAddress().length() > 0)) {
+            log.info("Add address");
+            all.add("address", entity.getAddress());
+        } else {
+            all.add("address", null);
+        }
+
+        if ((entity.getHash() != null) && (entity.getHash().length() > 0)) {
+            log.info("Add hash");
+            all.add("hash", entity.getHash());
+        } else {
+            all.add("hash", null);
+        }
+
+        if ((entity.getElk_id() != null) && (entity.getElk_id().length() > 0)) {
+            log.info("Add elk_id");
+            all.add("elk_id", entity.getElk_id());
+        } else {
+            all.add("elk_id", null);
+        }
+
+        if ((entity.getHesh_type() != null) && (entity.getHesh_type().length() > 0)) {
+            log.info("Add hash_type");
+            all.add("hash_type", entity.getHesh_type());
+        } else {
+            all.add("hash_type", null);
+        }
+
+        if ((entity.getElk_b2b_id() != null) && (entity.getElk_b2b_id().length() > 0)) {
+            log.info("Add elk_b2b_id");
+            all.add("elk_b2b_id", entity.getElk_b2b_id());
+        } else {
+            all.add("elk_b2b_id", null);
+        }
+
         return all;
     }
 
