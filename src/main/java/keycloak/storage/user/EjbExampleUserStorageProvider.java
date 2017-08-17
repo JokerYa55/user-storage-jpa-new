@@ -114,11 +114,19 @@ public class EjbExampleUserStorageProvider implements UserStorageProvider,
     @Override
     public UserModel getUserById(String id, RealmModel realm) {
         log.info("getUserById\n\n\tid = " + id + "\n\t realm = " + realm.getName());
-        String persistenceId = StorageId.externalId(id);
+        log.debug("Get EXT ID = >");
+        log.debug("Get EXT ID = > " + StorageId.externalId(id));
+
+        Long persistenceId = new Long(StorageId.externalId(id));
+
+        log.debug("persistenceId => " + persistenceId);
+
         UserEntity entity = em.find(UserEntity.class, persistenceId);
         if (entity == null) {
             log.info("could not find user by id: " + id);
             return null;
+        } else {
+            log.debug("ID => " + entity.getId().toString());
         }
         return new UserAdapter(session, realm, model, entity);
     }
@@ -171,18 +179,19 @@ public class EjbExampleUserStorageProvider implements UserStorageProvider,
     public UserModel addUser(RealmModel realm, String username) {
         log.info("addUser");
         UserEntity entity = new UserEntity();
-        entity.setId(UUID.randomUUID().toString());
+        //entity.setId(UUID.randomUUID().toString());
         entity.setUsername(username);
 
         em.persist(entity);
         logUser lUser = new logUser();
         lUser.setUsername(username);
-        lUser.setUser_id(entity.getId());
+        lUser.setUser_id(entity.getId().toString());
         em.persist(lUser);
 
         log.info("added user: " + username);
 
-        try {
+        try {            
+            //String httpGet = doGet("http://192.168.1.240/helpdesk/service.php?command=getinclist", null);
             String httpGet = doGet("http://192.168.1.150:8080/testRest/admusers/hello/1500", null);
             log.info(httpGet);
         } catch (Exception e) {

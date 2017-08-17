@@ -2,9 +2,12 @@ package keycloak.storage.user;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import org.jboss.logging.Logger;
 /**
@@ -28,7 +31,9 @@ public class UserEntity {
 
     @Id
     @Column(name = "id", unique = true, nullable = false)
-    private String id;
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "t_users_id_seq")
+    @SequenceGenerator(name = "t_users_id_seq", sequenceName = "t_users_id_seq", allocationSize = 1)
+    private Long id;
     @Column(name = "username", unique = true, nullable = false)
     private String username;
     @Column(name = "email", unique = true)
@@ -48,11 +53,11 @@ public class UserEntity {
     @Column(name = "hash")
     private String hash;
 
-    public String getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

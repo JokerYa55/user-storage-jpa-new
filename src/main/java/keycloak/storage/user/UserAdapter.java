@@ -39,7 +39,7 @@ public class UserAdapter extends AbstractUserAdapterFederatedStorage {
         log.debug("UserAdapter CONSTRUCTOR");
         this.entity = entity;
         // внутренний ID
-        keycloakId = StorageId.keycloakId(model, entity.getId());
+        keycloakId = StorageId.keycloakId(model, entity.getId().toString());
     }
 
     /**
