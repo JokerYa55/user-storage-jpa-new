@@ -59,7 +59,7 @@ public class EjbExampleUserStorageProvider implements UserStorageProvider,
     private static final Logger log = Logger.getLogger(EjbExampleUserStorageProvider.class);
     public static final String PASSWORD_CACHE_KEY = UserAdapter.class.getName() + ".password";
 
-    @PersistenceContext
+    @PersistenceContext(unitName = "user-storage-jpa-example")
     protected EntityManager em;
     protected ComponentModel model;
     protected KeycloakSession session;
