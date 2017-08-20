@@ -110,13 +110,14 @@ public class EjbExampleUserStorageProvider implements UserStorageProvider,
      * @param id
      * @param realm
      * @return
+     * В случае смены типа поля ID нужно внести изменения
      */
     @Override
     public UserModel getUserById(String id, RealmModel realm) {
         log.info("getUserById\n\n\tid = " + id + "\n\t realm = " + realm.getName());
         log.debug("Get EXT ID = >");
         log.debug("Get EXT ID = > " + StorageId.externalId(id));
-
+        //TODO: В случае смены типа поля ID нужно внести изменения
         Long persistenceId = new Long(StorageId.externalId(id));
 
         log.debug("persistenceId => " + persistenceId);
@@ -147,7 +148,6 @@ public class EjbExampleUserStorageProvider implements UserStorageProvider,
             log.info("could not find username: " + username);
             return null;
         }
-
         return new UserAdapter(session, realm, model, result.get(0));
     }
 
@@ -202,7 +202,7 @@ public class EjbExampleUserStorageProvider implements UserStorageProvider,
     }
 
     /**
-     *
+     * Удаляет пользователя из БД
      * @param realm
      * @param user
      * @return
@@ -210,7 +210,8 @@ public class EjbExampleUserStorageProvider implements UserStorageProvider,
     @Override
     public boolean removeUser(RealmModel realm, UserModel user) {
         log.info("removeUser");
-        String persistenceId = StorageId.externalId(user.getId());
+        //String persistenceId = StorageId.externalId(user.getId());
+        Long persistenceId = new Long(StorageId.externalId(user.getId()));
         UserEntity entity = em.find(UserEntity.class, persistenceId);
         if (entity == null) {
             return false;

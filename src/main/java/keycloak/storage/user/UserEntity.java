@@ -20,7 +20,7 @@ import org.jboss.logging.Logger;
     ,
         @NamedQuery(name = "getUserCount", query = "select count(u) from UserEntity u")
     ,
-        @NamedQuery(name = "getAllUsers", query = "select u from UserEntity u")
+        @NamedQuery(name = "getAllUsers", query = "select u from UserEntity u order by u.username")
     ,
         @NamedQuery(name = "searchForUser", query = "select u from UserEntity u where "
             + "( lower(u.username) like :search or u.email like :search ) order by u.username"),})

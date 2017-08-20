@@ -120,14 +120,43 @@ public class UserAdapter extends AbstractUserAdapterFederatedStorage {
         }
     }
 
+    /**
+     *
+     * @param name
+     */
     @Override
     public void removeAttribute(String name) {
         log.debug("removeAttribute");
+
+        switch (name) {
+            case "phone":
+                entity.setPhone(null);
+                break;
+            case "address":
+                entity.setAddress(null);
+                break;
+            case "elk_id":
+                entity.setElk_id(null);
+                break;
+            case "hash":
+                entity.setHash(null);
+                break;
+            case "hash_type":
+                entity.setHesh_type(null);
+                break;
+            case "elk_b2b_id":
+                entity.setElk_b2b_id(null);
+                break;
+            default:
+                super.removeAttribute(name);
+                break;
+        }
+        /*
         if (name.equals("phone")) {
             entity.setPhone(null);
         } else {
             super.removeAttribute(name);
-        }
+        }*/
     }
 
     /**
@@ -184,6 +213,10 @@ public class UserAdapter extends AbstractUserAdapterFederatedStorage {
                 return entity.getElk_id();
             case "hash":
                 return entity.getHash();
+            case "hash_type":
+                return entity.getHesh_type();                
+            case "elk_b2b_id":
+                return entity.getElk_b2b_id();                
             default:
                 return super.getFirstAttribute(name);
         }
