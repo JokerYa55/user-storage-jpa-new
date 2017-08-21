@@ -34,6 +34,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 import keycloak.bean.logUser;
+import static keycloak.storage.util.hashUtil.sha1;
 import org.keycloak.common.util.MultivaluedHashMap;
 import static org.keycloak.examples.storage.HTTPUtil.Util.doGet;
 import org.keycloak.models.ClientModel;
@@ -358,7 +359,7 @@ public class EjbExampleUserStorageProvider implements UserStorageProvider,
 
         String password = getPassword(user);
         log.info("\n\tcred device= " + cred.getDevice() + "\n\tpassword = " + password + "\n\tuserpass = " + cred.getValue());
-        return (password != null) && (password.equals(cred.getValue()));
+        return (password != null) && ((sha1(password)).equals(cred.getValue()));
     }
 
     /**
