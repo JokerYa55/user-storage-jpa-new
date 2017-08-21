@@ -26,14 +26,16 @@ public class logUser implements Serializable {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "t_users_log_id_seq")
     @SequenceGenerator(name = "t_users_log_id_seq", sequenceName = "t_users_log_id_seq", allocationSize = 1)
     int id;
-    @Column(name = "user_id",nullable = false)
+    @Column(name = "user_id", nullable = false)
     private String user_id;
     @Column(name = "username", nullable = false)
     private String username;
     @Column(name = "password")
     private String password;
-    @Column(name = "flag", nullable = false, columnDefinition ="boolean default false")
-    private boolean flag; 
+    @Column(name = "flag", nullable = false, columnDefinition = "boolean default false")
+    private boolean flag;
+    @Column(name = "oper_type", length = 1)
+    private String oper_type;
 
     public logUser() {
     }
@@ -68,6 +70,22 @@ public class logUser implements Serializable {
 
     public void setUser_id(String user_id) {
         this.user_id = user_id;
+    }
+
+    public boolean isFlag() {
+        return flag;
+    }
+
+    public void setFlag(boolean flag) {
+        this.flag = flag;
+    }
+
+    public String getOper_type() {
+        return oper_type;
+    }
+
+    public void setOper_type(String oper_type) {
+        this.oper_type = oper_type;
     }
 
     @Override
