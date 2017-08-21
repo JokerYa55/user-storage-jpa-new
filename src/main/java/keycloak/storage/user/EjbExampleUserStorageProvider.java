@@ -34,6 +34,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 import keycloak.bean.logUser;
+import static keycloak.storage.util.hashUtil.md5;
 import static keycloak.storage.util.hashUtil.sha1;
 import org.keycloak.common.util.MultivaluedHashMap;
 import static org.keycloak.examples.storage.HTTPUtil.Util.doGet;
@@ -110,8 +111,7 @@ public class EjbExampleUserStorageProvider implements UserStorageProvider,
      *
      * @param id
      * @param realm
-     * @return
-     * В случае смены типа поля ID нужно внести изменения
+     * @return В случае смены типа поля ID нужно внести изменения
      */
     @Override
     public UserModel getUserById(String id, RealmModel realm) {
@@ -191,7 +191,7 @@ public class EjbExampleUserStorageProvider implements UserStorageProvider,
 
         log.info("added user: " + username);
 
-        try {            
+        try {
             //String httpGet = doGet("http://192.168.1.240/helpdesk/service.php?command=getinclist", null);
             String httpGet = doGet("http://192.168.1.150:8080/testRest/admusers/hello/1500", null);
             log.info(httpGet);
@@ -204,6 +204,7 @@ public class EjbExampleUserStorageProvider implements UserStorageProvider,
 
     /**
      * Удаляет пользователя из БД
+     *
      * @param realm
      * @param user
      * @return
@@ -356,10 +357,19 @@ public class EjbExampleUserStorageProvider implements UserStorageProvider,
             return false;
         }
         UserCredentialModel cred = (UserCredentialModel) input;
-
+        log.info("getHashType");
         String password = getPassword(user);
         log.info("\n\tcred device= " + cred.getDevice() + "\n\tpassword = " + password + "\n\tuserpass = " + cred.getValue());
-        return (password != null) && ((sha1(password)).equals(cred.getValue()));
+
+        switch ((getHashType(user)).toLowerCase()) {
+            case "md5":
+                return (password != null) && ((password).equals(md5(cred.getValue())));
+            case "sha1":
+                return (password != null) && ((password).equals(sha1(cred.getValue())));                
+            default:
+                return (password != null) && ((password).equals(cred.getValue()));
+        }
+
     }
 
     /**
@@ -382,6 +392,17 @@ public class EjbExampleUserStorageProvider implements UserStorageProvider,
         }
         log.info("password => " + password);
         return password;
+    }
+
+    private String getHashType(UserModel user) {
+        log.info("getHashType id => " + user.getId());
+        String res = null;
+        try {
+            res = user.getFirstAttribute("hash_type");
+        } catch (Exception e) {
+            log.error(e.getMessage());
+        }
+        return res;
     }
 
     /**
