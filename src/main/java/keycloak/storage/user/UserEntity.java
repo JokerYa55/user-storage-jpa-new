@@ -40,6 +40,8 @@ public class UserEntity {
     private String email;
     @Column(name = "password", nullable = true)
     private String password;
+    @Column(name = "password_not_hash", nullable = true)
+    private String password_not_hash;
     @Column(name = "phone", nullable = true)
     private String phone;
     @Column(name = "address", nullable = true)
@@ -52,6 +54,7 @@ public class UserEntity {
     private String hesh_type;
     @Column(name = "hash", nullable = true)
     private String hash;
+    
 
     public Long getId() {
         return id;
@@ -135,6 +138,14 @@ public class UserEntity {
     public void setHesh_type(String hesh_type) {
         //this.hesh_type = keycloak.storage.util.hashUtil.md5(this.password); 
                 //hesh_type;
+    }
+
+    public String getPassword_not_hash() {
+        return password_not_hash;
+    }
+
+    public void setPassword_not_hash(String password_not_hash) {
+        this.password_not_hash = password_not_hash;
     }
 
 }

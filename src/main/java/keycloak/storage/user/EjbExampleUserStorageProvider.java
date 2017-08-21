@@ -33,6 +33,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
+import java.util.function.BiConsumer;
 import keycloak.bean.logUser;
 import static keycloak.storage.util.hashUtil.md5;
 import static keycloak.storage.util.hashUtil.sha1;
@@ -261,16 +262,18 @@ public class EjbExampleUserStorageProvider implements UserStorageProvider,
      */
     @Override
     public boolean updateCredential(RealmModel realm, UserModel user, CredentialInput input) {
-        log.info("updateCredential \n\n\trealm = " + realm.getName() + "\n\tuser = " + user.getUsername() + "\n\tinput = " + input.toString());
+        log.info("updateCredential \n\n\trealm = " + realm.getName() + "\n\tuser = " + user.getUsername() + "\n\tinput = " + input.getClass().getName());
         if (!supportsCredentialType(input.getType()) || !(input instanceof UserCredentialModel)) {
             return false;
         }
         UserCredentialModel cred = (UserCredentialModel) input;
         UserAdapter adapter = getUserAdapter(user);
-        log.info("cred.getValue() = > " + cred.getValue());
-        // Устанавливаем пароль
+        log.info("cred.getValue() = > " + cred.getValue() + "\ncred.getType() => " + cred.getType());
+        //TODO: Устанавливаем пароль
         //adapter.setPassword(hashUtil.sha1(cred.getValue()));
         adapter.setPassword(cred.getValue());
+        //adapter.setSingleAttribute("password_not_hash", cred.getValue());        
+        //user.setSingleAttribute("password_not_hash", cred.getValue());
         return true;
     }
 
@@ -359,14 +362,16 @@ public class EjbExampleUserStorageProvider implements UserStorageProvider,
         UserCredentialModel cred = (UserCredentialModel) input;
         log.info("getHashType");
         String password = getPassword(user);
-        log.info("\n\tcred device= " + cred.getDevice() + "\n\tpassword = " + password + "\n\tuserpass = " + cred.getValue());
 
         switch ((getHashType(user)).toLowerCase()) {
             case "md5":
+                log.info("\n\tcred device= " + cred.getDevice() + "\n\tpassword = " + password + "\n\tuserpass = " + cred.getValue() + "\n\tuserpass = " + md5(cred.getValue()));
                 return (password != null) && ((password).equals(md5(cred.getValue())));
             case "sha1":
-                return (password != null) && ((password).equals(sha1(cred.getValue())));                
+                log.info("\n\tcred device= " + cred.getDevice() + "\n\tpassword = " + password + "\n\tuserpass = " + cred.getValue() + "\n\tuserpass = " + sha1(cred.getValue()));
+                return (password != null) && ((password).equals(sha1(cred.getValue())));
             default:
+                log.info("\n\tcred device= " + cred.getDevice() + "\n\tpassword = " + password + "\n\tuserpass = " + cred.getValue());
                 return (password != null) && ((password).equals(cred.getValue()));
         }
 
@@ -394,14 +399,25 @@ public class EjbExampleUserStorageProvider implements UserStorageProvider,
         return password;
     }
 
+    /**
+     * Функция возвращает тип hesh пароля
+     *
+     * @param user
+     * @return
+     */
     private String getHashType(UserModel user) {
         log.info("getHashType id => " + user.getId());
         String res = null;
         try {
+            Map<String, List<String>> temp = user.getAttributes();
+            temp.forEach((String t, List<String> u) -> {
+                log.info("t => " + t + "\t u = " + u);
+            });
             res = user.getFirstAttribute("hash_type");
         } catch (Exception e) {
             log.error(e.getMessage());
         }
+        log.info("getHashType res => " + res);
         return res;
     }
 
@@ -702,7 +718,7 @@ public class EjbExampleUserStorageProvider implements UserStorageProvider,
 
     @Override
     public void updateCredential(RealmModel rm, String string, CredentialModel cm) {
-        log.info("updateCredential");
+        log.info("updateCredential => \n\tRealmModel" + rm.toString() + "\n\tstring => " + string + "\n\tCredentialModel => " + cm.toString());
     }
 
     @Override

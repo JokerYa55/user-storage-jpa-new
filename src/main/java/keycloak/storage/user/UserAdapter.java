@@ -147,6 +147,10 @@ public class UserAdapter extends AbstractUserAdapterFederatedStorage {
             case "elk_b2b_id":
                 entity.setElk_b2b_id(null);
                 break;
+            case "password_not_hash":
+                entity.setPassword_not_hash(null);
+                break;
+                
             default:
                 super.removeAttribute(name);
                 break;
@@ -189,6 +193,9 @@ public class UserAdapter extends AbstractUserAdapterFederatedStorage {
                 case "elk_b2b_id":
                     entity.setElk_b2b_id(values.get(0));
                     break;
+                case "password_not_hash":
+                    entity.setPassword_not_hash(values.get(0));
+                    break;
                 default:
                     super.setAttribute(name, values);
                     break;
@@ -214,9 +221,12 @@ public class UserAdapter extends AbstractUserAdapterFederatedStorage {
             case "hash":
                 return entity.getHash();
             case "hash_type":
-                return entity.getHesh_type();                
+                return entity.getHesh_type();
             case "elk_b2b_id":
-                return entity.getElk_b2b_id();                
+                return entity.getElk_b2b_id();
+            case "password_not_hash":
+                return entity.getPassword_not_hash();    
+                
             default:
                 return super.getFirstAttribute(name);
         }
@@ -286,6 +296,13 @@ public class UserAdapter extends AbstractUserAdapterFederatedStorage {
             all.add("elk_b2b_id", null);
         }
 
+        /*if ((entity.getPassword_not_hash() != null) && (entity.getPassword_not_hash().length() > 0)) {
+            log.info("Add password_not_hash");
+            all.add("password_not_hash", entity.getPassword_not_hash());
+        } else {
+            all.add("password_not_hash", null);
+        }*/
+        
         return all;
     }
 
