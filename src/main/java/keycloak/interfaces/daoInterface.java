@@ -56,6 +56,7 @@ public interface daoInterface<T, V> {
      * @return
      */
     default public T addItem(T Item) {
+        getLogger().debug("addItem");
         T res = null;
         try {
             EntityManager em = getEM();
