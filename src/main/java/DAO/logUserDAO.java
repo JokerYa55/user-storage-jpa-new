@@ -20,6 +20,10 @@ import org.jboss.logging.Logger;
 public class logUserDAO implements daoInterface<logUser, Long>{
 
     private static final Logger log = Logger.getLogger(logUserDAO.class);
+
+    /**
+     *
+     */
     @PersistenceContext
     protected EntityManager em;
 

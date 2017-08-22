@@ -12,19 +12,49 @@ import org.jboss.logging.Logger;
 /**
  * Интерфейс для работы JPA объектами
  * @author vasil
+ * @param <T>
+ * @param <V>
  */
 public interface daoInterface<T, V> {
 
+    /**
+     *
+     * @return
+     */
     public EntityManager getEM();
     
+    /**
+     *
+     * @return
+     */
     public Logger getLogger();
 
+    /**
+     *
+     * @param id
+     * @return
+     */
     public T getItem(V id);
 
+    /**
+     *
+     * @return
+     */
     public List<T> getList();
 
+    /**
+     *
+     * @param startIdx
+     * @param stopIdx
+     * @return
+     */
     public List<T> getList(V startIdx, V stopIdx);
 
+    /**
+     *
+     * @param Item
+     * @return
+     */
     default public T addItem(T Item) {
         T res = null;
         try {
@@ -36,6 +66,11 @@ public interface daoInterface<T, V> {
         return res;
     }
 
+    /**
+     *
+     * @param Item
+     * @return
+     */
     default public boolean deleteItem(T Item) {
         boolean res = true;
         try {
@@ -48,6 +83,11 @@ public interface daoInterface<T, V> {
         return res;
     }
 
+    /**
+     *
+     * @param Item
+     * @return
+     */
     default public boolean updateItem(T Item) {
         boolean res = true;
         try {

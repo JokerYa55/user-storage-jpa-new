@@ -13,7 +13,12 @@ import javax.naming.InitialContext;
 public class EjbExampleUserStorageProviderFactory implements UserStorageProviderFactory<EjbExampleUserStorageProvider> {
     private static final Logger log = Logger.getLogger(EjbExampleUserStorageProviderFactory.class);
 
-
+    /**
+     *
+     * @param session
+     * @param model
+     * @return
+     */
     @Override
     public EjbExampleUserStorageProvider create(KeycloakSession session, ComponentModel model) {
         try {
@@ -31,16 +36,27 @@ public class EjbExampleUserStorageProviderFactory implements UserStorageProvider
         }
     }
 
+    /**
+     *
+     * @return
+     */
     @Override
     public String getId() {
         return "user-storage-dbuser1";
     }
 
+    /**
+     *
+     * @return
+     */
     @Override
     public String getHelpText() {
         return "JPA User Storage Provider for DBUsers1";
     }
 
+    /**
+     *
+     */
     @Override
     public void close() {
         log.info("<<<<<< Closing factory");

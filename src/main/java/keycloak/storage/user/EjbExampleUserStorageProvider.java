@@ -59,11 +59,26 @@ public class EjbExampleUserStorageProvider implements UserStorageProvider,
         UserFederatedStorageProvider {
 
     private static final Logger log = Logger.getLogger(EjbExampleUserStorageProvider.class);
+
+    /**
+     *
+     */
     public static final String PASSWORD_CACHE_KEY = UserAdapter.class.getName() + ".password";
 
+    /**
+     *
+     */
     @PersistenceContext(unitName = "user-storage-jpa-example")
     protected EntityManager em;
+
+    /**
+     *
+     */
     protected ComponentModel model;
+
+    /**
+     *
+     */
     protected KeycloakSession session;
 
     /**
@@ -91,16 +106,29 @@ public class EjbExampleUserStorageProvider implements UserStorageProvider,
         log.info("preRemove 1");
     }
 
+    /**
+     *
+     * @param realm
+     * @param group
+     */
     @Override
     public void preRemove(RealmModel realm, GroupModel group) {
         log.info("preRemove 2");
     }
 
+    /**
+     *
+     * @param realm
+     * @param role
+     */
     @Override
     public void preRemove(RealmModel realm, RoleModel role) {
         log.info("preRemove 3");
     }
 
+    /**
+     * 
+     */    
     @Remove
     @Override
     public void close() {
@@ -438,6 +466,11 @@ public class EjbExampleUserStorageProvider implements UserStorageProvider,
         return ((Number) count).intValue();
     }
 
+    /**
+     *
+     * @param realm
+     * @return
+     */
     @Override
     public List<UserModel> getUsers(RealmModel realm) {
         log.info("getUsers");
@@ -520,242 +553,515 @@ public class EjbExampleUserStorageProvider implements UserStorageProvider,
         return Collections.EMPTY_LIST;
     }
 
+    /**
+     *
+     * @param params
+     * @param realm
+     * @param firstResult
+     * @param maxResults
+     * @return
+     */
     @Override
     public List<UserModel> searchForUser(Map<String, String> params, RealmModel realm, int firstResult, int maxResults) {
         log.info("searchForUser_2");
         return Collections.EMPTY_LIST;
     }
 
+    /**
+     *
+     * @param realm
+     * @param group
+     * @param firstResult
+     * @param maxResults
+     * @return
+     */
     @Override
     public List<UserModel> getGroupMembers(RealmModel realm, GroupModel group, int firstResult, int maxResults) {
         log.info("getGroupMembers");
         return Collections.EMPTY_LIST;
     }
 
+    /**
+     *
+     * @param realm
+     * @param group
+     * @return
+     */
     @Override
     public List<UserModel> getGroupMembers(RealmModel realm, GroupModel group) {
         log.info("getGroupMembers_1");
         return Collections.EMPTY_LIST;
     }
 
+    /**
+     *
+     * @param attrName
+     * @param attrValue
+     * @param realm
+     * @return
+     */
     @Override
     public List<UserModel> searchForUserByUserAttribute(String attrName, String attrValue, RealmModel realm) {
         log.info("searchForUserByUserAttribute");
         return Collections.EMPTY_LIST;
     }
 
+    /**
+     *
+     * @param rm
+     * @param i
+     * @param i1
+     * @return
+     */
     @Override
     public List<String> getStoredUsers(RealmModel rm, int i, int i1) {
         log.info("getStoredUsers");
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
+    /**
+     *
+     * @param rm
+     * @return
+     */
     @Override
     public int getStoredUsersCount(RealmModel rm) {
         log.info("getStoredUsersCount");
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
+    /**
+     *
+     * @param rm
+     * @param cm
+     */
     @Override
     public void preRemove(RealmModel rm, ClientModel cm) {
         log.info("preRemove_1");
     }
 
+    /**
+     *
+     * @param pmm
+     */
     @Override
     public void preRemove(ProtocolMapperModel pmm) {
         log.info("preRemove_2");
     }
 
+    /**
+     *
+     * @param rm
+     * @param um
+     */
     @Override
     public void preRemove(RealmModel rm, UserModel um) {
         log.info("preRemove_3");
     }
 
+    /**
+     *
+     * @param rm
+     * @param cm
+     */
     @Override
     public void preRemove(RealmModel rm, ComponentModel cm) {
         log.info("preRemove_4");
     }
 
+    /**
+     *
+     * @param rm
+     * @param string
+     * @param string1
+     * @param string2
+     */
     @Override
     public void setSingleAttribute(RealmModel rm, String string, String string1, String string2) {
         log.info("setSingleAttribute");
     }
 
+    /**
+     *
+     * @param rm
+     * @param string
+     * @param string1
+     * @param list
+     */
     @Override
     public void setAttribute(RealmModel rm, String string, String string1, List<String> list) {
         log.info("setAttribute_1");
     }
 
+    /**
+     *
+     * @param rm
+     * @param string
+     * @param string1
+     */
     @Override
     public void removeAttribute(RealmModel rm, String string, String string1) {
         log.info("setAttribute_2");
     }
 
+    /**
+     *
+     * @param rm
+     * @param string
+     * @return
+     */
     @Override
     public MultivaluedHashMap<String, String> getAttributes(RealmModel rm, String string) {
         log.info("getAttributes");
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
+    /**
+     *
+     * @param rm
+     * @param string
+     * @param string1
+     * @return
+     */
     @Override
     public List<String> getUsersByUserAttribute(RealmModel rm, String string, String string1) {
         log.info("getUsersByUserAttribute");
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
+    /**
+     *
+     * @param fim
+     * @param rm
+     * @return
+     */
     @Override
     public String getUserByFederatedIdentity(FederatedIdentityModel fim, RealmModel rm) {
         log.info("getUserByFederatedIdentity");
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
+    /**
+     *
+     * @param rm
+     * @param string
+     * @param fim
+     */
     @Override
     public void addFederatedIdentity(RealmModel rm, String string, FederatedIdentityModel fim) {
         log.info("addFederatedIdentity");
     }
 
+    /**
+     *
+     * @param rm
+     * @param string
+     * @param string1
+     * @return
+     */
     @Override
     public boolean removeFederatedIdentity(RealmModel rm, String string, String string1) {
         log.info("removeFederatedIdentity");
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
+    /**
+     *
+     * @param rm
+     * @param string
+     * @param fim
+     */
     @Override
     public void updateFederatedIdentity(RealmModel rm, String string, FederatedIdentityModel fim) {
         log.info("updateFederatedIdentity");
     }
 
+    /**
+     *
+     * @param string
+     * @param rm
+     * @return
+     */
     @Override
     public Set<FederatedIdentityModel> getFederatedIdentities(String string, RealmModel rm) {
         log.info("");
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
+    /**
+     *
+     * @param string
+     * @param string1
+     * @param rm
+     * @return
+     */
     @Override
     public FederatedIdentityModel getFederatedIdentity(String string, String string1, RealmModel rm) {
         log.info("");
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
+    /**
+     *
+     * @param rm
+     * @param string
+     * @param ucm
+     */
     @Override
     public void addConsent(RealmModel rm, String string, UserConsentModel ucm) {
         log.info("");
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
+    /**
+     *
+     * @param rm
+     * @param string
+     * @param string1
+     * @return
+     */
     @Override
     public UserConsentModel getConsentByClient(RealmModel rm, String string, String string1) {
         log.info("");
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
+    /**
+     *
+     * @param rm
+     * @param string
+     * @return
+     */
     @Override
     public List<UserConsentModel> getConsents(RealmModel rm, String string) {
         log.info("");
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
+    /**
+     *
+     * @param rm
+     * @param string
+     * @param ucm
+     */
     @Override
     public void updateConsent(RealmModel rm, String string, UserConsentModel ucm) {
         log.info("updateConsent");
         //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
+    /**
+     *
+     * @param rm
+     * @param string
+     * @param string1
+     * @return
+     */
     @Override
     public boolean revokeConsentForClient(RealmModel rm, String string, String string1) {
         log.info("revokeConsentForClient");
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
+    /**
+     *
+     * @param rm
+     * @param string
+     * @return
+     */
     @Override
     public Set<GroupModel> getGroups(RealmModel rm, String string) {
         log.info("getGroups");
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
+    /**
+     *
+     * @param rm
+     * @param string
+     * @param gm
+     */
     @Override
     public void joinGroup(RealmModel rm, String string, GroupModel gm) {
         log.info("joinGroup");
     }
 
+    /**
+     *
+     * @param rm
+     * @param string
+     * @param gm
+     */
     @Override
     public void leaveGroup(RealmModel rm, String string, GroupModel gm) {
         log.info("");
     }
 
+    /**
+     *
+     * @param rm
+     * @param gm
+     * @param i
+     * @param i1
+     * @return
+     */
     @Override
     public List<String> getMembership(RealmModel rm, GroupModel gm, int i, int i1) {
         log.info("getMembership");
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
+    /**
+     *
+     * @param rm
+     * @param string
+     * @return
+     */
     @Override
     public Set<String> getRequiredActions(RealmModel rm, String string) {
         log.info("");
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
+    /**
+     *
+     * @param rm
+     * @param string
+     * @param string1
+     */
     @Override
     public void addRequiredAction(RealmModel rm, String string, String string1) {
         log.info("addRequiredAction");
     }
 
+    /**
+     *
+     * @param rm
+     * @param string
+     * @param string1
+     */
     @Override
     public void removeRequiredAction(RealmModel rm, String string, String string1) {
         log.info("");
     }
 
+    /**
+     *
+     * @param rm
+     * @param string
+     * @param rm1
+     */
     @Override
     public void grantRole(RealmModel rm, String string, RoleModel rm1) {
         log.info("grantRole");
     }
 
+    /**
+     *
+     * @param rm
+     * @param string
+     * @return
+     */
     @Override
     public Set<RoleModel> getRoleMappings(RealmModel rm, String string) {
         log.info("getRoleMappings");
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
+    /**
+     *
+     * @param rm
+     * @param string
+     * @param rm1
+     */
     @Override
     public void deleteRoleMapping(RealmModel rm, String string, RoleModel rm1) {
         log.info("deleteRoleMapping");
     }
 
+    /**
+     *
+     * @param rm
+     * @param string
+     * @param cm
+     */
     @Override
     public void updateCredential(RealmModel rm, String string, CredentialModel cm) {
         log.info("updateCredential => \n\tRealmModel" + rm.toString() + "\n\tstring => " + string + "\n\tCredentialModel => " + cm.toString());
     }
 
+    /**
+     *
+     * @param rm
+     * @param string
+     * @param cm
+     * @return
+     */
     @Override
     public CredentialModel createCredential(RealmModel rm, String string, CredentialModel cm) {
         log.info("createCredential");
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
+    /**
+     *
+     * @param rm
+     * @param string
+     * @param string1
+     * @return
+     */
     @Override
     public boolean removeStoredCredential(RealmModel rm, String string, String string1) {
         log.info("removeStoredCredential");
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
+    /**
+     *
+     * @param rm
+     * @param string
+     * @param string1
+     * @return
+     */
     @Override
     public CredentialModel getStoredCredentialById(RealmModel rm, String string, String string1) {
         log.info("getStoredCredentialById");
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
+    /**
+     *
+     * @param rm
+     * @param string
+     * @return
+     */
     @Override
     public List<CredentialModel> getStoredCredentials(RealmModel rm, String string) {
         log.info("getStoredCredentials");
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
+    /**
+     *
+     * @param rm
+     * @param string
+     * @param string1
+     * @return
+     */
     @Override
     public List<CredentialModel> getStoredCredentialsByType(RealmModel rm, String string, String string1) {
         log.info("getStoredCredentialsByType");
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
+    /**
+     *
+     * @param rm
+     * @param string
+     * @param string1
+     * @param string2
+     * @return
+     */
     @Override
     public CredentialModel getStoredCredentialByNameAndType(RealmModel rm, String string, String string1, String string2) {
         log.info("getStoredCredentialByNameAndType");

@@ -46,53 +46,104 @@ public class logUser implements Serializable {
     @Column(name = "oper_type", length = 1)
     private String oper_type;
 
+    /**
+     *
+     */
     public logUser() {
     }
 
+    /**
+     *
+     * @return
+     */
     public int getId() {
         return id;
     }
 
+    /**
+     *
+     * @param id
+     */
     public void setId(int id) {
         this.id = id;
     }
 
+    /**
+     *
+     * @return
+     */
     public String getUsername() {
         return username;
     }
 
+    /**
+     *
+     * @param username
+     */
     public void setUsername(String username) {
         this.username = username;
     }
 
+    /**
+     *
+     * @return
+     */
     public String getPassword() {
         return password;
     }
 
+    /**
+     *
+     * @param password
+     */
     public void setPassword(String password) {
         this.password = password;
     }
 
+    /**
+     *
+     * @return
+     */
     public String getUser_id() {
         return user_id;
     }
 
+    /**
+     *
+     * @param user_id
+     */
     public void setUser_id(String user_id) {
         this.user_id = user_id;
     }
 
+    /**
+     *
+     * @return
+     */
     public boolean isFlag() {
         return flag;
     }
 
+    /**
+     *
+     * @param flag
+     */
     public void setFlag(boolean flag) {
         this.flag = flag;
     }
 
+    /**
+     *
+     * @return
+     */
     public String getOper_type() {
         return oper_type;
     }
 
+    /**
+     *
+     * @param oper_type
+     */
     public void setOper_type(String oper_type) {
         this.oper_type = oper_type;
     }
