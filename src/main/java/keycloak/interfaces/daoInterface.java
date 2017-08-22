@@ -10,7 +10,7 @@ import javax.persistence.EntityManager;
 import org.jboss.logging.Logger;
 
 /**
- *
+ * Интерфейс для работы JPA объектами
  * @author vasil
  */
 public interface daoInterface<T, V> {
