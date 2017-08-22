@@ -10,7 +10,7 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
 /**
- *
+ * Класс для работы с алгоритмами SHA-1, MD5 и шифроания
  * @author vasil
  */
 public class hashUtil {
@@ -18,6 +18,12 @@ public class hashUtil {
     private final static char[] ALPHABET
             = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/".toCharArray();
 
+    /**
+     * Получает hash по алгоритму SHA-1
+     *
+     * @param plain
+     * @return
+     */
     public static String sha1(String plain) {
         try {
             MessageDigest md = MessageDigest.getInstance("sha");
@@ -36,6 +42,12 @@ public class hashUtil {
         }
     }
 
+    /**
+     * Получает hash по алгоритму MD5
+     *
+     * @param raw - строка для которой должен быть получен hash
+     * @return - hash MD5 для строки raw
+     */
     public static String md5(String raw) {
         try {
             MessageDigest md = MessageDigest.getInstance("MD5");
@@ -47,7 +59,12 @@ public class hashUtil {
         }
     }
 
-    public static String encode(byte[] buf) {
+    /**
+     * 
+     * @param buf
+     * @return 
+     */
+    private static String encode(byte[] buf) {
         int size = buf.length;
         char[] ar = new char[((size + 2) / 3) * 4];
         int a = 0;
@@ -71,5 +88,5 @@ public class hashUtil {
         }
         return new String(ar);
     }
-
+    
 }
