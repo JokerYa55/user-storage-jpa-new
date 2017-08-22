@@ -31,6 +31,7 @@ import org.keycloak.models.GroupModel;
 public class UserAdapter extends AbstractUserAdapterFederatedStorage {
 
     private static final Logger log = Logger.getLogger(UserAdapter.class);
+
     protected UserEntity entity;
     protected String keycloakId;
     protected EntityManager em;
