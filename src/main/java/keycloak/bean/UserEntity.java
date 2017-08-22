@@ -50,8 +50,8 @@ public class UserEntity {
     private String address;
     @Column(name = "hash_type", nullable = true)
     private String hesh_type;
-    @Column(name = "hash", nullable = true)
-    private String hash;
+    @Column(name = "salt", nullable = true)
+    private String salt;
     @Column(name = "id_app_1", unique = true, nullable = true)
     private String id_app_1;
     @Column(name = "id_app_2", unique = true, nullable = true)
@@ -160,10 +160,6 @@ public class UserEntity {
 
     public void setAddress(String address) {
         this.address = address;
-    }
-
-    public String getHash() {
-        return hash;
     }
 
     public void setHash(String hash) {
@@ -416,6 +412,14 @@ public class UserEntity {
 
     public void setId_app_30(String id_app_30) {
         this.id_app_30 = id_app_30;
+    }
+
+    public String getSalt() {
+        return salt;
+    }
+
+    public void setSalt(String salt) {
+        this.salt = salt;
     }
 
 }

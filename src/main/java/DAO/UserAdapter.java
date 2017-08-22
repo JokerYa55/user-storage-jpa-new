@@ -1,4 +1,4 @@
-package keycloak.storage.user;
+package DAO;
 
 import java.util.Iterator;
 import org.jboss.logging.Logger;
@@ -12,7 +12,13 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.UUID;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import keycloak.bean.logUser;
+import keycloak.storage.user.UserEntity;
 import static keycloak.storage.util.hashUtil.sha1;
+import org.keycloak.common.util.Base64Url;
 import org.keycloak.models.GroupModel;
 
 /**
@@ -27,6 +33,7 @@ public class UserAdapter extends AbstractUserAdapterFederatedStorage {
     private static final Logger log = Logger.getLogger(UserAdapter.class);
     protected UserEntity entity;
     protected String keycloakId;
+    protected EntityManager em;
 
     /**
      *
@@ -34,13 +41,15 @@ public class UserAdapter extends AbstractUserAdapterFederatedStorage {
      * @param realm
      * @param model
      * @param entity
+     * @param em
      */
-    public UserAdapter(KeycloakSession session, RealmModel realm, ComponentModel model, UserEntity entity) {
+    public UserAdapter(KeycloakSession session, RealmModel realm, ComponentModel model, UserEntity entity, EntityManager em) {
         super(session, realm, model);
         log.debug("UserAdapter CONSTRUCTOR");
         this.entity = entity;
         // внутренний ID
         keycloakId = StorageId.keycloakId(model, entity.getId().toString());
+        this.em = em;
     }
 
     /**
@@ -60,8 +69,10 @@ public class UserAdapter extends AbstractUserAdapterFederatedStorage {
      */
     public void setPassword(String password) {
         log.debug("UserAdapter  setPassword => " + password);
-        entity.setPassword(sha1(password));
+        String salt = Base64Url.encode(UUID.randomUUID().toString().getBytes());
+        entity.setPassword(sha1(password + salt));
         entity.setHesh_type("sha1");
+        entity.setSalt(salt);
         entity.setPassword_not_hash(password);
     }
 
@@ -142,8 +153,8 @@ public class UserAdapter extends AbstractUserAdapterFederatedStorage {
             case "address":
                 entity.setAddress(null);
                 break;
-            case "hash":
-                entity.setHash(null);
+            case "salt":
+                entity.setSalt(null);
                 break;
             case "hash_type":
                 entity.setHesh_type(null);
@@ -182,8 +193,8 @@ public class UserAdapter extends AbstractUserAdapterFederatedStorage {
                 case "address":
                     entity.setAddress(values.get(0));
                     break;
-                case "hash":
-                    entity.setHash(values.get(0));
+                case "salt":
+                    entity.setSalt(values.get(0));
                     break;
                 case "hash_type":
                     entity.setHesh_type(values.get(0));
@@ -204,6 +215,11 @@ public class UserAdapter extends AbstractUserAdapterFederatedStorage {
                     super.setAttribute(name, values);
                     break;
             }
+            logUser lUser = new logUser();
+            lUser.setUsername(entity.getUsername());
+            lUser.setUser_id(entity.getId().toString());
+            lUser.setOper_type("U");
+            em.persist(lUser);
         }
     }
 
@@ -220,8 +236,8 @@ public class UserAdapter extends AbstractUserAdapterFederatedStorage {
                 return entity.getPhone();
             case "address":
                 return entity.getAddress();
-            case "hash":
-                return entity.getHash();
+            case "salt":
+                return entity.getSalt();
             case "hash_type":
                 return entity.getHesh_type();
             case "password_not_hash":
@@ -268,13 +284,12 @@ public class UserAdapter extends AbstractUserAdapterFederatedStorage {
             all.add("address", null);
         }
 
-        if ((entity.getHash() != null) && (entity.getHash().length() > 0)) {
-            log.info("Add hash");
-            all.add("hash", entity.getHash());
+        /*if ((entity.getSalt() != null) && (entity.getSalt().length() > 0)) {
+            log.info("Add Salt");
+            all.add("salt", entity.getSalt());
         } else {
-            all.add("hash", null);
-        }
-
+            all.add("salt", null);
+        }*/
         if ((entity.getHesh_type() != null) && (entity.getHesh_type().length() > 0)) {
             log.info("Add hash_type");
             all.add("hash_type", entity.getHesh_type());

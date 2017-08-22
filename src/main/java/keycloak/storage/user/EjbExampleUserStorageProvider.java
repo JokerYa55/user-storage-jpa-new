@@ -1,5 +1,6 @@
 package keycloak.storage.user;
 
+import DAO.UserAdapter;
 import org.jboss.logging.Logger;
 import org.keycloak.component.ComponentModel;
 import org.keycloak.credential.CredentialInput;
@@ -32,8 +33,6 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.UUID;
-import java.util.function.BiConsumer;
 import keycloak.bean.logUser;
 import static keycloak.storage.util.hashUtil.md5;
 import static keycloak.storage.util.hashUtil.sha1;
@@ -89,17 +88,17 @@ public class EjbExampleUserStorageProvider implements UserStorageProvider,
      */
     @Override
     public void preRemove(RealmModel realm) {
-
+        log.info("preRemove 1");
     }
 
     @Override
     public void preRemove(RealmModel realm, GroupModel group) {
-
+        log.info("preRemove 2");
     }
 
     @Override
     public void preRemove(RealmModel realm, RoleModel role) {
-
+        log.info("preRemove 3");
     }
 
     @Remove
@@ -131,7 +130,7 @@ public class EjbExampleUserStorageProvider implements UserStorageProvider,
         } else {
             log.debug("ID => " + entity.getId().toString());
         }
-        return new UserAdapter(session, realm, model, entity);
+        return new UserAdapter(session, realm, model, entity, em);
     }
 
     /**
@@ -150,7 +149,7 @@ public class EjbExampleUserStorageProvider implements UserStorageProvider,
             log.info("could not find username: " + username);
             return null;
         }
-        return new UserAdapter(session, realm, model, result.get(0));
+        return new UserAdapter(session, realm, model, result.get(0), em);
     }
 
     /**
@@ -168,7 +167,7 @@ public class EjbExampleUserStorageProvider implements UserStorageProvider,
         if (result.isEmpty()) {
             return null;
         }
-        return new UserAdapter(session, realm, model, result.get(0));
+        return new UserAdapter(session, realm, model, result.get(0), em);
     }
 
     /**
@@ -188,6 +187,7 @@ public class EjbExampleUserStorageProvider implements UserStorageProvider,
         logUser lUser = new logUser();
         lUser.setUsername(username);
         lUser.setUser_id(entity.getId().toString());
+        lUser.setOper_type("I");
         em.persist(lUser);
 
         log.info("added user: " + username);
@@ -200,7 +200,7 @@ public class EjbExampleUserStorageProvider implements UserStorageProvider,
             log.error(e.getMessage());
         }
 
-        return new UserAdapter(session, realm, model, entity);
+        return new UserAdapter(session, realm, model, entity, em);
     }
 
     /**
@@ -272,7 +272,8 @@ public class EjbExampleUserStorageProvider implements UserStorageProvider,
         /**
          * TODO: Устанавливаем пароль. В адаптер передается незашифрованный
          * пароль и далее в методе setPassword получается hesh пароля и
-         * записывается в БД. В поле password_not_hash записывается пароль введенный пользователем
+         * записывается в БД. В поле password_not_hash записывается пароль
+         * введенный пользователем
          */
         adapter.setPassword(cred.getValue());
         return true;
@@ -363,14 +364,17 @@ public class EjbExampleUserStorageProvider implements UserStorageProvider,
         UserCredentialModel cred = (UserCredentialModel) input;
         log.info("getHashType");
         String password = getPassword(user);
+        // Берем соль
+        String salt = user.getFirstAttribute("salt");
+        log.info("salt = " + salt);
 
         switch ((getHashType(user)).toLowerCase()) {
             case "md5":
                 log.info("\n\tcred device= " + cred.getDevice() + "\n\tpassword = " + password + "\n\tuserpass = " + cred.getValue() + "\n\tuserpass = " + md5(cred.getValue()));
                 return (password != null) && ((password).equals(md5(cred.getValue())));
             case "sha1":
-                log.info("\n\tcred device= " + cred.getDevice() + "\n\tpassword = " + password + "\n\tuserpass = " + cred.getValue() + "\n\tuserpass = " + sha1(cred.getValue()));
-                return (password != null) && ((password).equals(sha1(cred.getValue())));
+                log.info("\n\tcred device= " + cred.getDevice() + "\n\tpassword = " + password + "\n\tuserpass = " + cred.getValue() + "\n\tuserpass = " + sha1(cred.getValue()+salt));
+                return (password != null) && ((password).equals(sha1(cred.getValue()+salt)));
             default:
                 log.info("\n\tcred device= " + cred.getDevice() + "\n\tpassword = " + password + "\n\tuserpass = " + cred.getValue());
                 return (password != null) && ((password).equals(cred.getValue()));
@@ -460,7 +464,7 @@ public class EjbExampleUserStorageProvider implements UserStorageProvider,
         List<UserEntity> results = query.getResultList();
         List<UserModel> users = new LinkedList<>();
         for (UserEntity entity : results) {
-            users.add(new UserAdapter(session, realm, model, entity));
+            users.add(new UserAdapter(session, realm, model, entity, em));
         }
         return users;
     }
@@ -499,7 +503,7 @@ public class EjbExampleUserStorageProvider implements UserStorageProvider,
         List<UserEntity> results = query.getResultList();
         List<UserModel> users = new LinkedList<>();
         for (UserEntity entity : results) {
-            users.add(new UserAdapter(session, realm, model, entity));
+            users.add(new UserAdapter(session, realm, model, entity, em));
         }
         return users;
     }
@@ -654,7 +658,7 @@ public class EjbExampleUserStorageProvider implements UserStorageProvider,
     @Override
     public void updateConsent(RealmModel rm, String string, UserConsentModel ucm) {
         log.info("updateConsent");
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override

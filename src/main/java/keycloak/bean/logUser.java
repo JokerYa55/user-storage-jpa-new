@@ -11,6 +11,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
@@ -20,6 +22,13 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "t_users_log")
+@NamedQueries({
+    @NamedQuery(name = "logUser.findAll", query = "SELECT t FROM logUser t")
+    , @NamedQuery(name = "logUser.findById", query = "SELECT t FROM logUser t WHERE t.id = :id")
+    , @NamedQuery(name = "logUser.findByFlag", query = "SELECT t FROM logUser t WHERE t.flag = :flag")
+    , @NamedQuery(name = "logUser.findByPassword", query = "SELECT t FROM logUser t WHERE t.password = :password")
+    , @NamedQuery(name = "logUser.findByUserId", query = "SELECT t FROM logUser t WHERE t.user_id = :user_id")
+    , @NamedQuery(name = "logUser.findByUsername", query = "SELECT t FROM logUser t WHERE t.username = :username")})
 public class logUser implements Serializable {
 
     @Id
