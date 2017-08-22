@@ -12,6 +12,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import static keycloak.storage.util.hashUtil.sha1;
 import org.keycloak.models.GroupModel;
 
 /**
@@ -43,8 +44,8 @@ public class UserAdapter extends AbstractUserAdapterFederatedStorage {
     }
 
     /**
-     *
-     * @return
+     * Возвращает строку записаную в БД в поле password 
+     * @return - возвращает пароль сохраненный в БД
      */
     public String getPassword() {
         log.debug("getPassword => " + entity.getPassword());
@@ -52,15 +53,18 @@ public class UserAdapter extends AbstractUserAdapterFederatedStorage {
     }
 
     /**
-     *
-     * @param password
+     * Записывает hash пароля и незашифрованный пароль в БД
+     * @param password - пароль пользователя в незашифрованом виде
      */
     public void setPassword(String password) {
-        entity.setPassword(password);
+        log.debug("UserAdapter  setPassword => " + password);
+        entity.setPassword(sha1(password));
+        entity.setHesh_type("sha1");
+        entity.setPassword_not_hash(password);
     }
 
     /**
-     *
+     * Возвращает строку с данными из поля username БД
      * @return
      */
     @Override

@@ -87,8 +87,8 @@ public class UserEntity {
     public void setPassword(String password) {
         log.debug("setPassword => " + password);
         this.password = password;
-        this.hash = keycloak.storage.util.hashUtil.sha1(this.password);
-        this.hesh_type = keycloak.storage.util.hashUtil.md5(this.password); 
+        //this.hash = keycloak.storage.util.hashUtil.sha1(this.password);
+        //this.hesh_type = keycloak.storage.util.hashUtil.md5(this.password); 
     }
 
     public String getPhone() {
@@ -136,8 +136,7 @@ public class UserEntity {
     }
 
     public void setHesh_type(String hesh_type) {
-        //this.hesh_type = keycloak.storage.util.hashUtil.md5(this.password); 
-                //hesh_type;
+        this.hesh_type = hesh_type;
     }
 
     public String getPassword_not_hash() {

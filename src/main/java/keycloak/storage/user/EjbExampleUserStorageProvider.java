@@ -269,11 +269,12 @@ public class EjbExampleUserStorageProvider implements UserStorageProvider,
         UserCredentialModel cred = (UserCredentialModel) input;
         UserAdapter adapter = getUserAdapter(user);
         log.info("cred.getValue() = > " + cred.getValue() + "\ncred.getType() => " + cred.getType());
-        //TODO: Устанавливаем пароль
-        //adapter.setPassword(hashUtil.sha1(cred.getValue()));
+        /**
+         * TODO: Устанавливаем пароль. В адаптер передается незашифрованный
+         * пароль и далее в методе setPassword получается hesh пароля и
+         * записывается в БД. В поле password_not_hash записывается пароль введенный пользователем
+         */
         adapter.setPassword(cred.getValue());
-        //adapter.setSingleAttribute("password_not_hash", cred.getValue());        
-        //user.setSingleAttribute("password_not_hash", cred.getValue());
         return true;
     }
 
