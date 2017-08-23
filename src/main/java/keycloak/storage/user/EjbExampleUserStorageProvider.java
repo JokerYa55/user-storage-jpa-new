@@ -213,11 +213,11 @@ public class EjbExampleUserStorageProvider implements UserStorageProvider,
         entity.setUsername(username);
 
         em.persist(entity);
-        logUser lUser = new logUser();
-        lUser.setUsername(username);
-        lUser.setUser_id(entity.getId().toString());
-        lUser.setOper_type("I");
-        em.persist(lUser);
+//        logUser lUser = new logUser();
+//        lUser.setUsername(username);
+//        lUser.setUser_id(entity.getId().toString());
+//        lUser.setOper_type("I");
+//        em.persist(lUser);
 
         log.info("added user: " + username);
 

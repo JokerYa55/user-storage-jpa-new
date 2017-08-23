@@ -197,44 +197,44 @@ public class UserAdapter extends AbstractUserAdapterFederatedStorage {
     @Override
     public void setAttribute(String name, List<String> values) {
         log.debug("******* setAttribute => " + values.get(0) + " ******");
-        logUser lUser = new logUser();
+        /*logUser lUser = new logUser();
         lUser.setUsername(entity.getUsername());
         lUser.setUser_id(entity.getId().toString());
         lUser.setOper_type("U");
-        logUserDAO logDAO = new logUserDAO(em);
+        logUserDAO logDAO = new logUserDAO(em);*/
         if ((values.get(0) != null) && (values.get(0).length() > 0)) {
             switch (name) {
                 case "phone":
                     entity.setPhone(values.get(0));                    
-                    logDAO.addItem(lUser);
+                    //logDAO.addItem(lUser);
                     break;
                 case "address":
                     entity.setAddress(values.get(0));                    
-                    logDAO.addItem(lUser);
+                    //logDAO.addItem(lUser);
                     break;
                 case "salt":
                     entity.setSalt(values.get(0));                    
-                    logDAO.addItem(lUser);
+                    //logDAO.addItem(lUser);
                     break;
                 case "hash_type":
                     entity.setHesh_type(values.get(0));                    
-                    logDAO.addItem(lUser);
+                    //logDAO.addItem(lUser);
                     break;
                 case "password_not_hash":
                     entity.setPassword_not_hash(values.get(0));
-                    logDAO.addItem(lUser);
+                    //logDAO.addItem(lUser);
                     break;
                 case "id_app_1":
                     entity.setId_app_1(values.get(0));
-                    logDAO.addItem(lUser);
+                    //logDAO.addItem(lUser);
                     break;
                 case "id_app_2":
                     entity.setId_app_2(values.get(0));
-                    logDAO.addItem(lUser);
+                    //logDAO.addItem(lUser);
                     break;
                 case "id_app_3":
                     entity.setId_app_3(values.get(0));
-                    logDAO.addItem(lUser);
+                    //logDAO.addItem(lUser);
                     break;
                 default:
                     super.setAttribute(name, values);
