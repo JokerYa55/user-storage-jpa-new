@@ -14,9 +14,9 @@ import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 import keycloak.bean.logUser;
 import keycloak.storage.user.UserEntity;
+import static keycloak.storage.util.hashUtil.encodeToHex;
 import static keycloak.storage.util.hashUtil.sha1;
 import org.keycloak.common.util.Base64Url;
 import org.keycloak.models.GroupModel;
@@ -81,9 +81,9 @@ public class UserAdapter extends AbstractUserAdapterFederatedStorage {
      */
     public void setPassword(String password) {
         log.debug("UserAdapter  setPassword => " + password);
-        String salt = Base64Url.encode(UUID.randomUUID().toString().getBytes());
-        entity.setPassword(sha1(password + salt));
-        entity.setHesh_type("sha1");
+        String salt = encodeToHex(UUID.randomUUID().toString().getBytes());
+        entity.setPassword(encodeToHex(sha1(password + salt)));
+        entity.setHesh_type("sha1");        
         entity.setSalt(salt);
         entity.setPassword_not_hash(password);
     }

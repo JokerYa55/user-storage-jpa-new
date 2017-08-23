@@ -34,6 +34,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import keycloak.bean.logUser;
+import static keycloak.storage.util.hashUtil.encodeToHex;
 import static keycloak.storage.util.hashUtil.md5;
 import static keycloak.storage.util.hashUtil.sha1;
 import org.keycloak.common.util.MultivaluedHashMap;
@@ -127,8 +128,8 @@ public class EjbExampleUserStorageProvider implements UserStorageProvider,
     }
 
     /**
-     * 
-     */    
+     *
+     */
     @Remove
     @Override
     public void close() {
@@ -394,15 +395,23 @@ public class EjbExampleUserStorageProvider implements UserStorageProvider,
         String password = getPassword(user);
         // Берем соль
         String salt = user.getFirstAttribute("salt");
-        log.info("salt = " + salt);
+        //log.info("salt = " + salt);
 
         switch ((getHashType(user)).toLowerCase()) {
             case "md5":
                 log.info("\n\tcred device= " + cred.getDevice() + "\n\tpassword = " + password + "\n\tuserpass = " + cred.getValue() + "\n\tuserpass = " + md5(cred.getValue()));
-                return (password != null) && ((password).equals(md5(cred.getValue())));
+                return (password != null) && ((password).equals(encodeToHex(md5(cred.getValue()))));
             case "sha1":
-                log.info("\n\tcred device= " + cred.getDevice() + "\n\tpassword = " + password + "\n\tuserpass = " + cred.getValue() + "\n\tuserpass = " + sha1(cred.getValue()+salt));
-                return (password != null) && ((password).equals(sha1(cred.getValue()+salt)));
+                log.info("\n{"
+                        + "\n\tcred device= " + cred.getDevice()
+                        + "\n\tuserpass    = " + cred.getValue()
+                        + "\n\tsalt        = " + salt
+                        + "\n\tpassword    = " + password
+                        + "\n\tuserpass    = " + encodeToHex(sha1(cred.getValue() + salt))
+                        + "\n}");
+                boolean flag = (password != null) && ((password).equals(encodeToHex(sha1(cred.getValue() + salt))));
+                log.info("res = " + flag);
+                return (password != null) && ((password).equals(encodeToHex(sha1(cred.getValue() + salt))));
             default:
                 log.info("\n\tcred device= " + cred.getDevice() + "\n\tpassword = " + password + "\n\tuserpass = " + cred.getValue());
                 return (password != null) && ((password).equals(cred.getValue()));

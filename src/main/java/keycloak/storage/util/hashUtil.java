@@ -11,12 +11,12 @@ import java.security.NoSuchAlgorithmException;
 
 /**
  * Класс для работы с алгоритмами SHA-1, MD5 и шифроания
+ *
  * @author vasil
  */
 public class hashUtil {
 
-    private final static char[] ALPHABET
-            = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/".toCharArray();
+    private final static char[] ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/".toCharArray();
 
     /**
      * Получает hash по алгоритму SHA-1
@@ -24,13 +24,13 @@ public class hashUtil {
      * @param plain
      * @return
      */
-    public static String sha1(String plain) {
+    public static byte[] sha1(String plain) {
         try {
             MessageDigest md = MessageDigest.getInstance("sha");
             md.update(plain.getBytes());
             byte[] digest = md.digest();
 
-            return encode(digest);
+            return (digest);
             /* Альтернативные варианты:
             return javax.xml.bind.DatatypeConverter.printBase64Binary(digest);
             или
@@ -48,21 +48,37 @@ public class hashUtil {
      * @param raw - строка для которой должен быть получен hash
      * @return - hash MD5 для строки raw
      */
-    public static String md5(String raw) {
+    public static byte[] md5(String raw) {
         try {
             MessageDigest md = MessageDigest.getInstance("MD5");
             md.update(raw.getBytes(), 0, raw.length());
-            return new BigInteger(1, md.digest()).toString(16);
+            //return new BigInteger(1, md.digest()).toString(16);
+            return md.digest();
         } catch (NoSuchAlgorithmException e) {
             e.printStackTrace();
             return null;
         }
     }
 
+    public static String encodeToHex(byte[] buf) {
+        String stringRes = null;
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < buf.length; i++) {
+
+            String temp = String.format("%x", buf[i]);
+            if (temp.length() < 2) {
+                temp = "0" + temp;
+            }
+            sb.append(temp);
+        }
+        stringRes = sb.toString().toUpperCase();
+        return stringRes;
+    }
+
     /**
-     * 
+     *
      * @param buf
-     * @return 
+     * @return
      */
     private static String encode(byte[] buf) {
         int size = buf.length;
@@ -88,5 +104,5 @@ public class hashUtil {
         }
         return new String(ar);
     }
-    
+
 }
