@@ -35,7 +35,7 @@ public class logUser implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "t_users_log_id_seq")
     @SequenceGenerator(name = "t_users_log_id_seq", sequenceName = "t_users_log_id_seq", allocationSize = 1)
-    int id;
+    private Long id;
     @Column(name = "user_id", nullable = false)
     private String user_id;
     @Column(name = "username", nullable = false)
@@ -47,27 +47,13 @@ public class logUser implements Serializable {
     @Column(name = "date_oper", nullable = false, columnDefinition = "timestamp without time zone DEFAULT CURRENT_TIMESTAMP")
     @Temporal(javax.persistence.TemporalType.DATE)
     private Date date_oper;
+    @Column(name = "send_count", nullable = false, columnDefinition = "integer DEFAULT 0")
+    private Integer send_count;
 
     /**
      *
      */
     public logUser() {
-    }
-
-    /**
-     *
-     * @return
-     */
-    public int getId() {
-        return id;
-    }
-
-    /**
-     *
-     * @param id
-     */
-    public void setId(int id) {
-        this.id = id;
     }
 
     /**
@@ -137,5 +123,29 @@ public class logUser implements Serializable {
     @Override
     public String toString() {
         return "logUser{" + "id=" + id + ", user_id=" + user_id + ", username=" + username + '}';
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Date getDate_oper() {
+        return date_oper;
+    }
+
+    public void setDate_oper(Date date_oper) {
+        this.date_oper = date_oper;
+    }
+
+    public Integer getSend_count() {
+        return send_count;
+    }
+
+    public void setSend_count(Integer send_count) {
+        this.send_count = send_count;
     }
 }
