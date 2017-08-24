@@ -37,7 +37,7 @@ public class logUser implements Serializable {
     @SequenceGenerator(name = "t_users_log_id_seq", sequenceName = "t_users_log_id_seq", allocationSize = 1)
     private Long id;
     @Column(name = "user_id", nullable = false)
-    private String user_id;
+    private Long user_id;
     @Column(name = "username", nullable = false)
     private String username;
     @Column(name = "flag", nullable = false, columnDefinition = "boolean default false")
@@ -76,7 +76,7 @@ public class logUser implements Serializable {
      *
      * @return
      */
-    public String getUser_id() {
+    public Long getUser_id() {
         return user_id;
     }
 
@@ -84,7 +84,7 @@ public class logUser implements Serializable {
      *
      * @param user_id
      */
-    public void setUser_id(String user_id) {
+    public void setUser_id(Long user_id) {
         this.user_id = user_id;
     }
 
