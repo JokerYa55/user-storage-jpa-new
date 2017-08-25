@@ -132,7 +132,7 @@ public class UserEntity {
     @Column(name = "user_status", unique = true, nullable = false, columnDefinition = "integer DEFAULT 0")
     private Integer user_status;
     @Column(name = "create_date", unique = false, nullable = false, columnDefinition = "timestamp DEFAULT CURRENT_TIMESTAMP")
-    @Temporal(javax.persistence.TemporalType.DATE)
+    @Temporal(javax.persistence.TemporalType.TIMESTAMP)
     private Date create_date;
 
     public UserEntity() {
