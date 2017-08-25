@@ -1,5 +1,6 @@
 package keycloak.bean;
 
+import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -10,6 +11,7 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
 import org.jboss.logging.Logger;
 
 /**
@@ -128,6 +130,9 @@ public class UserEntity {
     private String id_app_30;    
     @Column(name = "user_status", unique = true, nullable = false, columnDefinition = "integer DEFAULT 0")    
     private Integer user_status;
+    @Column(name = "create_date", unique = false, nullable = false, columnDefinition = "timestamp DEFAULT CURRENT_TIMESTAMP")
+    @Temporal(javax.persistence.TemporalType.DATE)
+    private Date create_date;
 
     /**
      *
