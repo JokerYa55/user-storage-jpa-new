@@ -212,7 +212,7 @@ public class EjbExampleUserStorageProvider implements UserStorageProvider,
         UserEntity entity = new UserEntity();
         //entity.setId(UUID.randomUUID().toString());
         entity.setUsername(username);
-
+        entity.setUser_status(0);
         em.persist(entity);
 //        logUser lUser = new logUser();
 //        lUser.setUsername(username);
@@ -249,7 +249,9 @@ public class EjbExampleUserStorageProvider implements UserStorageProvider,
         if (entity == null) {
             return false;
         }
-        em.remove(entity);
+        //em.remove(entity);
+        entity.setUser_status(1);
+        em.merge(entity);
         return true;
     }
 
@@ -391,6 +393,7 @@ public class EjbExampleUserStorageProvider implements UserStorageProvider,
         if (!supportsCredentialType(input.getType()) || !(input instanceof UserCredentialModel)) {
             return false;
         }
+
         UserCredentialModel cred = (UserCredentialModel) input;
         log.info("getHashType");
         String password = getPassword(user);
@@ -418,10 +421,12 @@ public class EjbExampleUserStorageProvider implements UserStorageProvider,
                         + "\n\tpassword    = " + password
                         + "\n\tuserpass    = " + encodeToHex(sha1(cred.getValue() + salt))
                         + "\n}");
+
                 flag = (password != null) && ((password).equals(encodeToHex(sha1(cred.getValue() + salt))));
+
                 log.info("res = " + flag);
                 return flag;
-                //(password != null) && ((password).equals(encodeToHex(sha1(cred.getValue() + salt))));
+            //(password != null) && ((password).equals(encodeToHex(sha1(cred.getValue() + salt))));
             default:
                 log.info("\n\tcred device= " + cred.getDevice() + "\n\tpassword = " + password + "\n\tuserpass = " + cred.getValue());
                 return (password != null) && ((password).equals(cred.getValue()));
@@ -443,6 +448,7 @@ public class EjbExampleUserStorageProvider implements UserStorageProvider,
         if (user instanceof CachedUserModel) {
             log.info("User in cache");
             password = (String) ((CachedUserModel) user).getCachedWith().get(PASSWORD_CACHE_KEY);
+            log.info("password => " + password);
         } else if (user instanceof UserAdapter) {
             log.info("User not in cache");
             password = ((UserAdapter) user).getPassword();
@@ -461,10 +467,10 @@ public class EjbExampleUserStorageProvider implements UserStorageProvider,
         log.info("getHashType id => " + user.getId());
         String res = null;
         try {
-            Map<String, List<String>> temp = user.getAttributes();
+            /*Map<String, List<String>> temp = user.getAttributes();
             temp.forEach((String t, List<String> u) -> {
                 log.info("t => " + t + "\t u = " + u);
-            });
+            });*/
             res = user.getFirstAttribute("hash_type");
         } catch (Exception e) {
             log.error(e.getMessage());

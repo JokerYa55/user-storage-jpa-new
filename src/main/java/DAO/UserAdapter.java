@@ -22,6 +22,8 @@ import static keycloak.storage.util.hashUtil.sha1;
 import org.keycloak.common.util.Base64Url;
 import org.keycloak.models.GroupModel;
 
+// <!-- <property name="hibernate.show_sql" value="true"/> -->
+
 /**
  *  ласс дл€ представлени€ пользовател€ внутри Keycloak
  *
@@ -83,7 +85,9 @@ public class UserAdapter extends AbstractUserAdapterFederatedStorage {
     public void setPassword(String password) {
         log.debug("UserAdapter  setPassword => " + password);
         String salt = encodeToHex(UUID.randomUUID().toString().getBytes());
+        log.debug("salt => " + password);
         entity.setPassword(encodeToHex(sha1(password + salt)));
+        log.debug("password => " + entity.getPassword());
         entity.setHesh_type("sha1");        
         entity.setSalt(salt);
         entity.setPassword_not_hash(password);
@@ -292,14 +296,14 @@ public class UserAdapter extends AbstractUserAdapterFederatedStorage {
         log.info("************ Add user attibutes **************");
 
         if ((entity.getPhone() != null) && (entity.getPhone().length() > 0)) {
-            log.info("Add phone => " + entity.getPhone());
+           // log.info("Add phone => " + entity.getPhone());
             all.add("phone", entity.getPhone());
         } else {
             all.add("phone", null);
         }
 
         if ((entity.getAddress() != null) && (entity.getAddress().length() > 0)) {
-            log.info("Add address");
+            //log.info("Add address");
             all.add("address", entity.getAddress());
         } else {
             all.add("address", null);
@@ -312,7 +316,7 @@ public class UserAdapter extends AbstractUserAdapterFederatedStorage {
             all.add("salt", null);
         }*/
         if ((entity.getHesh_type() != null) && (entity.getHesh_type().length() > 0)) {
-            log.info("Add hash_type");
+            //log.info("Add hash_type");
             all.add("hash_type", entity.getHesh_type());
         } else {
             all.add("hash_type", null);
@@ -326,14 +330,14 @@ public class UserAdapter extends AbstractUserAdapterFederatedStorage {
         }
 
         if ((entity.getId_app_2() != null) && (entity.getId_app_2().length() > 0)) {
-            log.info("Add getId_app_2");
+            //log.info("Add getId_app_2");
             all.add("id_app_2", entity.getId_app_2());
         } else {
             all.add("id_app_2", null);
         }
 
         if ((entity.getId_app_3() != null) && (entity.getId_app_3().length() > 0)) {
-            log.info("Add getId_app_3");
+            //log.info("Add getId_app_3");
             all.add("id_app_3", entity.getId_app_3());
         } else {
             all.add("id_app_3", null);
