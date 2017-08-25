@@ -125,6 +125,8 @@ public class UserEntity {
     private String id_app_29;
     @Column(name = "id_app_30", unique = true, nullable = true)
     private String id_app_30;
+    @Column(name = "user_status", unique = true, nullable = false, columnDefinition = "integer DEFAULT 0")
+    private String user_status;
 
     /**
      *
