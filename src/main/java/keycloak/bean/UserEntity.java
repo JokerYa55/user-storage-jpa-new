@@ -748,4 +748,36 @@ public class UserEntity {
         this.salt = salt;
     }
 
+    public String getFirst_name() {
+        return first_name;
+    }
+
+    public void setFirst_name(String first_name) {
+        this.first_name = first_name;
+    }
+
+    public String getSecond_name() {
+        return second_name;
+    }
+
+    public void setSecond_name(String second_name) {
+        this.second_name = second_name;
+    }
+
+    public String getThird_name() {
+        return third_name;
+    }
+
+    public void setThird_name(String third_name) {
+        this.third_name = third_name;
+    }
+
+    public Integer getUser_status() {
+        return user_status;
+    }
+
+    public void setUser_status(Integer user_status) {
+        this.user_status = user_status;
+    }
+
 }
