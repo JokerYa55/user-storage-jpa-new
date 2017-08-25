@@ -1,4 +1,4 @@
-package keycloak.storage.user;
+package keycloak.bean;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -39,11 +39,14 @@ public class UserEntity {
     // Логин
     @Column(name = "username", unique = true, nullable = false)
     private String username;
-    @Column(name = "first_name", unique = false, nullable = false)
+    // Фамилия    
+    @Column(name = "first_name", unique = false, nullable = true)
     private String first_name;
-    @Column(name = "second_name", unique = false, nullable = false)
+    // Имя
+    @Column(name = "second_name", unique = false, nullable = true)
     private String second_name;
-    @Column(name = "third_name", unique = false, nullable = false)
+    // Отчество
+    @Column(name = "third_name", unique = false, nullable = true)
     private String third_name;
     // e-mail
     @Column(name = "email", unique = true, nullable = true)

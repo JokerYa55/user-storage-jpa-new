@@ -14,8 +14,9 @@ import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 import javax.persistence.EntityManager;
+import keycloak.bean.UserEntity;
 import keycloak.bean.logUser;
-import keycloak.storage.user.UserEntity;
+
 import static keycloak.storage.util.hashUtil.encodeToHex;
 import static keycloak.storage.util.hashUtil.sha1;
 import org.keycloak.common.util.Base64Url;
