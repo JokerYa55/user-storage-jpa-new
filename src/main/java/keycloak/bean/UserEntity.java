@@ -5,6 +5,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Index;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.SequenceGenerator;
@@ -15,18 +16,18 @@ import org.jboss.logging.Logger;
  * @version 1
  */
 @NamedQueries({
-    @NamedQuery(name = "getUserByUsername", query = "select u from UserEntity u where u.username = :username")
+    @NamedQuery(name = "getUserByUsername", query = "select u from UserEntity u where u.username = :username and u.user_status=0")
     ,
-        @NamedQuery(name = "getUserByEmail", query = "select u from UserEntity u where u.email = :email")
+        @NamedQuery(name = "getUserByEmail", query = "select u from UserEntity u where u.email = :email and u.user_status=0")
     ,
-        @NamedQuery(name = "getUserCount", query = "select count(u) from UserEntity u")
+        @NamedQuery(name = "getUserCount", query = "select count(u) from UserEntity u where u.user_status=0")
     ,
-        @NamedQuery(name = "getAllUsers", query = "select u from UserEntity u order by u.username")
+        @NamedQuery(name = "getAllUsers", query = "select u from UserEntity u where u.user_status=0 order by u.username")
     ,
         @NamedQuery(name = "searchForUser", query = "select u from UserEntity u where "
-            + "( lower(u.username) like :search or u.email like :search ) order by u.username"),})
+            + "( lower(u.username) like :search or u.email like :search ) and  u.user_status=0 order by u.username"),})
 @Entity
-@Table(name = "t_users")
+@Table(name = "t_users", indexes = {@Index(name="t_users_status_idx", columnList = "user_status")})
 public class UserEntity {
 
     private static final Logger log = Logger.getLogger(UserEntity.class);
@@ -124,9 +125,9 @@ public class UserEntity {
     @Column(name = "id_app_29", unique = true, nullable = true)
     private String id_app_29;
     @Column(name = "id_app_30", unique = true, nullable = true)
-    private String id_app_30;
-    @Column(name = "user_status", unique = true, nullable = false, columnDefinition = "integer DEFAULT 0")
-    private String user_status;
+    private String id_app_30;    
+    @Column(name = "user_status", unique = true, nullable = false, columnDefinition = "integer DEFAULT 0")    
+    private Integer user_status;
 
     /**
      *
