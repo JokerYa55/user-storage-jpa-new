@@ -36,16 +36,28 @@ public class UserEntity {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "t_users_id_seq")
     @SequenceGenerator(name = "t_users_id_seq", sequenceName = "t_users_id_seq", allocationSize = 1)
     private Long id;
+    // Логин
     @Column(name = "username", unique = true, nullable = false)
     private String username;
+    @Column(name = "first_name", unique = false, nullable = false)
+    private String first_name;
+    @Column(name = "second_name", unique = false, nullable = false)
+    private String second_name;
+    @Column(name = "third_name", unique = false, nullable = false)
+    private String third_name;
+    // e-mail
     @Column(name = "email", unique = true, nullable = true)
     private String email;
+    // Пароль
     @Column(name = "password", nullable = true)
     private String password;
+    // Незашифрованный пароль
     @Column(name = "password_not_hash", nullable = true)
     private String password_not_hash;
+    // Телефон
     @Column(name = "phone", nullable = true)
     private String phone;
+    // Адрес
     @Column(name = "address", nullable = true)
     private String address;
     @Column(name = "hash_type", nullable = true)
