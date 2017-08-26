@@ -1,5 +1,9 @@
 package DAO;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Iterator;
 import org.jboss.logging.Logger;
 import org.keycloak.common.util.MultivaluedHashMap;
@@ -10,9 +14,11 @@ import org.keycloak.storage.StorageId;
 import org.keycloak.storage.adapter.AbstractUserAdapterFederatedStorage;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
+import java.util.logging.Level;
 import javax.persistence.EntityManager;
 import keycloak.bean.UserEntity;
 import static keycloak.storage.util.hashUtil.encodeToHex;
@@ -268,11 +274,6 @@ public class UserAdapter extends AbstractUserAdapterFederatedStorage {
     @Override
     public void setAttribute(String name, List<String> values) {
         log.debug("******* setAttribute => " + values.get(0) + " ******");
-        /*logUser lUser = new logUser();
-        lUser.setUsername(entity.getUsername());
-        lUser.setUser_id(entity.getId().toString());
-        lUser.setOper_type("U");
-        logUserDAO logDAO = new logUserDAO(em);*/
         if ((values.get(0) != null) && (values.get(0).length() > 0)) {
             switch (name) {
                 case "phone":
@@ -309,6 +310,20 @@ public class UserAdapter extends AbstractUserAdapterFederatedStorage {
                     break;
                 case "third_name":
                     entity.setThird_name(values.get(0));
+                    //logDAO.addItem(lUser);
+                    break;
+                case "birthday":
+                    DateFormat format = new SimpleDateFormat("dd.MM.yyyy", Locale.getDefault());
+                    log.info("date = " + values.get(0));
+                     {
+                        try {
+                            Date dob = format.parse(values.get(0));
+                            log.info("dob = " + dob.toString());
+                            entity.setDate_birthday(dob);
+                        } catch (ParseException ex) {
+                            java.util.logging.Logger.getLogger(UserAdapter.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                    }
                     //logDAO.addItem(lUser);
                     break;
                 default:
@@ -354,13 +369,12 @@ public class UserAdapter extends AbstractUserAdapterFederatedStorage {
         log.debug("getAttributes");
         Map<String, List<String>> attrs = super.getAttributes();
 
-        Iterator it = attrs.entrySet().iterator();
+        /*Iterator it = attrs.entrySet().iterator();
         while (it.hasNext()) {
             Map.Entry<String, String> pair = (Map.Entry<String, String>) it.next();
             //log.info("key = "+ pair.getKey() + " val = " + pair.getValue());
             log.info("pair = " + pair.toString());
-        }
-
+        }*/
         MultivaluedHashMap<String, String> all = new MultivaluedHashMap<>();
         all.putAll(attrs);
         // Добавляем доп. аттрибуты в Keycloak
@@ -419,6 +433,13 @@ public class UserAdapter extends AbstractUserAdapterFederatedStorage {
             all.add("third_name", entity.getThird_name());
         } else {
             all.add("third_name", null);
+        }
+
+        if (entity.getDate_birthday() != null) {
+            //log.info("Add getId_app_3");
+            all.add("birthday", entity.getDate_birthday().toString());
+        } else {
+            all.add("birthday", null);
         }
 
         return all;
