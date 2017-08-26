@@ -66,6 +66,7 @@ public class EjbExampleUserStorageProvider implements UserStorageProvider,
      *
      */
     public static final String PASSWORD_CACHE_KEY = UserAdapter.class.getName() + ".password";
+    public static final String SALT_CACHE_KEY = UserAdapter.class.getName() + ".salt";
 
     /**
      *
@@ -265,11 +266,17 @@ public class EjbExampleUserStorageProvider implements UserStorageProvider,
     public void onCache(RealmModel realm, CachedUserModel user, UserModel delegate) {
         log.info("onCache\n\n\trealm = " + realm.getName() + "\n\tuser = " + user.getUsername() + "\n\tdelegate = " + delegate.getUsername());
         String password = ((UserAdapter) delegate).getPassword();
+        String salt = ((UserAdapter) delegate).getSalt();
         log.info("password = " + password);
         log.info("PASSWORD_CACHE_KEY = " + PASSWORD_CACHE_KEY);
         if (password != null) {
             log.info("Add password in CACHE password = " + password);
-            user.getCachedWith().put(PASSWORD_CACHE_KEY, password);
+            user.getCachedWith().put(PASSWORD_CACHE_KEY, password);            
+        }
+        
+        if (salt != null){
+            log.info("Add salt in CAHE salt = " + salt);
+            user.getCachedWith().put(SALT_CACHE_KEY, salt);
         }
     }
 
@@ -398,8 +405,7 @@ public class EjbExampleUserStorageProvider implements UserStorageProvider,
         log.info("getHashType");
         String password = getPassword(user);
         // Берем соль
-        String salt = user.getFirstAttribute("salt");
-        //log.info("salt = " + salt);
+        String salt = getSalt(user);
         boolean flag = false;
         switch ((getHashType(user)).toLowerCase()) {
             case "md5":
@@ -457,6 +463,27 @@ public class EjbExampleUserStorageProvider implements UserStorageProvider,
         return password;
     }
 
+    /**
+     * Получает значение salt
+     * @param user
+     * @return 
+     */
+    private String getSalt(UserModel user){
+        log.info("getSalt");
+        log.info("Class type user = " + user.getClass().getName());
+        String salt = null;
+        if (user instanceof CachedUserModel) {
+            log.info("User in cache");
+            salt = (String) ((CachedUserModel) user).getCachedWith().get(SALT_CACHE_KEY);
+            log.info("password => " + salt);
+        } else if (user instanceof UserAdapter) {
+            log.info("User not in cache");
+            salt = ((UserAdapter) user).getSalt();
+        }
+        log.info("password => " + salt);
+        return salt;
+    }
+    
     /**
      * Функция возвращает тип hesh пароля
      *

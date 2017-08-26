@@ -15,15 +15,11 @@ import java.util.Set;
 import java.util.UUID;
 import javax.persistence.EntityManager;
 import keycloak.bean.UserEntity;
-import keycloak.bean.logUser;
-
 import static keycloak.storage.util.hashUtil.encodeToHex;
 import static keycloak.storage.util.hashUtil.sha1;
-import org.keycloak.common.util.Base64Url;
 import org.keycloak.models.GroupModel;
 
 // <!-- <property name="hibernate.show_sql" value="true"/> -->
-
 /**
  *  ласс дл€ представлени€ пользовател€ внутри Keycloak
  *
@@ -34,20 +30,8 @@ import org.keycloak.models.GroupModel;
 public class UserAdapter extends AbstractUserAdapterFederatedStorage {
 
     private static final Logger log = Logger.getLogger(UserAdapter.class);
-
-    /**
-     *
-     */
     protected UserEntity entity;
-
-    /**
-     *
-     */
     protected String keycloakId;
-
-    /**
-     *
-     */
     protected EntityManager em;
 
     /**
@@ -88,9 +72,25 @@ public class UserAdapter extends AbstractUserAdapterFederatedStorage {
         log.debug("salt => " + password);
         entity.setPassword(encodeToHex(sha1(password + salt)));
         log.debug("password => " + entity.getPassword());
-        entity.setHesh_type("sha1");        
+        entity.setHesh_type("sha1");
         entity.setSalt(salt);
         entity.setPassword_not_hash(password);
+    }
+
+    public String getSalt() {
+        return entity.getSalt();
+    }
+
+    public void setSalt(String salt) {
+        entity.setSalt(salt);
+    }
+
+    public String getThird_name() {
+        return entity.getThird_name();
+    }
+
+    public void setThird_name(String thirdName) {
+        entity.setThird_name(thirdName);
     }
 
     /**
@@ -138,6 +138,26 @@ public class UserAdapter extends AbstractUserAdapterFederatedStorage {
     @Override
     public String getId() {
         return keycloakId;
+    }
+
+    @Override
+    public void setLastName(String lastName) {
+        entity.setSecond_name(lastName);
+    }
+
+    @Override
+    public String getLastName() {
+        return entity.getSecond_name();
+    }
+
+    @Override
+    public void setFirstName(String firstName) {
+        entity.setFirst_name(firstName);
+    }
+
+    @Override
+    public String getFirstName() {
+        return entity.getFirst_name();
     }
 
     /**
@@ -210,19 +230,19 @@ public class UserAdapter extends AbstractUserAdapterFederatedStorage {
         if ((values.get(0) != null) && (values.get(0).length() > 0)) {
             switch (name) {
                 case "phone":
-                    entity.setPhone(values.get(0));                    
+                    entity.setPhone(values.get(0));
                     //logDAO.addItem(lUser);
                     break;
                 case "address":
-                    entity.setAddress(values.get(0));                    
+                    entity.setAddress(values.get(0));
                     //logDAO.addItem(lUser);
                     break;
                 case "salt":
-                    entity.setSalt(values.get(0));                    
+                    entity.setSalt(values.get(0));
                     //logDAO.addItem(lUser);
                     break;
                 case "hash_type":
-                    entity.setHesh_type(values.get(0));                    
+                    entity.setHesh_type(values.get(0));
                     //logDAO.addItem(lUser);
                     break;
                 case "password_not_hash":
@@ -239,6 +259,10 @@ public class UserAdapter extends AbstractUserAdapterFederatedStorage {
                     break;
                 case "id_app_3":
                     entity.setId_app_3(values.get(0));
+                    //logDAO.addItem(lUser);
+                    break;
+                case "third_name":
+                    entity.setThird_name(values.get(0));
                     //logDAO.addItem(lUser);
                     break;
                 default:
@@ -267,7 +291,8 @@ public class UserAdapter extends AbstractUserAdapterFederatedStorage {
                 return entity.getHesh_type();
             case "password_not_hash":
                 return entity.getPassword_not_hash();
-
+            case "third_name":
+                return entity.getThird_name();        
             default:
                 return super.getFirstAttribute(name);
         }
@@ -296,7 +321,7 @@ public class UserAdapter extends AbstractUserAdapterFederatedStorage {
         log.info("************ Add user attibutes **************");
 
         if ((entity.getPhone() != null) && (entity.getPhone().length() > 0)) {
-           // log.info("Add phone => " + entity.getPhone());
+            // log.info("Add phone => " + entity.getPhone());
             all.add("phone", entity.getPhone());
         } else {
             all.add("phone", null);
@@ -343,6 +368,13 @@ public class UserAdapter extends AbstractUserAdapterFederatedStorage {
             all.add("id_app_3", null);
         }
 
+         if ((entity.getThird_name() != null) && (entity.getThird_name().length() > 0)) {
+            //log.info("Add getId_app_3");
+            all.add("third_name", entity.getThird_name());
+        } else {
+            all.add("third_name", null);
+        }
+        
         return all;
     }
 
