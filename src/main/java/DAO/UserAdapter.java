@@ -144,6 +144,32 @@ public class UserAdapter extends AbstractUserAdapterFederatedStorage {
         entity.setUser_gender(gender);
     }
 
+    @Override
+    public void setCreatedTimestamp(Long timestamp) {
+        entity.setCreate_date(new Date(timestamp));
+        //super.setCreatedTimestamp(timestamp); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public Long getCreatedTimestamp() {
+        //return super.getCreatedTimestamp(); //To change body of generated methods, choose Tools | Templates.
+        return entity.getCreate_date().getTime();
+    }
+
+    @Override
+    public void setEnabled(boolean enabled) {
+        //super.setEnabled(enabled); //To change body of generated methods, choose Tools | Templates.
+        entity.setEnabled(enabled);
+    }
+
+    @Override
+    public boolean isEnabled() {
+        //return super.isEnabled(); //To change body of generated methods, choose Tools | Templates.
+        return entity.isEnabled();
+    }
+
+    
+    
     /**
      * Возвращает строку с данными из поля username БД
      *
