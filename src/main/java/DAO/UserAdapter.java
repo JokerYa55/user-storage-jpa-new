@@ -4,7 +4,6 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.Iterator;
 import org.jboss.logging.Logger;
 import org.keycloak.common.util.MultivaluedHashMap;
 import org.keycloak.component.ComponentModel;
@@ -312,6 +311,14 @@ public class UserAdapter extends AbstractUserAdapterFederatedStorage {
                     entity.setThird_name(values.get(0));
                     //logDAO.addItem(lUser);
                     break;
+                case "region":
+                    entity.setUser_region(new Integer(values.get(0)));
+                    //logDAO.addItem(lUser);
+                    break;
+                case "gender":
+                    entity.setUser_gender(new Integer(values.get(0)));
+                    //logDAO.addItem(lUser);
+                    break;
                 case "birthday":
                     DateFormat format = new SimpleDateFormat("dd.MM.yyyy", Locale.getDefault());
                     log.info("date = " + values.get(0));
@@ -428,20 +435,31 @@ public class UserAdapter extends AbstractUserAdapterFederatedStorage {
             all.add("id_app_3", null);
         }
 
-        if ((entity.getThird_name() != null) && (entity.getThird_name().length() > 0)) {
-            //log.info("Add getId_app_3");
+        if ((entity.getThird_name() != null) && (entity.getThird_name().length() > 0)) {            
             all.add("third_name", entity.getThird_name());
         } else {
             all.add("third_name", null);
         }
 
         if (entity.getDate_birthday() != null) {
-            //log.info("Add getId_app_3");
-            all.add("birthday", entity.getDate_birthday().toString());
+            DateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
+            all.add("birthday", dateFormat.format(entity.getDate_birthday()));
         } else {
             all.add("birthday", null);
         }
 
+        if (entity.getUser_gender() != null) {            
+            all.add("gender", entity.getUser_gender().toString());
+        } else {
+            all.add("gender", null);
+        }
+        
+        if (entity.getUser_region() != null) {            
+            all.add("region", entity.getUser_region().toString());
+        } else {
+            all.add("region", null);
+        }
+        
         return all;
     }
 
