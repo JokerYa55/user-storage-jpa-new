@@ -28,6 +28,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 import java.util.Collections;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
@@ -214,6 +215,7 @@ public class EjbExampleUserStorageProvider implements UserStorageProvider,
         //entity.setId(UUID.randomUUID().toString());
         entity.setUsername(username);
         entity.setUser_status(0);
+        entity.setCreate_date(new Date());
         em.persist(entity);
 //        logUser lUser = new logUser();
 //        lUser.setUsername(username);

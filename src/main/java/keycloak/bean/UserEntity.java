@@ -135,6 +135,13 @@ public class UserEntity {
     @Temporal(javax.persistence.TemporalType.TIMESTAMP)
     private Date create_date;
 
+    @Column(name = "date_birthday", unique = false, nullable = true)
+    @Temporal(javax.persistence.TemporalType.DATE)
+    private Date date_birthday;
+
+    @Column(name = "user_gender", unique = false, nullable = true)
+    private Integer user_gender;
+
     public UserEntity() {
     }
 
