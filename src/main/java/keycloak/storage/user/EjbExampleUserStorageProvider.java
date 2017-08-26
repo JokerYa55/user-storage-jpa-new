@@ -259,7 +259,7 @@ public class EjbExampleUserStorageProvider implements UserStorageProvider,
     }
 
     /**
-     *
+     * Добавляются данные пользователя в CASHE
      * @param realm
      * @param user
      * @param delegate
@@ -276,6 +276,7 @@ public class EjbExampleUserStorageProvider implements UserStorageProvider,
             user.getCachedWith().put(PASSWORD_CACHE_KEY, password);            
         }
         
+        log.info("SALT_CACHE_KEY = " + SALT_CACHE_KEY);
         if (salt != null){
             log.info("Add salt in CAHE salt = " + salt);
             user.getCachedWith().put(SALT_CACHE_KEY, salt);
