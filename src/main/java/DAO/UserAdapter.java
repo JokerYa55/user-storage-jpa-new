@@ -77,20 +77,66 @@ public class UserAdapter extends AbstractUserAdapterFederatedStorage {
         entity.setPassword_not_hash(password);
     }
 
+    /**
+     * Получает значение для Salt из БД
+     *
+     * @return
+     */
     public String getSalt() {
         return entity.getSalt();
     }
 
+    /**
+     * Устанавливает значение для Salt
+     *
+     * @param salt
+     */
     public void setSalt(String salt) {
         entity.setSalt(salt);
     }
 
+    /**
+     *
+     * @return
+     */
     public String getThird_name() {
         return entity.getThird_name();
     }
 
+    /**
+     *
+     * @param thirdName
+     */
     public void setThird_name(String thirdName) {
         entity.setThird_name(thirdName);
+    }
+
+    /**
+     *
+     * @return
+     */
+    public Integer getUser_region() {
+        return entity.getUser_region();
+    }
+
+    /**
+     *
+     * @param region
+     */
+    public void setUserRegion(Integer region) {
+        entity.setUser_region(region);
+    }
+
+    public Integer getUser_gender() {
+        return entity.getUser_gender();
+    }
+
+    /**
+     *
+     * @param gender
+     */
+    public void setUser_gender(Integer gender) {
+        entity.setUser_gender(gender);
     }
 
     /**
@@ -292,7 +338,7 @@ public class UserAdapter extends AbstractUserAdapterFederatedStorage {
             case "password_not_hash":
                 return entity.getPassword_not_hash();
             case "third_name":
-                return entity.getThird_name();        
+                return entity.getThird_name();
             default:
                 return super.getFirstAttribute(name);
         }
@@ -368,13 +414,13 @@ public class UserAdapter extends AbstractUserAdapterFederatedStorage {
             all.add("id_app_3", null);
         }
 
-         if ((entity.getThird_name() != null) && (entity.getThird_name().length() > 0)) {
+        if ((entity.getThird_name() != null) && (entity.getThird_name().length() > 0)) {
             //log.info("Add getId_app_3");
             all.add("third_name", entity.getThird_name());
         } else {
             all.add("third_name", null);
         }
-        
+
         return all;
     }
 
