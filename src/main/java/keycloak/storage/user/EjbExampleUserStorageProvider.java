@@ -225,13 +225,13 @@ public class EjbExampleUserStorageProvider implements UserStorageProvider,
 
         log.info("added user: " + username);
 
-        try {
+        /*try {
             //String httpGet = doGet("http://192.168.1.240/helpdesk/service.php?command=getinclist", null);
             String httpGet = doGet("http://192.168.1.150:8080/testRest/admusers/hello/1500", null);
             log.info(httpGet);
         } catch (Exception e) {
             log.error(e.getMessage());
-        }
+        }*/
 
         return new UserAdapter(session, realm, model, entity, em);
     }

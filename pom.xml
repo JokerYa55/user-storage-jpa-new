@@ -129,8 +129,8 @@
                     <archive>
                         <manifest>
                             <addClasspath>true</addClasspath>
-                            <mainClass>com.wordpress.dev64.test.MainClass</mainClass>
-                            <packageName>com.wordpress.dev64.test</packageName>
+                            <mainClass>keycloak.storage.user.EjbExampleUserStorageProviderFactory</mainClass>
+                            <packageName>keycloak.storage.user</packageName>
                             <addClasspath>true</addClasspath>
                             <classpathPrefix>lib/</classpathPrefix>
                         </manifest>
