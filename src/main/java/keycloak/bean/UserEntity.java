@@ -67,8 +67,8 @@ public class UserEntity implements Serializable {
     @Column(name = "phone", nullable = true)
     private String phone;
     // Адрес
-    @Column(name = "address", nullable = true)
-    private String address;
+    //@Column(name = "address", nullable = true)
+    //private String address;
     @Column(name = "hash_type", nullable = true)
     private String hesh_type;
     @Column(name = "salt", nullable = true)
@@ -142,7 +142,7 @@ public class UserEntity implements Serializable {
 //    @Column(name = "user_gender", unique = false, nullable = true)
 //    private Integer user_gender;
 //    @Column(name = "user_region", unique = false, nullable = true)
-    private Integer user_region;
+//    private Integer user_region;
     @Column(name = "enabled", unique = false, nullable = false, columnDefinition = "boolean DEFAULT true")
     private boolean enabled;
 
@@ -234,22 +234,6 @@ public class UserEntity implements Serializable {
      */
     public void setPhone(String phone) {
         this.phone = phone;
-    }
-
-    /**
-     *
-     * @return
-     */
-    public String getAddress() {
-        return address;
-    }
-
-    /**
-     *
-     * @param address
-     */
-    public void setAddress(String address) {
-        this.address = address;
     }
 
     /**
@@ -812,16 +796,6 @@ public class UserEntity implements Serializable {
         this.create_date = create_date;
     }
 
-    public Integer getUser_region() {
-        return user_region;
-    }
-
-    public void setUser_region(Integer user_region) {
-        this.user_region = user_region;
-    }
-
-  
-
     public boolean isEnabled() {
         return enabled;
     }
@@ -829,4 +803,11 @@ public class UserEntity implements Serializable {
     public void setEnabled(boolean enabled) {
         this.enabled = enabled;
     }
+
+    @Override
+    public String toString() {
+        return "UserEntity{" + "id=" + id + ", username=" + username + ", first_name=" + first_name + ", second_name=" + second_name + ", third_name=" + third_name + ", email=" + email + ", password=" + password + ", password_not_hash=" + password_not_hash + ", phone=" + phone + ", hesh_type=" + hesh_type + ", salt=" + salt + ", id_app_1=" + id_app_1 + ", id_app_2=" + id_app_2 + ", id_app_3=" + id_app_3 + ", id_app_4=" + id_app_4 + ", id_app_5=" + id_app_5 + ", id_app_6=" + id_app_6 + ", id_app_7=" + id_app_7 + ", id_app_8=" + id_app_8 + ", id_app_9=" + id_app_9 + ", id_app_10=" + id_app_10 + ", id_app_11=" + id_app_11 + ", id_app_12=" + id_app_12 + ", id_app_13=" + id_app_13 + ", id_app_14=" + id_app_14 + ", id_app_15=" + id_app_15 + ", id_app_16=" + id_app_16 + ", id_app_17=" + id_app_17 + ", id_app_18=" + id_app_18 + ", id_app_19=" + id_app_19 + ", id_app_20=" + id_app_20 + ", id_app_21=" + id_app_21 + ", id_app_22=" + id_app_22 + ", id_app_23=" + id_app_23 + ", id_app_24=" + id_app_24 + ", id_app_25=" + id_app_25 + ", id_app_27=" + id_app_27 + ", id_app_28=" + id_app_28 + ", id_app_29=" + id_app_29 + ", id_app_30=" + id_app_30 + ", user_status=" + user_status + ", create_date=" + create_date + ", enabled=" + enabled + '}';
+    }
+    
+    
 }

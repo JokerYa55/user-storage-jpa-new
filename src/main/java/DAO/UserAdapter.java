@@ -120,17 +120,17 @@ public class UserAdapter extends AbstractUserAdapterFederatedStorage {
      *
      * @return
      */
-    public Integer getUser_region() {
-        return entity.getUser_region();
-    }
-
-    /**
-     *
-     * @param region
-     */
-    public void setUserRegion(Integer region) {
-        entity.setUser_region(region);
-    }
+//    public Integer getUser_region() {
+//        return entity.getUser_region();
+//    }
+//
+//    /**
+//     *
+//     * @param region
+//     */
+//    public void setUserRegion(Integer region) {
+//        entity.setUser_region(region);
+//    }
 
 //    public Integer getUser_gender() {
 //        return entity.getUser_gender();
@@ -264,9 +264,9 @@ public class UserAdapter extends AbstractUserAdapterFederatedStorage {
             case "phone":
                 entity.setPhone(null);
                 break;
-            case "address":
-                entity.setAddress(null);
-                break;
+//            case "address":
+//                entity.setAddress(null);
+//                break;
             case "salt":
                 entity.setSalt(null);
                 break;
@@ -305,10 +305,10 @@ public class UserAdapter extends AbstractUserAdapterFederatedStorage {
                     entity.setPhone(values.get(0));
                     //logDAO.addItem(lUser);
                     break;
-                case "address":
-                    entity.setAddress(values.get(0));
-                    //logDAO.addItem(lUser);
-                    break;
+//                case "address":
+//                    entity.setAddress(values.get(0));
+//                    //logDAO.addItem(lUser);
+//                    break;
                 case "salt":
                     entity.setSalt(values.get(0));
                     //logDAO.addItem(lUser);
@@ -337,10 +337,10 @@ public class UserAdapter extends AbstractUserAdapterFederatedStorage {
                     entity.setThird_name(values.get(0));
                     //logDAO.addItem(lUser);
                     break;
-                case "region":
-                    entity.setUser_region(new Integer(values.get(0)));
-                    //logDAO.addItem(lUser);
-                    break;
+//                case "region":
+//                    entity.setUser_region(new Integer(values.get(0)));
+//                    //logDAO.addItem(lUser);
+//                    break;
 //                case "gender":
 //                    entity.setUser_gender(new Integer(values.get(0)));
 //                    //logDAO.addItem(lUser);
@@ -377,8 +377,8 @@ public class UserAdapter extends AbstractUserAdapterFederatedStorage {
         switch (name) {
             case "phone":
                 return entity.getPhone();
-            case "address":
-                return entity.getAddress();
+//            case "address":
+//                return entity.getAddress();
             case "salt":
                 return entity.getSalt();
             case "hash_type":
@@ -420,12 +420,12 @@ public class UserAdapter extends AbstractUserAdapterFederatedStorage {
             all.add("phone", null);
         }
 
-        if ((entity.getAddress() != null) && (entity.getAddress().length() > 0)) {
-            //log.info("Add address");
-            all.add("address", entity.getAddress());
-        } else {
-            all.add("address", null);
-        }
+//        if ((entity.getAddress() != null) && (entity.getAddress().length() > 0)) {
+//            //log.info("Add address");
+//            all.add("address", entity.getAddress());
+//        } else {
+//            all.add("address", null);
+//        }
 
         /*if ((entity.getSalt() != null) && (entity.getSalt().length() > 0)) {
             log.info("Add Salt");
@@ -480,11 +480,11 @@ public class UserAdapter extends AbstractUserAdapterFederatedStorage {
 //            all.add("gender", null);
 //        }
         
-        if (entity.getUser_region() != null) {            
-            all.add("region", entity.getUser_region().toString());
-        } else {
-            all.add("region", null);
-        }
+//        if (entity.getUser_region() != null) {            
+//            all.add("region", entity.getUser_region().toString());
+//        } else {
+//            all.add("region", null);
+//        }
         
         return all;
     }
