@@ -1,5 +1,6 @@
 package keycloak.bean;
 
+import java.io.Serializable;
 import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -30,8 +31,9 @@ import org.jboss.logging.Logger;
             + "( lower(u.username) like :search or u.email like :search ) and  u.user_status=0 order by u.username"),})
 @Entity
 @Table(name = "t_users", indexes = {
-    @Index(name = "t_users_status_idx", columnList = "user_status")})
-public class UserEntity {
+    @Index(name = "t_users_status_idx", columnList = "user_status"),
+    @Index(name = "t_users_username_idx", columnList = "username")})
+public class UserEntity implements Serializable {
 
     private static final Logger log = Logger.getLogger(UserEntity.class);
 
@@ -129,7 +131,7 @@ public class UserEntity {
     private String id_app_29;
     @Column(name = "id_app_30", unique = true, nullable = true)
     private String id_app_30;
-    @Column(name = "user_status", unique = true, nullable = false, columnDefinition = "integer DEFAULT 0")
+    @Column(name = "user_status", unique = false, nullable = false, columnDefinition = "integer DEFAULT 0")
     private Integer user_status;
     @Column(name = "create_date", unique = false, nullable = false, columnDefinition = "timestamp DEFAULT CURRENT_TIMESTAMP")
     @Temporal(javax.persistence.TemporalType.TIMESTAMP)
