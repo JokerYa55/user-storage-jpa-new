@@ -132,17 +132,17 @@ public class UserAdapter extends AbstractUserAdapterFederatedStorage {
         entity.setUser_region(region);
     }
 
-    public Integer getUser_gender() {
-        return entity.getUser_gender();
-    }
+//    public Integer getUser_gender() {
+//        return entity.getUser_gender();
+//    }
 
     /**
      *
      * @param gender
      */
-    public void setUser_gender(Integer gender) {
-        entity.setUser_gender(gender);
-    }
+//    public void setUser_gender(Integer gender) {
+//        entity.setUser_gender(gender);
+//    }
 
     @Override
     public void setCreatedTimestamp(Long timestamp) {
@@ -341,24 +341,24 @@ public class UserAdapter extends AbstractUserAdapterFederatedStorage {
                     entity.setUser_region(new Integer(values.get(0)));
                     //logDAO.addItem(lUser);
                     break;
-                case "gender":
-                    entity.setUser_gender(new Integer(values.get(0)));
-                    //logDAO.addItem(lUser);
-                    break;
-                case "birthday":
-                    DateFormat format = new SimpleDateFormat("dd.MM.yyyy", Locale.getDefault());
-                    log.info("date = " + values.get(0));
-                     {
-                        try {
-                            Date dob = format.parse(values.get(0));
-                            log.info("dob = " + dob.toString());
-                            entity.setDate_birthday(dob);
-                        } catch (ParseException ex) {
-                            java.util.logging.Logger.getLogger(UserAdapter.class.getName()).log(Level.SEVERE, null, ex);
-                        }
-                    }
-                    //logDAO.addItem(lUser);
-                    break;
+//                case "gender":
+//                    entity.setUser_gender(new Integer(values.get(0)));
+//                    //logDAO.addItem(lUser);
+//                    break;
+////                case "birthday":
+//                    DateFormat format = new SimpleDateFormat("dd.MM.yyyy", Locale.getDefault());
+//                    log.info("date = " + values.get(0));
+//                     {
+//                        try {
+//                            Date dob = format.parse(values.get(0));
+//                            log.info("dob = " + dob.toString());
+//                            entity.setDate_birthday(dob);
+//                        } catch (ParseException ex) {
+//                            java.util.logging.Logger.getLogger(UserAdapter.class.getName()).log(Level.SEVERE, null, ex);
+//                        }
+//                    }
+//                    //logDAO.addItem(lUser);
+//                    break;
                 default:
                     super.setAttribute(name, values);
                     break;
@@ -467,18 +467,18 @@ public class UserAdapter extends AbstractUserAdapterFederatedStorage {
             all.add("third_name", null);
         }
 
-        if (entity.getDate_birthday() != null) {
-            DateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
-            all.add("birthday", dateFormat.format(entity.getDate_birthday()));
-        } else {
-            all.add("birthday", null);
-        }
-
-        if (entity.getUser_gender() != null) {            
-            all.add("gender", entity.getUser_gender().toString());
-        } else {
-            all.add("gender", null);
-        }
+//        if (entity.getDate_birthday() != null) {
+//            DateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
+//            all.add("birthday", dateFormat.format(entity.getDate_birthday()));
+//        } else {
+//            all.add("birthday", null);
+//        }
+//
+//        if (entity.getUser_gender() != null) {            
+//            all.add("gender", entity.getUser_gender().toString());
+//        } else {
+//            all.add("gender", null);
+//        }
         
         if (entity.getUser_region() != null) {            
             all.add("region", entity.getUser_region().toString());
