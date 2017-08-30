@@ -120,17 +120,17 @@ public class UserAdapter extends AbstractUserAdapterFederatedStorage {
      *
      * @return
      */
-//    public Integer getUser_region() {
-//        return entity.getUser_region();
-//    }
-//
-//    /**
-//     *
-//     * @param region
-//     */
-//    public void setUserRegion(Integer region) {
-//        entity.setUser_region(region);
-//    }
+    public Integer getUser_region() {
+        return entity.getUser_region();
+    }
+
+    /**
+     *
+     * @param region
+     */
+    public void setUserRegion(Integer region) {
+        entity.setUser_region(region);
+    }
 
 //    public Integer getUser_gender() {
 //        return entity.getUser_gender();
@@ -337,10 +337,10 @@ public class UserAdapter extends AbstractUserAdapterFederatedStorage {
                     entity.setThird_name(values.get(0));
                     //logDAO.addItem(lUser);
                     break;
-//                case "region":
-//                    entity.setUser_region(new Integer(values.get(0)));
-//                    //logDAO.addItem(lUser);
-//                    break;
+                case "region":
+                    entity.setUser_region(new Integer(values.get(0)));
+                    //logDAO.addItem(lUser);
+                    break;
 //                case "gender":
 //                    entity.setUser_gender(new Integer(values.get(0)));
 //                    //logDAO.addItem(lUser);
@@ -480,11 +480,11 @@ public class UserAdapter extends AbstractUserAdapterFederatedStorage {
 //            all.add("gender", null);
 //        }
         
-//        if (entity.getUser_region() != null) {            
-//            all.add("region", entity.getUser_region().toString());
-//        } else {
-//            all.add("region", null);
-//        }
+        if (entity.getUser_region() != null) {            
+            all.add("region", entity.getUser_region().toString());
+        } else {
+            all.add("region", null);
+        }
         
         return all;
     }
