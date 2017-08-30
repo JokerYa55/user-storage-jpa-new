@@ -25,11 +25,11 @@ import javax.persistence.Temporal;
 @Entity
 @Table(name = "t_users_log")
 @NamedQueries({
-    @NamedQuery(name = "logUser.findAll", query = "SELECT t FROM logUser t")
-    , @NamedQuery(name = "logUser.findById", query = "SELECT t FROM logUser t WHERE t.id = :id")
-    , @NamedQuery(name = "logUser.findByFlag", query = "SELECT t FROM logUser t WHERE t.flag = :flag")
-    , @NamedQuery(name = "logUser.findByUserId", query = "SELECT t FROM logUser t WHERE t.user_id = :user_id")
-    , @NamedQuery(name = "logUser.findByUsername", query = "SELECT t FROM logUser t WHERE t.username = :username")})
+    @NamedQuery(name = "logUser.findAll", query = "SELECT t FROM logUser t"),
+    @NamedQuery(name = "logUser.findById", query = "SELECT t FROM logUser t WHERE t.id = :id"),
+    @NamedQuery(name = "logUser.findByFlag", query = "SELECT t FROM logUser t WHERE t.flag = :flag"),
+    @NamedQuery(name = "logUser.findByUserId", query = "SELECT t FROM logUser t WHERE t.user_id = :user_id"),
+    @NamedQuery(name = "logUser.findByUsername", query = "SELECT t FROM logUser t WHERE t.username = :username")})
 public class logUser implements Serializable {
 
     @Id
@@ -49,6 +49,8 @@ public class logUser implements Serializable {
     private Date date_oper;
     @Column(name = "send_count", nullable = false, columnDefinition = "integer DEFAULT 0")
     private Integer send_count;
+    @Column(name = "info", nullable = true, columnDefinition = "text")
+    private String info;
 
     /**
      *
@@ -120,11 +122,6 @@ public class logUser implements Serializable {
         this.oper_type = oper_type;
     }
 
-    @Override
-    public String toString() {
-        return "logUser{" + "id=" + id + ", user_id=" + user_id + ", username=" + username + '}';
-    }
-
     public Long getId() {
         return id;
     }
@@ -148,4 +145,18 @@ public class logUser implements Serializable {
     public void setSend_count(Integer send_count) {
         this.send_count = send_count;
     }
+
+    public String getInfo() {
+        return info;
+    }
+
+    public void setInfo(String info) {
+        this.info = info;
+    }
+
+    @Override
+    public String toString() {
+        return "logUser{" + "id=" + id + ", user_id=" + user_id + ", username=" + username + ", flag=" + flag + ", oper_type=" + oper_type + ", date_oper=" + date_oper + ", send_count=" + send_count + ", info=" + info + '}';
+    }
+
 }
