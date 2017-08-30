@@ -19,15 +19,11 @@ import org.jboss.logging.Logger;
  * @version 1
  */
 @NamedQueries({
-    @NamedQuery(name = "getUserByUsername", query = "select u from UserEntity u where u.username = :username and u.user_status=0")
-    ,
-        @NamedQuery(name = "getUserByEmail", query = "select u from UserEntity u where u.email = :email and u.user_status=0")
-    ,
-        @NamedQuery(name = "getUserCount", query = "select count(u) from UserEntity u where u.user_status=0")
-    ,
-        @NamedQuery(name = "getAllUsers", query = "select u from UserEntity u where u.user_status=0 order by u.username")
-    ,
-        @NamedQuery(name = "searchForUser", query = "select u from UserEntity u where "
+    @NamedQuery(name = "getUserByUsername", query = "select u from UserEntity u where u.username = :username and u.user_status=0"),
+    @NamedQuery(name = "getUserByEmail", query = "select u from UserEntity u where u.email = :email and u.user_status=0"),
+    @NamedQuery(name = "getUserCount", query = "select count(u) from UserEntity u where u.user_status=0"),
+    @NamedQuery(name = "getAllUsers", query = "select u from UserEntity u where u.user_status=0 order by u.username"),
+    @NamedQuery(name = "searchForUser", query = "select u from UserEntity u where "
             + "( lower(u.username) like :search or u.email like :search ) and  u.user_status=0 order by u.username"),})
 @Entity
 @Table(name = "t_users", indexes = {
@@ -141,8 +137,8 @@ public class UserEntity implements Serializable {
 //    private Date date_birthday;
 //    @Column(name = "user_gender", unique = false, nullable = true)
 //    private Integer user_gender;
-//    @Column(name = "user_region", unique = false, nullable = true)
-//    private Integer user_region;
+    @Column(name = "user_region", unique = false, nullable = true)
+    private Integer user_region;
     @Column(name = "enabled", unique = false, nullable = false, columnDefinition = "boolean DEFAULT true")
     private boolean enabled;
 
@@ -804,10 +800,17 @@ public class UserEntity implements Serializable {
         this.enabled = enabled;
     }
 
+    public Integer getUser_region() {
+        return user_region;
+    }
+
+    public void setUser_region(Integer user_region) {
+        this.user_region = user_region;
+    }
+
     @Override
     public String toString() {
-        return "UserEntity{" + "id=" + id + ", username=" + username + ", first_name=" + first_name + ", second_name=" + second_name + ", third_name=" + third_name + ", email=" + email + ", password=" + password + ", password_not_hash=" + password_not_hash + ", phone=" + phone + ", hesh_type=" + hesh_type + ", salt=" + salt + ", id_app_1=" + id_app_1 + ", id_app_2=" + id_app_2 + ", id_app_3=" + id_app_3 + ", id_app_4=" + id_app_4 + ", id_app_5=" + id_app_5 + ", id_app_6=" + id_app_6 + ", id_app_7=" + id_app_7 + ", id_app_8=" + id_app_8 + ", id_app_9=" + id_app_9 + ", id_app_10=" + id_app_10 + ", id_app_11=" + id_app_11 + ", id_app_12=" + id_app_12 + ", id_app_13=" + id_app_13 + ", id_app_14=" + id_app_14 + ", id_app_15=" + id_app_15 + ", id_app_16=" + id_app_16 + ", id_app_17=" + id_app_17 + ", id_app_18=" + id_app_18 + ", id_app_19=" + id_app_19 + ", id_app_20=" + id_app_20 + ", id_app_21=" + id_app_21 + ", id_app_22=" + id_app_22 + ", id_app_23=" + id_app_23 + ", id_app_24=" + id_app_24 + ", id_app_25=" + id_app_25 + ", id_app_27=" + id_app_27 + ", id_app_28=" + id_app_28 + ", id_app_29=" + id_app_29 + ", id_app_30=" + id_app_30 + ", user_status=" + user_status + ", create_date=" + create_date + ", enabled=" + enabled + '}';
+        return "UserEntity{" + "id=" + id + ", username=" + username + ", first_name=" + first_name + ", second_name=" + second_name + ", third_name=" + third_name + ", email=" + email + ", password=" + password + ", password_not_hash=" + password_not_hash + ", phone=" + phone + ", hesh_type=" + hesh_type + ", salt=" + salt + ", id_app_1=" + id_app_1 + ", id_app_2=" + id_app_2 + ", id_app_3=" + id_app_3 + ", id_app_4=" + id_app_4 + ", id_app_5=" + id_app_5 + ", id_app_6=" + id_app_6 + ", id_app_7=" + id_app_7 + ", id_app_8=" + id_app_8 + ", id_app_9=" + id_app_9 + ", id_app_10=" + id_app_10 + ", id_app_11=" + id_app_11 + ", id_app_12=" + id_app_12 + ", id_app_13=" + id_app_13 + ", id_app_14=" + id_app_14 + ", id_app_15=" + id_app_15 + ", id_app_16=" + id_app_16 + ", id_app_17=" + id_app_17 + ", id_app_18=" + id_app_18 + ", id_app_19=" + id_app_19 + ", id_app_20=" + id_app_20 + ", id_app_21=" + id_app_21 + ", id_app_22=" + id_app_22 + ", id_app_23=" + id_app_23 + ", id_app_24=" + id_app_24 + ", id_app_25=" + id_app_25 + ", id_app_27=" + id_app_27 + ", id_app_28=" + id_app_28 + ", id_app_29=" + id_app_29 + ", id_app_30=" + id_app_30 + ", user_status=" + user_status + ", create_date=" + create_date + ", user_region=" + user_region + ", enabled=" + enabled + '}';
     }
-    
-    
+
 }
