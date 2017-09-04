@@ -1122,4 +1122,6 @@ public class EjbExampleUserStorageProvider implements UserStorageProvider,
         log.info("getStoredCredentialByNameAndType");
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
+    
+    
 }

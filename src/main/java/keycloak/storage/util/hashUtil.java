@@ -16,7 +16,7 @@ import java.security.NoSuchAlgorithmException;
  */
 public class hashUtil {
 
-    private final static char[] ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/".toCharArray();
+    //private final static char[] ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/".toCharArray();
 
     /**
      * Получает hash по алгоритму SHA-1
@@ -60,6 +60,11 @@ public class hashUtil {
         }
     }
 
+    /**
+     *
+     * @param buf
+     * @return
+     */
     public static String encodeToHex(byte[] buf) {
         String stringRes = null;
         StringBuilder sb = new StringBuilder();
@@ -80,7 +85,7 @@ public class hashUtil {
      * @param buf
      * @return
      */
-    private static String encode(byte[] buf) {
+    /*private static String encode(byte[] buf) {
         int size = buf.length;
         char[] ar = new char[((size + 2) / 3) * 4];
         int a = 0;
@@ -103,6 +108,5 @@ public class hashUtil {
                 ar[--a] = '=';
         }
         return new String(ar);
-    }
-
+    }*/
 }
