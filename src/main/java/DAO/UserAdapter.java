@@ -516,5 +516,4 @@ public class UserAdapter extends AbstractUserAdapterFederatedStorage {
         log.info("getGroups()");
         return super.getGroups(); //To change body of generated methods, choose Tools | Templates.
     }
-
 }

@@ -148,6 +148,8 @@ public class UserEntity implements Serializable {
     private boolean enabled;
     @Column(name = "description", unique = false, nullable = true)
     private String description;
+//    @Column(name = "federation_link", unique = false, nullable = true)
+//    private String federation_link;
 
     public UserEntity() {
     }
