@@ -51,7 +51,8 @@ public class logUser implements Serializable {
     private Integer send_count;
     @Column(name = "info", nullable = true, columnDefinition = "text")
     private String info;
-
+    @Column(name = "last_command", nullable = true, columnDefinition = "text")
+    private String last_command;
     /**
      *
      */
