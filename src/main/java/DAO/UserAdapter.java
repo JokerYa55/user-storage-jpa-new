@@ -104,16 +104,16 @@ public class UserAdapter extends AbstractUserAdapterFederatedStorage {
      *
      * @return
      */
-    public String getThird_name() {
-        return entity.getThird_name();
+    public String getThirdName() {
+        return entity.getThirdName();
     }
 
     /**
      *
      * @param thirdName
      */
-    public void setThird_name(String thirdName) {
-        entity.setThird_name(thirdName);
+    public void setThirdName(String thirdName) {
+        entity.setThirdName(thirdName);
     }
 
     /**
@@ -219,22 +219,22 @@ public class UserAdapter extends AbstractUserAdapterFederatedStorage {
 
     @Override
     public void setLastName(String lastName) {
-        entity.setSecond_name(lastName);
+        entity.setLastName(lastName);
     }
 
     @Override
     public String getLastName() {
-        return entity.getSecond_name();
+        return entity.getLastName();
     }
 
     @Override
     public void setFirstName(String firstName) {
-        entity.setFirst_name(firstName);
+        entity.setFirstName(firstName);
     }
 
     @Override
     public String getFirstName() {
-        return entity.getFirst_name();
+        return entity.getFirstName();
     }
 
     /**
@@ -333,8 +333,8 @@ public class UserAdapter extends AbstractUserAdapterFederatedStorage {
                     entity.setId_app_3(values.get(0));
                     //logDAO.addItem(lUser);
                     break;
-                case "third_name":
-                    entity.setThird_name(values.get(0));
+                case "thirdName":
+                    entity.setThirdName(values.get(0));
                     //logDAO.addItem(lUser);
                     break;
                 case "region":
@@ -385,8 +385,8 @@ public class UserAdapter extends AbstractUserAdapterFederatedStorage {
                 return entity.getHesh_type();
             case "password_not_hash":
                 return entity.getPassword_not_hash();
-            case "third_name":
-                return entity.getThird_name();
+            case "thirdName":
+                return entity.getThirdName();
             default:
                 return super.getFirstAttribute(name);
         }
@@ -461,10 +461,10 @@ public class UserAdapter extends AbstractUserAdapterFederatedStorage {
             all.add("id_app_3", null);
         }
 
-        if ((entity.getThird_name() != null) && (entity.getThird_name().length() > 0)) {            
-            all.add("third_name", entity.getThird_name());
+        if ((entity.getThirdName()!= null) && (entity.getThirdName().length() > 0)) {            
+            all.add("thirdName", entity.getThirdName());
         } else {
-            all.add("third_name", null);
+            all.add("thirdName", null);
         }
 
 //        if (entity.getDate_birthday() != null) {

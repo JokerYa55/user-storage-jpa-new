@@ -23,6 +23,6 @@ public class runTask {
     public void runsEveryMinute() {
         count ++;
         log.info(" runs EveryMinute " + count);
-        log.info(Util.doGet("http://sql.ru", null));
+        //log.info(Util.doGet("http://sql.ru", null));
     }
 }

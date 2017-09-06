@@ -47,14 +47,14 @@ public class UserEntity implements Serializable {
     @Column(name = "username", unique = true, nullable = false)
     private String username;
     // Фамилия    
-    @Column(name = "first_name", unique = false, nullable = true)
-    private String first_name;
+    @Column(name = "firstName", unique = false, nullable = true)
+    private String firstName;
     // Имя
-    @Column(name = "second_name", unique = false, nullable = true)
-    private String second_name;
+    @Column(name = "lastName", unique = false, nullable = true)
+    private String lastName;
     // Отчество
-    @Column(name = "third_name", unique = false, nullable = true)
-    private String third_name;
+    @Column(name = "thirdName", unique = false, nullable = true)
+    private String thirdName;
     // e-mail
     @Column(name = "email", unique = true, nullable = true)
     private String email;
@@ -137,6 +137,9 @@ public class UserEntity implements Serializable {
     @Column(name = "create_date", unique = false, nullable = false, columnDefinition = "timestamp DEFAULT CURRENT_TIMESTAMP")
     @Temporal(javax.persistence.TemporalType.TIMESTAMP)
     private Date create_date;
+    @Column(name = "update_date", unique = false, nullable = true, columnDefinition = "timestamp")
+    @Temporal(javax.persistence.TemporalType.TIMESTAMP)
+    private Date update_date;
 //    @Column(name = "date_birthday", unique = false, nullable = true)
 //    @Temporal(javax.persistence.TemporalType.DATE)
 //    private Date date_birthday;
@@ -761,30 +764,6 @@ public class UserEntity implements Serializable {
         this.salt = salt;
     }
 
-    public String getFirst_name() {
-        return first_name;
-    }
-
-    public void setFirst_name(String first_name) {
-        this.first_name = first_name;
-    }
-
-    public String getSecond_name() {
-        return second_name;
-    }
-
-    public void setSecond_name(String second_name) {
-        this.second_name = second_name;
-    }
-
-    public String getThird_name() {
-        return third_name;
-    }
-
-    public void setThird_name(String third_name) {
-        this.third_name = third_name;
-    }
-
     public Integer getUser_status() {
         return user_status;
     }
@@ -825,9 +804,41 @@ public class UserEntity implements Serializable {
         this.description = description;
     }
 
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public Date getUpdate_date() {
+        return update_date;
+    }
+
+    public void setUpdate_date(Date update_date) {
+        this.update_date = update_date;
+    }
+
+    public String getThirdName() {
+        return thirdName;
+    }
+
+    public void setThirdName(String thirdName) {
+        this.thirdName = thirdName;
+    }
+
     @Override
     public String toString() {
-        return "UserEntity{" + "id=" + id + ", username=" + username + ", first_name=" + first_name + ", second_name=" + second_name + ", third_name=" + third_name + ", email=" + email + ", password=" + password + ", password_not_hash=" + password_not_hash + ", phone=" + phone + ", hesh_type=" + hesh_type + ", salt=" + salt + ", id_app_1=" + id_app_1 + ", id_app_2=" + id_app_2 + ", id_app_3=" + id_app_3 + ", id_app_4=" + id_app_4 + ", id_app_5=" + id_app_5 + ", id_app_6=" + id_app_6 + ", id_app_7=" + id_app_7 + ", id_app_8=" + id_app_8 + ", id_app_9=" + id_app_9 + ", id_app_10=" + id_app_10 + ", id_app_11=" + id_app_11 + ", id_app_12=" + id_app_12 + ", id_app_13=" + id_app_13 + ", id_app_14=" + id_app_14 + ", id_app_15=" + id_app_15 + ", id_app_16=" + id_app_16 + ", id_app_17=" + id_app_17 + ", id_app_18=" + id_app_18 + ", id_app_19=" + id_app_19 + ", id_app_20=" + id_app_20 + ", id_app_21=" + id_app_21 + ", id_app_22=" + id_app_22 + ", id_app_23=" + id_app_23 + ", id_app_24=" + id_app_24 + ", id_app_25=" + id_app_25 + ", id_app_27=" + id_app_27 + ", id_app_28=" + id_app_28 + ", id_app_29=" + id_app_29 + ", id_app_30=" + id_app_30 + ", user_status=" + user_status + ", create_date=" + create_date + ", user_region=" + user_region + ", enabled=" + enabled + ", description=" + description + '}';
+        return "UserEntity{" + "id=" + id + ", username=" + username + ", firstName=" + firstName + ", lastName=" + lastName + ", thirdName=" + thirdName + ", email=" + email + ", password=" + password + ", password_not_hash=" + password_not_hash + ", phone=" + phone + ", hesh_type=" + hesh_type + ", salt=" + salt + ", id_app_1=" + id_app_1 + ", id_app_2=" + id_app_2 + ", id_app_3=" + id_app_3 + ", id_app_4=" + id_app_4 + ", id_app_5=" + id_app_5 + ", id_app_6=" + id_app_6 + ", id_app_7=" + id_app_7 + ", id_app_8=" + id_app_8 + ", id_app_9=" + id_app_9 + ", id_app_10=" + id_app_10 + ", id_app_11=" + id_app_11 + ", id_app_12=" + id_app_12 + ", id_app_13=" + id_app_13 + ", id_app_14=" + id_app_14 + ", id_app_15=" + id_app_15 + ", id_app_16=" + id_app_16 + ", id_app_17=" + id_app_17 + ", id_app_18=" + id_app_18 + ", id_app_19=" + id_app_19 + ", id_app_20=" + id_app_20 + ", id_app_21=" + id_app_21 + ", id_app_22=" + id_app_22 + ", id_app_23=" + id_app_23 + ", id_app_24=" + id_app_24 + ", id_app_25=" + id_app_25 + ", id_app_27=" + id_app_27 + ", id_app_28=" + id_app_28 + ", id_app_29=" + id_app_29 + ", id_app_30=" + id_app_30 + ", user_status=" + user_status + ", create_date=" + create_date + ", update_date=" + update_date + ", user_region=" + user_region + ", enabled=" + enabled + ", description=" + description + '}';
     }
 
 }
