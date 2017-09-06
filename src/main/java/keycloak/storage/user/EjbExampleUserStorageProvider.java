@@ -792,8 +792,9 @@ public class EjbExampleUserStorageProvider implements UserStorageProvider,
      */
     @Override
     public String getUserByFederatedIdentity(FederatedIdentityModel fim, RealmModel rm) {
-        log.info("getUserByFederatedIdentity");
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        log.info("getUserByFederatedIdentity => " + fim.getUserId() + " : " + fim.getUserName());
+        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return "";
     }
 
     /**
@@ -804,7 +805,7 @@ public class EjbExampleUserStorageProvider implements UserStorageProvider,
      */
     @Override
     public void addFederatedIdentity(RealmModel rm, String string, FederatedIdentityModel fim) {
-        log.info("addFederatedIdentity");
+        log.info("addFederatedIdentity => " + string);
     }
 
     /**
@@ -816,7 +817,7 @@ public class EjbExampleUserStorageProvider implements UserStorageProvider,
      */
     @Override
     public boolean removeFederatedIdentity(RealmModel rm, String string, String string1) {
-        log.info("removeFederatedIdentity");
+        log.info("removeFederatedIdentity => " + string);
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
