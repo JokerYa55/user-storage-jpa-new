@@ -34,6 +34,10 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
 import keycloak.bean.UserEntity;
 import keycloak.bean.logUser;
 import static keycloak.storage.util.hashUtil.encodeToHex;
@@ -232,7 +236,6 @@ public class EjbExampleUserStorageProvider implements UserStorageProvider,
         } catch (Exception e) {
             log.error(e.getMessage());
         }*/
-
         return new UserAdapter(session, realm, model, entity, em);
     }
 
@@ -254,12 +257,15 @@ public class EjbExampleUserStorageProvider implements UserStorageProvider,
         }
         //em.remove(entity);
         entity.setUser_status(1);
+        entity.setEmail("");
+        entity.setPhone("");
         em.merge(entity);
         return true;
     }
 
     /**
      * Добавляются данные пользователя в CASHE
+     *
      * @param realm
      * @param user
      * @param delegate
@@ -273,11 +279,11 @@ public class EjbExampleUserStorageProvider implements UserStorageProvider,
         log.info("PASSWORD_CACHE_KEY = " + PASSWORD_CACHE_KEY);
         if (password != null) {
             log.info("Add password in CACHE password = " + password);
-            user.getCachedWith().put(PASSWORD_CACHE_KEY, password);            
+            user.getCachedWith().put(PASSWORD_CACHE_KEY, password);
         }
-        
+
         log.info("SALT_CACHE_KEY = " + SALT_CACHE_KEY);
-        if (salt != null){
+        if (salt != null) {
             log.info("Add salt in CAHE salt = " + salt);
             user.getCachedWith().put(SALT_CACHE_KEY, salt);
         }
@@ -468,10 +474,11 @@ public class EjbExampleUserStorageProvider implements UserStorageProvider,
 
     /**
      * Получает значение salt
+     *
      * @param user
-     * @return 
+     * @return
      */
-    private String getSalt(UserModel user){
+    private String getSalt(UserModel user) {
         log.info("getSalt");
         log.info("Class type user = " + user.getClass().getName());
         String salt = null;
@@ -486,7 +493,7 @@ public class EjbExampleUserStorageProvider implements UserStorageProvider,
         log.info("password => " + salt);
         return salt;
     }
-    
+
     /**
      * Функция возвращает тип hesh пароля
      *
@@ -605,10 +612,56 @@ public class EjbExampleUserStorageProvider implements UserStorageProvider,
     @Override
     public List<UserModel> searchForUser(Map<String, String> params, RealmModel realm) {
         log.info("searchForUser_1");
-        return Collections.EMPTY_LIST;
+        List<UserEntity> res;
+        List<UserModel> users = new LinkedList<>();
+        try {
+            CriteriaBuilder cb = em.getCriteriaBuilder();
+            CriteriaQuery<UserEntity> criteriaQuery = cb.createQuery(UserEntity.class);
+            Root<UserEntity> userEntityRoot = criteriaQuery.from(UserEntity.class);
+            Predicate criteriaWhere = cb.conjunction();
+
+            for (Map.Entry<String, String> entry : params.entrySet()) {
+                String key = entry.getKey();
+                String value = entry.getValue();
+                log.info("key = " + key + "  value = " + value);
+                if (key.equalsIgnoreCase("username")) {
+                    Predicate p = cb.equal(userEntityRoot.get(UserModel.USERNAME), value);
+                    criteriaWhere = cb.and(criteriaWhere, p);
+                }
+
+                if (key.equalsIgnoreCase("email")) {
+                    Predicate p = cb.equal(userEntityRoot.get(UserModel.EMAIL), value);
+                    criteriaWhere = cb.and(criteriaWhere, p);
+                }
+
+                if (key.equalsIgnoreCase("firstName")) {
+                    Predicate p = cb.equal(userEntityRoot.get(UserModel.FIRST_NAME), value);
+                    criteriaWhere = cb.and(criteriaWhere, p);
+                }
+
+                if (key.equalsIgnoreCase("lastName")) {
+                    Predicate p = cb.equal(userEntityRoot.get(UserModel.LAST_NAME), value);
+                    criteriaWhere = cb.and(criteriaWhere, p);
+                }
+            }
+
+            criteriaQuery.where(criteriaWhere);
+
+            res = em.createQuery(criteriaQuery).getResultList();
+            log.info("res = " + res.size());
+            res.forEach((item) -> {
+                users.add(new UserAdapter(session, realm, model, item, em));
+            });
+
+        } catch (Exception e) {
+        }
+
+        return users;
+        //return Collections.EMPTY_LIST;
     }
 
     /**
+     * Выполняется при вызове RAST API функции поиска пользователей по критериям
      *
      * @param params
      * @param realm
@@ -619,10 +672,53 @@ public class EjbExampleUserStorageProvider implements UserStorageProvider,
     @Override
     public List<UserModel> searchForUser(Map<String, String> params, RealmModel realm, int firstResult, int maxResults) {
         log.info("searchForUser_2");
-        params.forEach((t, u) -> {
-            log.info("t = " + t + "  u = " + u);
-        });
-        return Collections.EMPTY_LIST;
+
+        List<UserEntity> res;
+        List<UserModel> users = new LinkedList<>();
+        try {
+            CriteriaBuilder cb = em.getCriteriaBuilder();
+            CriteriaQuery<UserEntity> criteriaQuery = cb.createQuery(UserEntity.class);
+            Root<UserEntity> userEntityRoot = criteriaQuery.from(UserEntity.class);
+            Predicate criteriaWhere = cb.conjunction();
+
+            for (Map.Entry<String, String> entry : params.entrySet()) {
+                String key = entry.getKey();
+                String value = entry.getValue();
+                log.info("key = " + key + "  value = " + value);
+                if (key.equalsIgnoreCase("username")) {
+                    Predicate p = cb.equal(userEntityRoot.get(UserModel.USERNAME), value);
+                    criteriaWhere = cb.and(criteriaWhere, p);
+                }
+
+                if (key.equalsIgnoreCase("email")) {
+                    Predicate p = cb.equal(userEntityRoot.get(UserModel.EMAIL), value);
+                    criteriaWhere = cb.and(criteriaWhere, p);
+                }
+
+                if (key.equalsIgnoreCase("firstName")) {
+                    Predicate p = cb.equal(userEntityRoot.get(UserModel.FIRST_NAME), value);
+                    criteriaWhere = cb.and(criteriaWhere, p);
+                }
+
+                if (key.equalsIgnoreCase("lastName")) {
+                    Predicate p = cb.equal(userEntityRoot.get(UserModel.LAST_NAME), value);
+                    criteriaWhere = cb.and(criteriaWhere, p);
+                }
+            }
+
+            criteriaQuery.where(criteriaWhere);
+
+            res = em.createQuery(criteriaQuery).setFirstResult(firstResult).setMaxResults(maxResults).getResultList();
+            log.info("res = " + res.size());
+            res.forEach((item) -> {
+                users.add(new UserAdapter(session, realm, model, item, em));
+            });
+
+        } catch (Exception e) {
+        }
+
+        return users;
+        //Collections.EMPTY_LIST;
     }
 
     /**
@@ -1126,6 +1222,5 @@ public class EjbExampleUserStorageProvider implements UserStorageProvider,
         log.info("getStoredCredentialByNameAndType");
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-    
-    
+
 }
