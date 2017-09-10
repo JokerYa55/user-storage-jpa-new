@@ -619,6 +619,9 @@ public class EjbExampleUserStorageProvider implements UserStorageProvider,
     @Override
     public List<UserModel> searchForUser(Map<String, String> params, RealmModel realm, int firstResult, int maxResults) {
         log.info("searchForUser_2");
+        params.forEach((t, u) -> {
+            log.info("t = " + t + "  u = " + u);
+        });
         return Collections.EMPTY_LIST;
     }
 
