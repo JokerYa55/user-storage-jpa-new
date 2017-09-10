@@ -257,8 +257,8 @@ public class EjbExampleUserStorageProvider implements UserStorageProvider,
         }
         //em.remove(entity);
         entity.setUser_status(1);
-        entity.setEmail("");
-        entity.setPhone("");
+        entity.setEmail(null);
+        entity.setPhone(null);
         em.merge(entity);
         return true;
     }
