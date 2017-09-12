@@ -30,11 +30,7 @@ public class hashUtil {
             byte[] digest = md.digest();
 
             return (digest);
-            /* Альтернативные варианты:
-            return javax.xml.bind.DatatypeConverter.printBase64Binary(digest);
-            или
-            return com.sun.org.apache.xml.internal.security.utils.Base64.encode(digest);
-             */
+            
         } catch (NoSuchAlgorithmException e) {
             e.printStackTrace();
             return null;
@@ -61,6 +57,16 @@ public class hashUtil {
 
     /**
      *
+     * @param bytes
+     * @return
+     */
+    public static String encodeToHex(byte[] bytes) {
+        BigInteger bi = new BigInteger(1, bytes);
+        return String.format("%0" + (bytes.length << 1) + "X", bi);
+    }
+    
+    /**
+     *
      * @param buf
      * @return
      */
@@ -79,15 +85,7 @@ public class hashUtil {
 //        return stringRes;
 //    }
 
-    /**
-     *
-     * @param bytes
-     * @return
-     */
-    public static String encodeToHex(byte[] bytes) {
-        BigInteger bi = new BigInteger(1, bytes);
-        return String.format("%0" + (bytes.length << 1) + "X", bi);
-    }
+    
 
 //    public static byte[] sha1ToByte(String plain) {
 //        try {
