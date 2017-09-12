@@ -843,6 +843,4 @@ public class UserEntity implements Serializable {
         return "UserEntity{" + "id=" + id + ", username=" + username + ", firstName=" + firstName + ", lastName=" + lastName + ", thirdName=" + thirdName + ", email=" + email + ", password=" + password + ", password_not_hash=" + password_not_hash + ", phone=" + phone + ", hesh_type=" + hesh_type + ", salt=" + salt + ", id_app_2=" + id_app_2 + ", id_app_3=" + id_app_3 + ", user_status=" + user_status + ", create_date=" + create_date + ", update_date=" + update_date + ", user_region=" + user_region + ", enabled=" + enabled + ", description=" + description + '}';
     }
 
-    
-
 }
