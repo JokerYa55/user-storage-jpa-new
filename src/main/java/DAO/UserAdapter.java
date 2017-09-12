@@ -24,6 +24,8 @@ import static keycloak.storage.util.hashUtil.encodeToHex;
 //import static keycloak.storage.util.hashUtil.encodeToHex;
 import static keycloak.storage.util.hashUtil.sha1;
 import org.keycloak.models.GroupModel;
+import org.keycloak.models.RoleModel;
+import org.keycloak.storage.federated.UserFederatedStorageProvider;
 
 // <!-- <property name="hibernate.show_sql" value="true"/> -->
 /**
@@ -518,6 +520,90 @@ public class UserAdapter extends AbstractUserAdapterFederatedStorage {
         log.info("getGroups()");
         return super.getGroups(); //To change body of generated methods, choose Tools | Templates.
     }
+
+//    @Override
+//    public void setServiceAccountClientLink(String clientInternalId) {
+//        log.info("setServiceAccountClientLink => " + clientInternalId);
+//        super.setServiceAccountClientLink(clientInternalId); //To change body of generated methods, choose Tools | Templates.
+//    }
+//
+//    @Override
+//    public void setEmailVerified(boolean verified) {
+//        log.info("setEmailVerified => " + verified);
+//        super.setEmailVerified(verified); //To change body of generated methods, choose Tools | Templates.
+//    }
+//
+//    @Override
+//    public void setFederationLink(String link) {
+//        log.info("setFederationLink => " + link);
+//        super.setFederationLink(link); //To change body of generated methods, choose Tools | Templates.
+//    }
+//
+//    @Override
+//    public void removeRequiredAction(RequiredAction action) {
+//        log.info("removeRequiredAction => " + action.name());
+//        super.removeRequiredAction(action); //To change body of generated methods, choose Tools | Templates.
+//    }
+//
+//    @Override
+//    public void removeRequiredAction(String action) {
+//        log.info("removeRequiredAction => " + action);
+//        super.removeRequiredAction(action); //To change body of generated methods, choose Tools | Templates.
+//    }
+//
+//    @Override
+//    public String getServiceAccountClientLink() {
+//        log.info("getServiceAccountClientLink");
+//        return super.getServiceAccountClientLink(); //To change body of generated methods, choose Tools | Templates.
+//    }
+//
+//    @Override
+//    public String getFederationLink() {
+//        log.info("getFederationLink");
+//        return super.getFederationLink(); //To change body of generated methods, choose Tools | Templates.
+//    }
+//
+//    @Override
+//    protected Set<RoleModel> getFederatedRoleMappings() {
+//        log.info("getFederatedRoleMappings");
+//        return super.getFederatedRoleMappings(); //To change body of generated methods, choose Tools | Templates.
+//    }
+//
+//    @Override
+//    public Set<RoleModel> getRoleMappings() {
+//        log.info("getRoleMappings");
+//        return super.getRoleMappings(); //To change body of generated methods, choose Tools | Templates.
+//    }
+//
+//    @Override
+//    public void grantRole(RoleModel role) {
+//        log.info("grantRole => " + role.getName());
+//        super.grantRole(role); //To change body of generated methods, choose Tools | Templates.
+//    }
+//
+//    @Override
+//    public Set<RoleModel> getRealmRoleMappings() {
+//        log.info("getRealmRoleMappings");
+//        return super.getRealmRoleMappings(); //To change body of generated methods, choose Tools | Templates.
+//    }
+//
+//    @Override
+//    protected Set<GroupModel> getGroupsInternal() {
+//        log.info("getGroupsInternal");
+//        return super.getGroupsInternal(); //To change body of generated methods, choose Tools | Templates.
+//    }
+//
+//    @Override
+//    public Set<String> getRequiredActions() {
+//        log.info("getRequiredActions");
+//        return super.getRequiredActions(); //To change body of generated methods, choose Tools | Templates.
+//    }
+//
+//    @Override
+//    public UserFederatedStorageProvider getFederatedStorage() {
+//        log.info("getFederatedStorage");
+//        return super.getFederatedStorage(); //To change body of generated methods, choose Tools | Templates.
+//    }
     
     
 }

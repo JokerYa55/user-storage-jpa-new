@@ -307,11 +307,14 @@ public class EjbExampleUserStorageProvider implements UserStorageProvider,
      * @param realm
      * @param user
      * @param input
-     * @return
+     * @return false - тогда учитываются ограничения пароля установленные в KK
+     * true - не учитываются
      */
     @Override
     public boolean updateCredential(RealmModel realm, UserModel user, CredentialInput input) {
         log.info("updateCredential \n\n\trealm = " + realm.getName() + "\n\tuser = " + user.getUsername() + "\n\tinput = " + input.getClass().getName());
+        log.info("input.getType() => " + input.getType());
+
         if (!supportsCredentialType(input.getType()) || !(input instanceof UserCredentialModel)) {
             return false;
         }
@@ -325,7 +328,18 @@ public class EjbExampleUserStorageProvider implements UserStorageProvider,
          * введенный пользователем
          */
         adapter.setPassword(cred.getValue());
-        return true;
+        return false;
+    }
+
+    /**
+     *
+     * @param rm
+     * @param string
+     * @param cm
+     */
+    @Override
+    public void updateCredential(RealmModel rm, String string, CredentialModel cm) {
+        log.info("updateCredential => \n\tRealmModel" + rm.toString() + "\n\tstring => " + string + "\n\tCredentialModel => " + cm.toString());
     }
 
     /**
@@ -1137,17 +1151,6 @@ public class EjbExampleUserStorageProvider implements UserStorageProvider,
     @Override
     public void deleteRoleMapping(RealmModel rm, String string, RoleModel rm1) {
         log.info("deleteRoleMapping");
-    }
-
-    /**
-     *
-     * @param rm
-     * @param string
-     * @param cm
-     */
-    @Override
-    public void updateCredential(RealmModel rm, String string, CredentialModel cm) {
-        log.info("updateCredential => \n\tRealmModel" + rm.toString() + "\n\tstring => " + string + "\n\tCredentialModel => " + cm.toString());
     }
 
     /**
