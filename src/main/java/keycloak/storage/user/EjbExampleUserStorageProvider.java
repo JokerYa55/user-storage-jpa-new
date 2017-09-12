@@ -1031,7 +1031,7 @@ public class EjbExampleUserStorageProvider implements UserStorageProvider,
      */
     @Override
     public Set<GroupModel> getGroups(RealmModel rm, String string) {
-        log.info("getGroups");
+        log.info("getGroups => " + string);
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
@@ -1043,7 +1043,7 @@ public class EjbExampleUserStorageProvider implements UserStorageProvider,
      */
     @Override
     public void joinGroup(RealmModel rm, String string, GroupModel gm) {
-        log.info("joinGroup");
+        log.info("joinGroup => " + string + " name => " + gm.getName());
     }
 
     /**
