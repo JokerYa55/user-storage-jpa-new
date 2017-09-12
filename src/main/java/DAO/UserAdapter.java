@@ -13,14 +13,15 @@ import org.keycloak.storage.StorageId;
 import org.keycloak.storage.adapter.AbstractUserAdapterFederatedStorage;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
-import java.util.logging.Level;
 import javax.persistence.EntityManager;
 import keycloak.bean.UserEntity;
+import keycloak.storage.util.hashUtil;
 import static keycloak.storage.util.hashUtil.encodeToHex;
+//import static keycloak.storage.util.hashUtil.sha1ToString;
+//import static keycloak.storage.util.hashUtil.encodeToHex;
 import static keycloak.storage.util.hashUtil.sha1;
 import org.keycloak.models.GroupModel;
 
@@ -76,6 +77,7 @@ public class UserAdapter extends AbstractUserAdapterFederatedStorage {
         String salt = encodeToHex(UUID.randomUUID().toString().getBytes());
         log.debug("salt => " + password);
         entity.setPassword(encodeToHex(sha1(password + salt)));
+        //entity.setPassword(sha1ToString(password + salt));
         log.debug("password => " + entity.getPassword());
         entity.setHesh_type("sha1");
         entity.setSalt(salt);

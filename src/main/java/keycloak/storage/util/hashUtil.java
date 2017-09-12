@@ -17,7 +17,6 @@ import java.security.NoSuchAlgorithmException;
 public class hashUtil {
 
     //private final static char[] ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/".toCharArray();
-
     /**
      * Получает hash по алгоритму SHA-1
      *
@@ -65,20 +64,95 @@ public class hashUtil {
      * @param buf
      * @return
      */
-    public static String encodeToHex(byte[] buf) {
-        String stringRes = null;
-        StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < buf.length; i++) {
+//    public static String encodeToHex(byte[] buf) {
+//        String stringRes = null;
+//        StringBuilder sb = new StringBuilder();
+//        for (int i = 0; i < buf.length; i++) {
+//
+//            String temp = String.format("%x", buf[i]);
+//            if (temp.length() < 2) {
+//                temp = "0" + temp;
+//            }
+//            sb.append(temp);
+//        }
+//        stringRes = sb.toString().toUpperCase();
+//        return stringRes;
+//    }
 
-            String temp = String.format("%x", buf[i]);
-            if (temp.length() < 2) {
-                temp = "0" + temp;
-            }
-            sb.append(temp);
-        }
-        stringRes = sb.toString().toUpperCase();
-        return stringRes;
+    /**
+     *
+     * @param bytes
+     * @return
+     */
+    public static String encodeToHex(byte[] bytes) {
+        BigInteger bi = new BigInteger(1, bytes);
+        return String.format("%0" + (bytes.length << 1) + "X", bi);
     }
+
+//    public static byte[] sha1ToByte(String plain) {
+//        try {
+//            MessageDigest md = MessageDigest.getInstance("sha");
+//            md.update(plain.getBytes());
+//            byte[] digest = md.digest();
+//
+//            return digest;
+//
+//        } catch (NoSuchAlgorithmException e) {
+//            e.printStackTrace();
+//            return null;
+//        }
+//    }
+//
+//    /**
+//     *
+//     * @param plain
+//     * @return
+//     */
+//    public static String sha1ToString(String plain) {
+//        try {
+//            MessageDigest md = MessageDigest.getInstance("sha");
+//            md.update(plain.getBytes());
+//            byte[] digest = md.digest();
+//
+//            return (new BigInteger(1, md.digest()).toString(16)).toUpperCase();
+//
+//        } catch (NoSuchAlgorithmException e) {
+//            e.printStackTrace();
+//            return null;
+//        }
+//    }
+
+    /**
+     *
+     * @param raw
+     * @return
+     */
+//    public static String md5ToString(String raw) {
+//        try {
+//            MessageDigest md = MessageDigest.getInstance("MD5");
+//            md.update(raw.getBytes(), 0, raw.length());
+//            return (new BigInteger(1, md.digest()).toString(16)).toUpperCase();
+//        } catch (NoSuchAlgorithmException e) {
+//            e.printStackTrace();
+//            return null;
+//        }
+//    }
+//
+//    /**
+//     *
+//     * @param raw
+//     * @return
+//     */
+//    public static byte[] md5ToByte(String raw) {
+//        try {
+//            MessageDigest md = MessageDigest.getInstance("MD5");
+//            md.update(raw.getBytes(), 0, raw.length());
+//            return md.digest();
+//        } catch (NoSuchAlgorithmException e) {
+//            e.printStackTrace();
+//            return null;
+//        }
+//    }
 
     /**
      *

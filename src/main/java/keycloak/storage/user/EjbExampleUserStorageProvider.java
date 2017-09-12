@@ -39,9 +39,12 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 import keycloak.bean.UserEntity;
+import keycloak.storage.util.hashUtil;
 import static keycloak.storage.util.hashUtil.encodeToHex;
-import static keycloak.storage.util.hashUtil.md5;
 import static keycloak.storage.util.hashUtil.sha1;
+//import static keycloak.storage.util.hashUtil.encodeToHex;
+import static keycloak.storage.util.hashUtil.md5;
+//import static keycloak.storage.util.hashUtil.sha1;
 import org.keycloak.common.util.MultivaluedHashMap;
 import org.keycloak.models.ClientModel;
 import org.keycloak.models.FederatedIdentityModel;
@@ -422,8 +425,10 @@ public class EjbExampleUserStorageProvider implements UserStorageProvider,
                         + "\n\tsalt        = " + salt
                         + "\n\tpassword    = " + password
                         + "\n\tuserpass    = " + encodeToHex(md5(cred.getValue() + salt))
+                        //+ "\n\tuserpass    = " + hashUtil.md5ToString(cred.getValue() + salt)
                         + "\n}");
                 flag = (password != null) && ((password).equals(encodeToHex(md5(cred.getValue() + salt))));
+                //flag = (password != null) && ((password).equals(hashUtil.md5ToString(cred.getValue() + salt)));
                 log.info("res = " + flag);
                 return flag;
             case "sha1":
@@ -433,9 +438,11 @@ public class EjbExampleUserStorageProvider implements UserStorageProvider,
                         + "\n\tsalt        = " + salt
                         + "\n\tpassword    = " + password
                         + "\n\tuserpass    = " + encodeToHex(sha1(cred.getValue() + salt))
+                        //+ "\n\tuserpass    = " + hashUtil.sha1ToString(cred.getValue() + salt)
                         + "\n}");
 
                 flag = (password != null) && ((password).equals(encodeToHex(sha1(cred.getValue() + salt))));
+                //flag = (password != null) && ((password).equals(hashUtil.sha1ToString(cred.getValue() + salt)));
 
                 log.info("res = " + flag);
                 return flag;
