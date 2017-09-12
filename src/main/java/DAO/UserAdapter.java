@@ -130,6 +130,12 @@ public class UserAdapter extends AbstractUserAdapterFederatedStorage {
         entity.setUser_region(region);
     }
 
+    /**
+     *
+     * @param verified
+     */
+ 
+
 //    public Integer getUser_gender() {
 //        return entity.getUser_gender();
 //    }
@@ -508,24 +514,6 @@ public class UserAdapter extends AbstractUserAdapterFederatedStorage {
     public Set<GroupModel> getGroups() {
         log.info("getGroups()");
         return super.getGroups(); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    /**
-     * 
-     * @param verified 
-     */
-    @Override
-    public void setEmailVerified(boolean verified) {
-        entity.setEnabled(verified);
-    }
-
-    /**
-     * 
-     * @return 
-     */
-    @Override
-    public boolean isEmailVerified() {
-        return entity.isEmail_verified();
     }
 
 }
