@@ -1,8 +1,5 @@
 package DAO;
 
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import org.jboss.logging.Logger;
 import org.keycloak.common.util.MultivaluedHashMap;
@@ -18,14 +15,11 @@ import java.util.Set;
 import java.util.UUID;
 import javax.persistence.EntityManager;
 import keycloak.bean.UserEntity;
-import keycloak.storage.util.hashUtil;
 import static keycloak.storage.util.hashUtil.encodeToHex;
 //import static keycloak.storage.util.hashUtil.sha1ToString;
 //import static keycloak.storage.util.hashUtil.encodeToHex;
 import static keycloak.storage.util.hashUtil.sha1;
 import org.keycloak.models.GroupModel;
-import org.keycloak.models.RoleModel;
-import org.keycloak.storage.federated.UserFederatedStorageProvider;
 
 // <!-- <property name="hibernate.show_sql" value="true"/> -->
 /**
@@ -139,7 +133,6 @@ public class UserAdapter extends AbstractUserAdapterFederatedStorage {
 //    public Integer getUser_gender() {
 //        return entity.getUser_gender();
 //    }
-
     /**
      *
      * @param gender
@@ -147,7 +140,6 @@ public class UserAdapter extends AbstractUserAdapterFederatedStorage {
 //    public void setUser_gender(Integer gender) {
 //        entity.setUser_gender(gender);
 //    }
-
     @Override
     public void setCreatedTimestamp(Long timestamp) {
         entity.setCreate_date(new Date(timestamp));
@@ -172,8 +164,6 @@ public class UserAdapter extends AbstractUserAdapterFederatedStorage {
         return entity.isEnabled();
     }
 
-    
-    
     /**
      * Возвращает строку с данными из поля username БД
      *
@@ -465,7 +455,7 @@ public class UserAdapter extends AbstractUserAdapterFederatedStorage {
             all.add("id_app_3", null);
         }
 
-        if ((entity.getThirdName()!= null) && (entity.getThirdName().length() > 0)) {            
+        if ((entity.getThirdName() != null) && (entity.getThirdName().length() > 0)) {
             all.add("thirdName", entity.getThirdName());
         } else {
             all.add("thirdName", null);
@@ -483,13 +473,12 @@ public class UserAdapter extends AbstractUserAdapterFederatedStorage {
 //        } else {
 //            all.add("gender", null);
 //        }
-        
-        if (entity.getUser_region() != null) {            
+        if (entity.getUser_region() != null) {
             all.add("region", entity.getUser_region().toString());
         } else {
             all.add("region", null);
         }
-        
+
         return all;
     }
 
@@ -521,89 +510,22 @@ public class UserAdapter extends AbstractUserAdapterFederatedStorage {
         return super.getGroups(); //To change body of generated methods, choose Tools | Templates.
     }
 
-//    @Override
-//    public void setServiceAccountClientLink(String clientInternalId) {
-//        log.info("setServiceAccountClientLink => " + clientInternalId);
-//        super.setServiceAccountClientLink(clientInternalId); //To change body of generated methods, choose Tools | Templates.
-//    }
-//
-//    @Override
-//    public void setEmailVerified(boolean verified) {
-//        log.info("setEmailVerified => " + verified);
-//        super.setEmailVerified(verified); //To change body of generated methods, choose Tools | Templates.
-//    }
-//
-//    @Override
-//    public void setFederationLink(String link) {
-//        log.info("setFederationLink => " + link);
-//        super.setFederationLink(link); //To change body of generated methods, choose Tools | Templates.
-//    }
-//
-//    @Override
-//    public void removeRequiredAction(RequiredAction action) {
-//        log.info("removeRequiredAction => " + action.name());
-//        super.removeRequiredAction(action); //To change body of generated methods, choose Tools | Templates.
-//    }
-//
-//    @Override
-//    public void removeRequiredAction(String action) {
-//        log.info("removeRequiredAction => " + action);
-//        super.removeRequiredAction(action); //To change body of generated methods, choose Tools | Templates.
-//    }
-//
-//    @Override
-//    public String getServiceAccountClientLink() {
-//        log.info("getServiceAccountClientLink");
-//        return super.getServiceAccountClientLink(); //To change body of generated methods, choose Tools | Templates.
-//    }
-//
-//    @Override
-//    public String getFederationLink() {
-//        log.info("getFederationLink");
-//        return super.getFederationLink(); //To change body of generated methods, choose Tools | Templates.
-//    }
-//
-//    @Override
-//    protected Set<RoleModel> getFederatedRoleMappings() {
-//        log.info("getFederatedRoleMappings");
-//        return super.getFederatedRoleMappings(); //To change body of generated methods, choose Tools | Templates.
-//    }
-//
-//    @Override
-//    public Set<RoleModel> getRoleMappings() {
-//        log.info("getRoleMappings");
-//        return super.getRoleMappings(); //To change body of generated methods, choose Tools | Templates.
-//    }
-//
-//    @Override
-//    public void grantRole(RoleModel role) {
-//        log.info("grantRole => " + role.getName());
-//        super.grantRole(role); //To change body of generated methods, choose Tools | Templates.
-//    }
-//
-//    @Override
-//    public Set<RoleModel> getRealmRoleMappings() {
-//        log.info("getRealmRoleMappings");
-//        return super.getRealmRoleMappings(); //To change body of generated methods, choose Tools | Templates.
-//    }
-//
-//    @Override
-//    protected Set<GroupModel> getGroupsInternal() {
-//        log.info("getGroupsInternal");
-//        return super.getGroupsInternal(); //To change body of generated methods, choose Tools | Templates.
-//    }
-//
-//    @Override
-//    public Set<String> getRequiredActions() {
-//        log.info("getRequiredActions");
-//        return super.getRequiredActions(); //To change body of generated methods, choose Tools | Templates.
-//    }
-//
-//    @Override
-//    public UserFederatedStorageProvider getFederatedStorage() {
-//        log.info("getFederatedStorage");
-//        return super.getFederatedStorage(); //To change body of generated methods, choose Tools | Templates.
-//    }
-    
-    
+    /**
+     * 
+     * @param verified 
+     */
+    @Override
+    public void setEmailVerified(boolean verified) {
+        entity.setEnabled(verified);
+    }
+
+    /**
+     * 
+     * @return 
+     */
+    @Override
+    public boolean isEmailVerified() {
+        return entity.isEmail_verified();
+    }
+
 }
