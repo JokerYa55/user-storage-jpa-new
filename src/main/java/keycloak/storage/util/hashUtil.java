@@ -8,6 +8,9 @@ package keycloak.storage.util;
 import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.UUID;
+import org.jboss.logging.Logger;
+
 
 /**
  * Класс для работы с алгоритмами SHA-1, MD5 и шифроания
@@ -16,6 +19,7 @@ import java.security.NoSuchAlgorithmException;
  */
 public class hashUtil {
 
+    private static Logger log = Logger.getLogger("hashUtil");
     //private final static char[] ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/".toCharArray();
     /**
      * Получает hash по алгоритму SHA-1
@@ -30,7 +34,7 @@ public class hashUtil {
             byte[] digest = md.digest();
 
             return (digest);
-            
+
         } catch (NoSuchAlgorithmException e) {
             e.printStackTrace();
             return null;
@@ -64,7 +68,25 @@ public class hashUtil {
         BigInteger bi = new BigInteger(1, bytes);
         return String.format("%0" + (bytes.length << 1) + "X", bi);
     }
-    
+
+    /**
+     * Функция генерирует "соль" для получения hash-а пароля
+     *
+     * @return
+     */
+    public static String genSalt() {
+        int idx = (int) (Math.random() * 10);
+        String res = encodeToHex(UUID.randomUUID().toString().getBytes());
+        log.info("res = " + res);
+        int len = res.length();
+        if (idx > 5) {
+            res = res.substring(len-11, len-1);
+        } else {
+            res = res.substring(0, 10);
+        }
+        return res.toUpperCase();
+    }
+
     /**
      *
      * @param buf
@@ -84,9 +106,6 @@ public class hashUtil {
 //        stringRes = sb.toString().toUpperCase();
 //        return stringRes;
 //    }
-
-    
-
 //    public static byte[] sha1ToByte(String plain) {
 //        try {
 //            MessageDigest md = MessageDigest.getInstance("sha");
@@ -119,7 +138,6 @@ public class hashUtil {
 //            return null;
 //        }
 //    }
-
     /**
      *
      * @param raw
@@ -151,7 +169,6 @@ public class hashUtil {
 //            return null;
 //        }
 //    }
-
     /**
      *
      * @param buf
