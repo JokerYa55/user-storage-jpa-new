@@ -252,6 +252,7 @@ public class UserEntity implements Serializable {
      */
     public void setHash(String hash) {
         //this.hash = keycloak.storage.util.hashUtil.sha1(this.password);
+        this.password = hash;
     }
 
     /**

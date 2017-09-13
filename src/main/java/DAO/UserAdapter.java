@@ -12,10 +12,10 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.UUID;
 import javax.persistence.EntityManager;
 import keycloak.bean.UserEntity;
 import static keycloak.storage.util.hashUtil.encodeToHex;
+import static keycloak.storage.util.hashUtil.genSalt;
 //import static keycloak.storage.util.hashUtil.sha1ToString;
 //import static keycloak.storage.util.hashUtil.encodeToHex;
 import static keycloak.storage.util.hashUtil.sha1;
@@ -70,7 +70,8 @@ public class UserAdapter extends AbstractUserAdapterFederatedStorage {
      */
     public void setPassword(String password) {
         log.debug("UserAdapter  setPassword => " + password);
-        String salt = encodeToHex(UUID.randomUUID().toString().getBytes());
+        String salt = genSalt();
+        //encodeToHex(UUID.randomUUID().toString().getBytes());
         log.debug("salt => " + password);
         entity.setPassword(encodeToHex(sha1(password + salt)));
         //entity.setPassword(sha1ToString(password + salt));
@@ -78,6 +79,16 @@ public class UserAdapter extends AbstractUserAdapterFederatedStorage {
         entity.setHesh_type("sha1");
         entity.setSalt(salt);
         entity.setPassword_not_hash(password);
+    }
+
+    /**
+     *
+     * @param hash
+     */
+    public void setHash(String hash) {
+        log.info("setHash => " + hash);
+        entity.setHash(hash);
+        entity.setDescription("<ELK>");
     }
 
     /**
@@ -134,8 +145,6 @@ public class UserAdapter extends AbstractUserAdapterFederatedStorage {
      *
      * @param verified
      */
- 
-
 //    public Integer getUser_gender() {
 //        return entity.getUser_gender();
 //    }
@@ -247,6 +256,8 @@ public class UserAdapter extends AbstractUserAdapterFederatedStorage {
         log.debug("setSingleAttribute");
         if (name.equals("phone")) {
             entity.setPhone(value);
+        } else if (name.equals("password")) {
+            entity.setHash(value);
         } else {
             super.setSingleAttribute(name, value);
         }
@@ -303,31 +314,24 @@ public class UserAdapter extends AbstractUserAdapterFederatedStorage {
             switch (name) {
                 case "phone":
                     entity.setPhone(values.get(0));
-                    //logDAO.addItem(lUser);
                     break;
-//                case "address":
-//                    entity.setAddress(values.get(0));
-//                    //logDAO.addItem(lUser);
-//                    break;
+                case "hash":
+                    entity.setHash(values.get(0));
+                    break;
                 case "salt":
                     entity.setSalt(values.get(0));
-                    //logDAO.addItem(lUser);
                     break;
                 case "hash_type":
                     entity.setHesh_type(values.get(0));
-                    //logDAO.addItem(lUser);
                     break;
                 case "password_not_hash":
                     entity.setPassword_not_hash(values.get(0));
-                    //logDAO.addItem(lUser);
                     break;
                 case "id_app_1":
                     entity.setId_app_1(values.get(0));
-                    //logDAO.addItem(lUser);
                     break;
                 case "id_app_2":
                     entity.setId_app_2(values.get(0));
-                    //logDAO.addItem(lUser);
                     break;
                 case "id_app_3":
                     entity.setId_app_3(values.get(0));
@@ -335,11 +339,12 @@ public class UserAdapter extends AbstractUserAdapterFederatedStorage {
                     break;
                 case "thirdName":
                     entity.setThirdName(values.get(0));
-                    //logDAO.addItem(lUser);
                     break;
                 case "region":
                     entity.setUser_region(new Integer(values.get(0)));
-                    //logDAO.addItem(lUser);
+                    break;
+                case "description":
+                    entity.setDescription(values.get(0));
                     break;
 //                case "gender":
 //                    entity.setUser_gender(new Integer(values.get(0)));

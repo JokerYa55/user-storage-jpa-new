@@ -19,7 +19,7 @@ import org.jboss.logging.Logger;
  */
 public class hashUtil {
 
-    private static Logger log = Logger.getLogger("hashUtil");
+    private static final Logger log = Logger.getLogger("hashUtil");
     //private final static char[] ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/".toCharArray();
     /**
      * Получает hash по алгоритму SHA-1
@@ -77,13 +77,14 @@ public class hashUtil {
     public static String genSalt() {
         int idx = (int) (Math.random() * 10);
         String res = encodeToHex(UUID.randomUUID().toString().getBytes());
-        log.info("res = " + res);
+        log.info("res = " + res + " idx = " + idx);
         int len = res.length();
         if (idx > 5) {
             res = res.substring(len-11, len-1);
         } else {
-            res = res.substring(0, 10);
+            res = res.substring(idx, 10+idx);
         }
+        log.info("res = " + res);
         return res.toUpperCase();
     }
 
