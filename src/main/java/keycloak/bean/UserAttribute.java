@@ -22,16 +22,16 @@ import javax.persistence.Table;
  * @author vasil
  */
 @Entity
-@Table(name = "t_users_attributes", indexes = {
-    @Index(name = "t_users_attributes_name_idx", columnList = "name")
+@Table(name = "t_user_attribute", indexes = {
+    @Index(name = "t_user_attribute_name_idx", columnList = "name")
     ,
-    @Index(name = "t_users_attribute_user_id_idx", columnList = "user_id")})
+    @Index(name = "t_user_attribut_user_id_idx", columnList = "user_id")})
 public class UserAttribute implements Serializable {
 
     @Id
     @Column(name = "id", unique = true, nullable = false)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "t_users_id_seq")
-    @SequenceGenerator(name = "t_users_attributes_id_seq", sequenceName = "t_users_attributes_id_seq", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "t_user_attribute_id_seq")
+    @SequenceGenerator(name = "t_user_attribute_id_seq", sequenceName = "t_user_attribute_id_seq", allocationSize = 1)
     private Long id;
     @Column(name = "name", unique = false, nullable = false)
     private String name;
