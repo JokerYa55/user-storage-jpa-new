@@ -40,6 +40,8 @@ public class UserAttribute implements Serializable {
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private UserEntity userId;
+    @Column(name = "visible_flag", unique = false, nullable = false, columnDefinition = "boolean DEFAULT true")
+    private boolean visible_flag;
 
     public UserAttribute() {
     }
@@ -74,6 +76,14 @@ public class UserAttribute implements Serializable {
 
     public void setUserId(UserEntity userId) {
         this.userId = userId;
+    }
+
+    public boolean isVisible_flag() {
+        return visible_flag;
+    }
+
+    public void setVisible_flag(boolean visible_flag) {
+        this.visible_flag = visible_flag;
     }
 
     @Override

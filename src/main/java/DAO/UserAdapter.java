@@ -1,5 +1,8 @@
 package DAO;
 
+import com.sun.java.swing.plaf.windows.WindowsTreeUI;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
 import org.jboss.logging.Logger;
 import org.keycloak.common.util.MultivaluedHashMap;
@@ -13,6 +16,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import javax.persistence.EntityManager;
+import keycloak.bean.UserAttribute;
 import keycloak.bean.UserEntity;
 import static keycloak.storage.util.hashUtil.encodeToHex;
 import static keycloak.storage.util.hashUtil.genSalt;
@@ -346,24 +350,19 @@ public class UserAdapter extends AbstractUserAdapterFederatedStorage {
                 case "description":
                     entity.setDescription(values.get(0));
                     break;
-//                case "gender":
-//                    entity.setUser_gender(new Integer(values.get(0)));
-//                    //logDAO.addItem(lUser);
-//                    break;
-////                case "birthday":
-//                    DateFormat format = new SimpleDateFormat("dd.MM.yyyy", Locale.getDefault());
-//                    log.info("date = " + values.get(0));
-//                     {
-//                        try {
-//                            Date dob = format.parse(values.get(0));
-//                            log.info("dob = " + dob.toString());
-//                            entity.setDate_birthday(dob);
-//                        } catch (ParseException ex) {
-//                            java.util.logging.Logger.getLogger(UserAdapter.class.getName()).log(Level.SEVERE, null, ex);
-//                        }
-//                    }
-//                    //logDAO.addItem(lUser);
-//                    break;
+                case "test":
+                    UserAttribute attrib = new UserAttribute();
+                    attrib.setName(name);
+                    attrib.setValue(values.get(0));
+                    attrib.setUserId(entity);
+                    Collection<UserAttribute> attrList = entity.getUserAttributeCollection();
+                    if (attrList == null) {
+                        attrList = new LinkedList<>();
+                    }
+                    attrList.add(attrib);
+                    entity.setUserAttributeCollection(attrList);
+                    break;
+
                 default:
                     super.setAttribute(name, values);
                     break;
@@ -472,24 +471,17 @@ public class UserAdapter extends AbstractUserAdapterFederatedStorage {
             all.add("thirdName", null);
         }
 
-//        if (entity.getDate_birthday() != null) {
-//            DateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
-//            all.add("birthday", dateFormat.format(entity.getDate_birthday()));
-//        } else {
-//            all.add("birthday", null);
-//        }
-//
-//        if (entity.getUser_gender() != null) {            
-//            all.add("gender", entity.getUser_gender().toString());
-//        } else {
-//            all.add("gender", null);
-//        }
         if (entity.getUser_region() != null) {
             all.add("region", entity.getUser_region().toString());
         } else {
             all.add("region", null);
         }
 
+        Collection<UserAttribute> attrList = entity.getUserAttributeCollection();
+        attrList.forEach((t) -> {
+            all.add(t.getName(), t.getValue());
+        });
+        
         return all;
     }
 
