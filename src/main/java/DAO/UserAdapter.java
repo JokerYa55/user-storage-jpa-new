@@ -32,7 +32,7 @@ import org.keycloak.models.GroupModel;
  *
  */
 public class UserAdapter extends AbstractUserAdapterFederatedStorage {
-    
+
     private static final Logger log = Logger.getLogger(UserAdapter.class);
     protected UserEntity entity;
     protected String keycloakId;
@@ -162,19 +162,19 @@ public class UserAdapter extends AbstractUserAdapterFederatedStorage {
         entity.setCreate_date(new Date(timestamp));
         //super.setCreatedTimestamp(timestamp); //To change body of generated methods, choose Tools | Templates.
     }
-    
+
     @Override
     public Long getCreatedTimestamp() {
         //return super.getCreatedTimestamp(); //To change body of generated methods, choose Tools | Templates.
         return entity.getCreate_date().getTime();
     }
-    
+
     @Override
     public void setEnabled(boolean enabled) {
         //super.setEnabled(enabled); //To change body of generated methods, choose Tools | Templates.
         entity.setEnabled(enabled);
     }
-    
+
     @Override
     public boolean isEnabled() {
         //return super.isEnabled(); //To change body of generated methods, choose Tools | Templates.
@@ -198,7 +198,7 @@ public class UserAdapter extends AbstractUserAdapterFederatedStorage {
     @Override
     public void setUsername(String username) {
         entity.setUsername(username);
-        
+
     }
 
     /**
@@ -227,22 +227,22 @@ public class UserAdapter extends AbstractUserAdapterFederatedStorage {
     public String getId() {
         return keycloakId;
     }
-    
+
     @Override
     public void setLastName(String lastName) {
         entity.setLastName(lastName);
     }
-    
+
     @Override
     public String getLastName() {
         return entity.getLastName();
     }
-    
+
     @Override
     public void setFirstName(String firstName) {
         entity.setFirstName(firstName);
     }
-    
+
     @Override
     public String getFirstName() {
         return entity.getFirstName();
@@ -260,13 +260,13 @@ public class UserAdapter extends AbstractUserAdapterFederatedStorage {
             entity.setPhone(value);
         } else if (name.equals("password")) {
             entity.setHash(value);
-        } else if (name.equals("id_app1")) {                        
+        } else if (name.equals("id_app1")) {
             UserAttribute attr = new UserAttribute();
             attr.setName(name);
             attr.setValue(value);
             attr.setUserId(entity);
             entity.addUserAttribute(attr);
-            
+
         } else {
             super.setSingleAttribute(name, value);
         }
@@ -279,7 +279,7 @@ public class UserAdapter extends AbstractUserAdapterFederatedStorage {
     @Override
     public void removeAttribute(String name) {
         log.debug("removeAttribute");
-        
+
         switch (name) {
             case "phone":
                 entity.setPhone(null);
@@ -296,7 +296,7 @@ public class UserAdapter extends AbstractUserAdapterFederatedStorage {
             case "password_not_hash":
                 entity.setPassword_not_hash(null);
                 break;
-            
+
             default:
                 super.removeAttribute(name);
                 break;
@@ -322,40 +322,42 @@ public class UserAdapter extends AbstractUserAdapterFederatedStorage {
         UserAttribute attrib;
         //Collection<UserAttribute> attrList = entity.getUserAttributeCollection();
         if ((values.get(0) != null) && (values.get(0).length() > 0)) {
-            switch (name) {
-                case "phone":
-                    entity.setPhone(values.get(0));
-                    break;
-                case "hash":
-                    entity.setHash(values.get(0));
-                    break;
-                case "salt":
-                    entity.setSalt(values.get(0));
-                    break;
-                case "hash_type":
-                    entity.setHesh_type(values.get(0));
-                    break;
-                case "password_not_hash":
-                    entity.setPassword_not_hash(values.get(0));
-                    break;
-                case "thirdName":
-                    entity.setThirdName(values.get(0));
-                    break;
-                case "region":
-                    entity.setUser_region(new Integer(values.get(0)));
-                    break;
-                case "description":
-                    entity.setDescription(values.get(0));
-                    break;                
-                case "id_app_1":
-                    log.info("");
-                    attrib = new UserAttribute(name, values.get(0), entity, true);                                        
-                    entity.addUserAttribute(attrib);
-                    break;                
-                default:
-                    super.setAttribute(name, values);
-                    break;
+            if ("id_app_1".equals(name)) {
+                // Вставляем настраиваемые параметры                       
+                attrib = new UserAttribute(name, values.get(0), entity, true);
+                entity.addUserAttribute(attrib);
+            } else {
+                switch (name) {
+                    case "phone":
+                        entity.setPhone(values.get(0));
+                        break;
+                    case "hash":
+                        entity.setHash(values.get(0));
+                        break;
+                    case "salt":
+                        entity.setSalt(values.get(0));
+                        break;
+                    case "hash_type":
+                        entity.setHesh_type(values.get(0));
+                        break;
+                    case "password_not_hash":
+                        entity.setPassword_not_hash(values.get(0));
+                        break;
+                    case "thirdName":
+                        entity.setThirdName(values.get(0));
+                        break;
+                    case "region":
+                        entity.setUser_region(new Integer(values.get(0)));
+                        break;
+                    case "description":
+                        entity.setDescription(values.get(0));
+                        break;
+                    default:
+                        super.setAttribute(name, values);
+                        break;
+                }
             }
+
         }
     }
 
@@ -405,14 +407,14 @@ public class UserAdapter extends AbstractUserAdapterFederatedStorage {
         all.putAll(attrs);
         // Добавляем доп. аттрибуты в Keycloak
         log.info("************ Add user attibutes **************");
-        
+
         if ((entity.getPhone() != null) && (entity.getPhone().length() > 0)) {
             // log.info("Add phone => " + entity.getPhone());
             all.add("phone", entity.getPhone());
         } else {
             all.add("phone", null);
         }
-        
+
         if ((entity.getHesh_type() != null) && (entity.getHesh_type().length() > 0)) {
             //log.info("Add hash_type");
             all.add("hash_type", entity.getHesh_type());
@@ -445,20 +447,20 @@ public class UserAdapter extends AbstractUserAdapterFederatedStorage {
         } else {
             all.add("thirdName", null);
         }
-        
+
         if (entity.getUser_region() != null) {
             all.add("region", entity.getUser_region().toString());
         } else {
             all.add("region", null);
         }
-        
+
         Collection<UserAttribute> attrList = entity.getUserAttributeCollection();
         attrList.forEach((t) -> {
             if (t.isVisible_flag()) {
                 all.add(t.getName(), t.getValue());
             }
         });
-        
+
         return all;
     }
 
@@ -489,5 +491,5 @@ public class UserAdapter extends AbstractUserAdapterFederatedStorage {
         log.info("getGroups()");
         return super.getGroups(); //To change body of generated methods, choose Tools | Templates.
     }
-    
+
 }
