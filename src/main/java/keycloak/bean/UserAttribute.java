@@ -46,6 +46,13 @@ public class UserAttribute implements Serializable {
     public UserAttribute() {
     }
 
+    public UserAttribute(String name, String value, UserEntity userId, boolean visible_flag) {
+        this.name = name;
+        this.value = value;
+        this.userId = userId;
+        this.visible_flag = visible_flag;
+    }
+
     public Long getId() {
         return id;
     }
@@ -88,7 +95,7 @@ public class UserAttribute implements Serializable {
 
     @Override
     public String toString() {
-        return "UserAttribute{" + "id=" + id + ", name=" + name + ", value=" + value + ", userId=" + userId + '}';
+        return "UserAttribute{" + "id=" + id + ", name=" + name + ", value=" + value + '}';
     }
 
 }
