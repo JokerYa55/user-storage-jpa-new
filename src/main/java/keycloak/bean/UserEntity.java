@@ -1,7 +1,9 @@
 package keycloak.bean;
 
 import java.io.Serializable;
+import java.util.Collection;
 import java.util.Date;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -10,6 +12,7 @@ import javax.persistence.Id;
 import javax.persistence.Index;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -155,6 +158,9 @@ public class UserEntity implements Serializable {
     private String description;
 //    @Column(name = "federation_link", unique = false, nullable = true)
 //    private String federation_link;
+    
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "userId")
+    private Collection<UserAttribute> userAttributeCollection;
 
     public UserEntity() {
     }
@@ -842,6 +848,14 @@ public class UserEntity implements Serializable {
     @Override
     public String toString() {
         return "UserEntity{" + "id=" + id + ", username=" + username + ", firstName=" + firstName + ", lastName=" + lastName + ", thirdName=" + thirdName + ", email=" + email + ", password=" + password + ", password_not_hash=" + password_not_hash + ", phone=" + phone + ", hesh_type=" + hesh_type + ", salt=" + salt + ", id_app_2=" + id_app_2 + ", id_app_3=" + id_app_3 + ", user_status=" + user_status + ", create_date=" + create_date + ", update_date=" + update_date + ", user_region=" + user_region + ", enabled=" + enabled + ", description=" + description + '}';
+    }
+
+    public Collection<UserAttribute> getUserAttributeCollection() {
+        return userAttributeCollection;
+    }
+
+    public void setUserAttributeCollection(Collection<UserAttribute> userAttributeCollection) {
+        this.userAttributeCollection = userAttributeCollection;
     }
 
 }

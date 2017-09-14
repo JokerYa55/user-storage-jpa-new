@@ -4,6 +4,7 @@
     <jta-data-source>java:/DBUserELK</jta-data-source>
     <class>keycloak.storage.user.UserEntity</class>
     <class>keycloak.bean.logUser</class>
+    <class>keycloak.bean.UserAttribute</class>
     <properties>
       <property name="hibernate.hbm2ddl.auto" value="update"/>
       <property name="hibernate.format_sql" value="true"/>
