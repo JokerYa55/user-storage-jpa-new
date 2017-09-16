@@ -1,12 +1,9 @@
 package keycloak.bean;
 
-import DAO.UserAttributeDAO;
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.Date;
 import java.util.LinkedList;
-import java.util.Map;
-import java.util.function.Consumer;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -74,9 +71,6 @@ public class UserEntity implements Serializable {
     // Телефон
     @Column(name = "phone", nullable = true)
     private String phone;
-    // Адрес
-    //@Column(name = "address", nullable = true)
-    //private String address;
     @Column(name = "hash_type", nullable = true)
     private String hesh_type;
     @Column(name = "salt", nullable = true)
@@ -89,11 +83,6 @@ public class UserEntity implements Serializable {
     @Column(name = "update_date", unique = false, nullable = true, columnDefinition = "timestamp")
     @Temporal(javax.persistence.TemporalType.TIMESTAMP)
     private Date update_date;
-//    @Column(name = "date_birthday", unique = false, nullable = true)
-//    @Temporal(javax.persistence.TemporalType.DATE)
-//    private Date date_birthday;
-//    @Column(name = "user_gender", unique = false, nullable = true)
-//    private Integer user_gender;
     @Column(name = "user_region", unique = false, nullable = true)
     private Integer user_region;
     @Column(name = "enabled", unique = false, nullable = false, columnDefinition = "boolean DEFAULT true")
@@ -105,7 +94,7 @@ public class UserEntity implements Serializable {
 //    @Column(name = "federation_link", unique = false, nullable = true)
 //    private String federation_link;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "userId", orphanRemoval=true)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "userId", orphanRemoval = true)
     private Collection<UserAttribute> userAttributeCollection;
 
     public UserEntity() {

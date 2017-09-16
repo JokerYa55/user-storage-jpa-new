@@ -53,6 +53,7 @@ public class logUser implements Serializable {
     private String info;
     @Column(name = "last_command", nullable = true, columnDefinition = "text")
     private String last_command;
+    
     /**
      *
      */
