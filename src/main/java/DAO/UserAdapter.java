@@ -311,6 +311,12 @@ public class UserAdapter extends AbstractUserAdapterFederatedStorage {
                 case "hash_type":
                     entity.setHesh_type(null);
                     break;
+                case "region":
+                    entity.setUser_region(null);
+                    break;
+                case "thirdName":
+                    entity.setThirdName(null);
+                    break;
                 default:
                     super.removeAttribute(name);
                     break;
