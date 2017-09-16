@@ -1,8 +1,12 @@
 package keycloak.bean;
 
+import DAO.UserAttributeDAO;
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.Date;
+import java.util.LinkedList;
+import java.util.Map;
+import java.util.function.Consumer;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -101,7 +105,7 @@ public class UserEntity implements Serializable {
 //    @Column(name = "federation_link", unique = false, nullable = true)
 //    private String federation_link;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "userId")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "userId", orphanRemoval=true)
     private Collection<UserAttribute> userAttributeCollection;
 
     public UserEntity() {
@@ -333,12 +337,46 @@ public class UserEntity implements Serializable {
 
     public void addUserAttribute(UserAttribute attr) {
         log.info("addUserAttribute => " + attr);
-        this.userAttributeCollection.add(attr);
+        log.info("addUserAttribute => " + this);
+        // Проверяем есть ли такой аттрибут в БД
+        boolean flag = false;
+        if (this.userAttributeCollection != null) {
+            for (UserAttribute t : this.userAttributeCollection) {
+                if (t.getName().equals(attr.getName())) {
+                    t.setValue(attr.getValue());
+                    flag = true;
+                }
+            }
+        } else {
+            this.userAttributeCollection = new LinkedList<>();
+        }
+        UserAttribute attrTemp = attr;
+        log.info("this.userAttributeCollection => " + this.userAttributeCollection);
+        if (flag == false) {
+            if (attrTemp.getId() == null) {
+                attrTemp = new UserAttribute(attr.getName(), attr.getValue(), this, true);
+            }
+            this.getUserAttributeCollection().add(attrTemp);
+        }
+    }
+
+    public void deleteAttribute(String attrName) {
+        /*log.info("deleteAttribute => " + attrName);
+        Object temp = null;
+        for (UserAttribute t : this.userAttributeCollection) {
+            log.info("t => " + t);
+            if (t.getName().equals(attrName)) {
+                temp = t;
+            }
+        }
+        log.info("temp = " + temp);
+        if (temp != null)this.userAttributeCollection.remove(temp);     */
+
     }
 
     @Override
     public String toString() {
-        return "UserEntity{" + "id=" + id + ", username=" + username + ", firstName=" + firstName + ", lastName=" + lastName + ", thirdName=" + thirdName + ", email=" + email + ", password=" + password + ", password_not_hash=" + password_not_hash + ", phone=" + phone + ", hesh_type=" + hesh_type + ", salt=" + salt + ", user_status=" + user_status + ", create_date=" + create_date + ", update_date=" + update_date + ", user_region=" + user_region + ", enabled=" + enabled + ", description=" + description +  '}';
+        return "UserEntity{" + "id=" + id + ", username=" + username + ", firstName=" + firstName + ", lastName=" + lastName + ", thirdName=" + thirdName + ", email=" + email + '}';
     }
 
 }

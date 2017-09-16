@@ -14,6 +14,8 @@ import javax.persistence.Id;
 import javax.persistence.Index;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
@@ -21,10 +23,19 @@ import javax.persistence.Table;
  *
  * @author vasil
  */
+
+@NamedQueries({
+    @NamedQuery(name = "getAttributeByName", query = "select u from UserAttribute u where u.name = :name")
+    ,
+    @NamedQuery(name = "getAttributeById", query = "select u from UserAttribute u where u.id = :id")
+    ,    
+    @NamedQuery(name = "getAllAttributesByUsers", query = "select u from UserAttribute u where u.userId=:userId")
+    ,
+    @NamedQuery(name = "findAttributeByUserName", query = "select u from UserAttribute u where u.userId = :userId and u.name = :name"),})
+
 @Entity
 @Table(name = "t_user_attribute", indexes = {
-    @Index(name = "t_user_attribute_name_idx", columnList = "name")
-    ,
+    @Index(name = "t_user_attribute_name_idx", columnList = "name"),
     @Index(name = "t_user_attribut_user_id_idx", columnList = "user_id")})
 public class UserAttribute implements Serializable {
 

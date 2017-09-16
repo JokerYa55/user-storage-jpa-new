@@ -13,6 +13,8 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import javax.persistence.EntityManager;
 import keycloak.bean.UserAttribute;
 import keycloak.bean.UserEntity;
@@ -80,7 +82,7 @@ public class UserAdapter extends AbstractUserAdapterFederatedStorage {
         log.debug("password => " + entity.getPassword());
         entity.setHesh_type("sha1");
         entity.setSalt(salt);
-        entity.setPassword_not_hash(password);
+        //entity.setPassword_not_hash(password);
     }
 
     /**
@@ -255,12 +257,14 @@ public class UserAdapter extends AbstractUserAdapterFederatedStorage {
      */
     @Override
     public void setSingleAttribute(String name, String value) {
-        log.debug("setSingleAttribute");
+        log.debug("setSingleAttribute => " + name + " : " + value);
+        Pattern p = Pattern.compile("^id_app_[0-9]+$");
+        Matcher m = p.matcher(name);
         if (name.equals("phone")) {
             entity.setPhone(value);
         } else if (name.equals("password")) {
             entity.setHash(value);
-        } else if (name.equals("id_app1")) {
+        } else if (m.matches()) {
             UserAttribute attr = new UserAttribute();
             attr.setName(name);
             attr.setValue(value);
@@ -278,28 +282,39 @@ public class UserAdapter extends AbstractUserAdapterFederatedStorage {
      */
     @Override
     public void removeAttribute(String name) {
-        log.debug("removeAttribute");
+        log.debug("removeAttribute => " + name);
 
-        switch (name) {
-            case "phone":
-                entity.setPhone(null);
-                break;
-//            case "address":
-//                entity.setAddress(null);
-//                break;
-            case "salt":
-                entity.setSalt(null);
-                break;
-            case "hash_type":
-                entity.setHesh_type(null);
-                break;
-            case "password_not_hash":
-                entity.setPassword_not_hash(null);
-                break;
+        Pattern p = Pattern.compile("^id_app_[0-9]+$");
+        Matcher m = p.matcher(name);
 
-            default:
-                super.removeAttribute(name);
-                break;
+        if (m.matches()) {
+
+            UserAttribute temp = null;
+            for (UserAttribute t : entity.getUserAttributeCollection()) {
+                if (t.getName().equals(name)) {
+                    temp = t;
+                }
+            }
+
+            log.debug("len => " + entity.getUserAttributeCollection().size());
+            entity.getUserAttributeCollection().remove(temp);
+            log.debug("len => " + entity.getUserAttributeCollection().size());
+
+        } else {
+            switch (name) {
+                case "phone":
+                    entity.setPhone(null);
+                    break;
+                case "salt":
+                    entity.setSalt(null);
+                    break;
+                case "hash_type":
+                    entity.setHesh_type(null);
+                    break;
+                default:
+                    super.removeAttribute(name);
+                    break;
+            }
         }
         /*
         if (name.equals("phone")) {
@@ -322,7 +337,9 @@ public class UserAdapter extends AbstractUserAdapterFederatedStorage {
         UserAttribute attrib;
         //Collection<UserAttribute> attrList = entity.getUserAttributeCollection();
         if ((values.get(0) != null) && (values.get(0).length() > 0)) {
-            if ("id_app_1".equals(name)) {
+            Pattern p = Pattern.compile("^id_app_[0-9]+$");;
+            Matcher m = p.matcher(name);
+            if (m.matches()) {
                 // Вставляем настраиваемые параметры                       
                 attrib = new UserAttribute(name, values.get(0), entity, true);
                 entity.addUserAttribute(attrib);
