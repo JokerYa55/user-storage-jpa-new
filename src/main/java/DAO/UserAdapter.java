@@ -316,12 +316,6 @@ public class UserAdapter extends AbstractUserAdapterFederatedStorage {
                     break;
             }
         }
-        /*
-        if (name.equals("phone")) {
-            entity.setPhone(null);
-        } else {
-            super.removeAttribute(name);
-        }*/
     }
 
     /**
@@ -414,12 +408,6 @@ public class UserAdapter extends AbstractUserAdapterFederatedStorage {
         log.debug("getAttributes");
         Map<String, List<String>> attrs = super.getAttributes();
 
-        /*Iterator it = attrs.entrySet().iterator();
-        while (it.hasNext()) {
-            Map.Entry<String, String> pair = (Map.Entry<String, String>) it.next();
-            //log.info("key = "+ pair.getKey() + " val = " + pair.getValue());
-            log.info("pair = " + pair.toString());
-        }*/
         MultivaluedHashMap<String, String> all = new MultivaluedHashMap<>();
         all.putAll(attrs);
         // Добавляем доп. аттрибуты в Keycloak
@@ -439,26 +427,6 @@ public class UserAdapter extends AbstractUserAdapterFederatedStorage {
             all.add("hash_type", null);
         }
 
-        /* if ((entity.getId_app_1() != null) && (entity.getId_app_1().length() > 0)) {
-            log.info("Add getId_app_1");
-            all.add("id_app_1", entity.getId_app_1());
-        } else {
-            all.add("id_app_1", null);
-        }
-
-        if ((entity.getId_app_2() != null) && (entity.getId_app_2().length() > 0)) {
-            //log.info("Add getId_app_2");
-            all.add("id_app_2", entity.getId_app_2());
-        } else {
-            all.add("id_app_2", null);
-        }
-
-        if ((entity.getId_app_3() != null) && (entity.getId_app_3().length() > 0)) {
-            //log.info("Add getId_app_3");
-            all.add("id_app_3", entity.getId_app_3());
-        } else {
-            all.add("id_app_3", null);
-        }*/
         if ((entity.getThirdName() != null) && (entity.getThirdName().length() > 0)) {
             all.add("thirdName", entity.getThirdName());
         } else {
