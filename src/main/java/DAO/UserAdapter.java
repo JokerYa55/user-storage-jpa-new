@@ -445,6 +445,12 @@ public class UserAdapter extends AbstractUserAdapterFederatedStorage {
             all.add("region", null);
         }
 
+        if (entity.getDescription() != null) {
+            all.add("description", entity.getDescription());
+        } else {
+            all.add("description", null);
+        }
+        
         Collection<UserAttribute> attrList = entity.getUserAttributeCollection();
         attrList.forEach((t) -> {
             if (t.isVisible_flag()) {
