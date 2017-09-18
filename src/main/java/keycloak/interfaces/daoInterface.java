@@ -7,6 +7,7 @@ package keycloak.interfaces;
 
 import java.util.List;
 import javax.persistence.EntityManager;
+import javax.persistence.TypedQuery;
 import org.jboss.logging.Logger;
 
 /**
@@ -21,26 +22,24 @@ public interface daoInterface<T, V> {
      *
      * @return
      */
-    public EntityManager getEM();
-    
     /**
      *
      * @return
      */
-    public Logger getLogger();
+    public EntityManager getEM();
 
     /**
      *
      * @param id
      * @return
      */
-    public T getItem(V id);
+//    public T getItem(V id);
 
     /**
      *
      * @return
      */
-    public List<T> getList();
+//    public List<T> getList();
 
     /**
      *
@@ -48,7 +47,7 @@ public interface daoInterface<T, V> {
      * @param stopIdx
      * @return
      */
-    public List<T> getList(V startIdx, V stopIdx);
+//    public List<T> getList(V startIdx, V stopIdx);
 
     /**
      *
@@ -56,13 +55,14 @@ public interface daoInterface<T, V> {
      * @return
      */
     default public T addItem(T Item) {
-        getLogger().debug("addItem");
         T res = null;
         try {
             EntityManager em = getEM();
-            res = em.merge(Item);
+            em.getTransaction().begin();
+            em.merge(Item);
+            em.getTransaction().commit();
         } catch (Exception e) {
-            getLogger().debug("Error => " + e.getMessage());
+            e.printStackTrace();
         }
         return res;
     }
@@ -76,10 +76,12 @@ public interface daoInterface<T, V> {
         boolean res = true;
         try {
             EntityManager em = getEM();
+            em.getTransaction().begin();
             em.detach(Item);
+            em.getTransaction().commit();
         } catch (Exception e) {
             res = false;
-            getLogger().debug("Error => " + e.getMessage());
+            e.printStackTrace();
         }
         return res;
     }
@@ -92,10 +94,66 @@ public interface daoInterface<T, V> {
     default public boolean updateItem(T Item) {
         boolean res = true;
         try {
-
+            EntityManager em = getEM();
+            em.getTransaction().begin();
+            em.merge(Item);
+            em.getTransaction().commit();
         } catch (Exception e) {
             res = false;
-            getLogger().debug("Error => " + e.getMessage());
+            e.printStackTrace();
+        }
+        return res;
+    }
+
+    /**
+     *
+     * @param id
+     * @param jpqName
+     * @param cl
+     * @return
+     */
+    default public T getItem(long id, String jpqName, Class<T> cl) {
+        T res = null;
+        try {
+            EntityManager em = getEM();
+            TypedQuery<T> namedQuery = em.createNamedQuery(jpqName, cl);
+            namedQuery.setParameter("id", id);
+            res = namedQuery.getSingleResult();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return res;
+    }
+
+    /**
+     *
+     * @param jpqName
+     * @param cl
+     * @return
+     */
+    default public List<T> getList(String jpqName, Class<T> cl) {
+        List<T> res = null;
+        try {
+            EntityManager em = getEM();
+            TypedQuery<T> namedQuery = em.createNamedQuery(jpqName, cl);
+            //namedQuery.setParameter("id", id);
+            res = namedQuery.getResultList();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return res;
+    }
+
+    //public List<T> getList(V startIdx, V stopIdx);
+    default public List<T> getList(int startIdx, int countRec, String jpqName, Class<T> cl) {
+        List<T> res = null;
+        try {
+            EntityManager em = getEM();
+            TypedQuery<T> namedQuery = em.createNamedQuery(jpqName, cl);
+            //namedQuery.setParameter("id", id);            
+            res = namedQuery.setFirstResult(startIdx).setMaxResults(countRec).getResultList();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
         return res;
     }

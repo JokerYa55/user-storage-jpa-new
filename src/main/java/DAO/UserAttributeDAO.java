@@ -29,27 +29,7 @@ public class UserAttributeDAO implements daoInterface<UserAttribute, Long> {
     @Override
     public EntityManager getEM() {
         return this.em;
-    }
-
-    @Override
-    public Logger getLogger() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public UserAttribute getItem(Long id) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public List<UserAttribute> getList() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public List<UserAttribute> getList(Long startIdx, Long stopIdx) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
+    }   
 
     public UserAttribute getUserAttributeByUserName(UserEntity userId, String name) {
         UserAttribute res = null;

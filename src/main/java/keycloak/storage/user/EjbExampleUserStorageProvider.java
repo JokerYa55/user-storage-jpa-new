@@ -1,6 +1,7 @@
 package keycloak.storage.user;
 
 import DAO.UserAdapter;
+import DAO.UsersLogDAO;
 import org.jboss.logging.Logger;
 import org.keycloak.component.ComponentModel;
 import org.keycloak.credential.CredentialInput;
@@ -39,6 +40,7 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 import keycloak.bean.UserEntity;
+import keycloak.bean.UsersLog;
 import keycloak.storage.util.hashUtil;
 import static keycloak.storage.util.hashUtil.encodeToHex;
 import static keycloak.storage.util.hashUtil.sha1;
@@ -214,20 +216,19 @@ public class EjbExampleUserStorageProvider implements UserStorageProvider,
      * @return
      */
     @Override
-    public UserModel addUser(RealmModel realm, String username) {
-        log.info("addUser");
-        UserEntity entity = new UserEntity();
+    public UserModel addUser(RealmModel realm, String username) {        
+        UserEntity entity = new UserEntity();        
         //entity.setId(UUID.randomUUID().toString());
         entity.setUsername(username);
         entity.setUser_status(0);
         entity.setCreate_date(new Date());
         em.persist(entity);
-//        logUser lUser = new logUser();
+//        UsersLog lUser = new UsersLog();
 //        lUser.setUsername(username);
-//        lUser.setUser_id(entity.getId().toString());
-//        lUser.setOper_type("I");
+//        lUser.setUserId(entity.getId());
+//        lUser.setOperType("I");
+//                
 //        em.persist(lUser);
-
         log.info("added user: " + username);
 
         /*try {
