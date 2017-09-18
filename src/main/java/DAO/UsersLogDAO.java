@@ -9,7 +9,7 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
-import keycloak.bean.logUser;
+import keycloak.bean.UsersLog;
 import keycloak.interfaces.daoInterface;
 import org.jboss.logging.Logger;
 
@@ -17,9 +17,9 @@ import org.jboss.logging.Logger;
  *
  * @author vasil
  */
-public class logUserDAO implements daoInterface<logUser, Long>{
+public class UsersLogDAO implements daoInterface<UsersLog, Long>{
 
-    private static final Logger log = Logger.getLogger(logUserDAO.class);
+    private static final Logger log = Logger.getLogger(UsersLogDAO.class);
 
     /**
      *
@@ -32,7 +32,7 @@ public class logUserDAO implements daoInterface<logUser, Long>{
      * @param em 
      */
     
-    public logUserDAO(EntityManager em) {
+    public UsersLogDAO(EntityManager em) {
         this.em = em;
     }
 
@@ -41,15 +41,15 @@ public class logUserDAO implements daoInterface<logUser, Long>{
      * @param userId
      * @return 
      */
-    public logUser getItemByUserId(String userId) {
+    public UsersLog getItemByUserId(String userId) {
         log.info("getItemByUserId => " + userId);
-        logUser res = null;
+        UsersLog res = null;
         try {
             Query q = em.createQuery(
                     "SELECT e FROM logUser e WHERE user_id = :id");
             log.info("q = " + q.toString());
             q.setParameter("id", userId);
-            return (logUser) q.getSingleResult();
+            return (UsersLog) q.getSingleResult();
         } catch (Exception e) {
             log.error(e.getMessage());
         }
@@ -79,7 +79,7 @@ public class logUserDAO implements daoInterface<logUser, Long>{
      * @return 
      */
     @Override
-    public logUser getItem(Long id) {
+    public UsersLog getItem(Long id) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
@@ -88,7 +88,7 @@ public class logUserDAO implements daoInterface<logUser, Long>{
      * @return 
      */    
     @Override
-    public List<logUser> getList() {
+    public List<UsersLog> getList() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
@@ -99,7 +99,7 @@ public class logUserDAO implements daoInterface<logUser, Long>{
      * @return 
      */
     @Override
-    public List<logUser> getList(Long startIdx, Long stopIdx) {
+    public List<UsersLog> getList(Long startIdx, Long stopIdx) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }

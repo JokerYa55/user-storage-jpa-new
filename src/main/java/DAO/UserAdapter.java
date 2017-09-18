@@ -50,7 +50,7 @@ public class UserAdapter extends AbstractUserAdapterFederatedStorage {
      */
     public UserAdapter(KeycloakSession session, RealmModel realm, ComponentModel model, UserEntity entity, EntityManager em) {
         super(session, realm, model);
-        log.debug("UserAdapter CONSTRUCTOR");
+        log.debug("UserAdapter CONSTRUCTOR => entity = " + entity);
         this.entity = entity;
         // внутренний ID
         keycloakId = StorageId.keycloakId(model, entity.getId().toString());
@@ -356,10 +356,7 @@ public class UserAdapter extends AbstractUserAdapterFederatedStorage {
                         break;
                     case "hash_type":
                         entity.setHesh_type(values.get(0));
-                        break;
-                    case "password_not_hash":
-                        entity.setPassword_not_hash(values.get(0));
-                        break;
+                        break;                    
                     case "thirdName":
                         entity.setThirdName(values.get(0));
                         break;
@@ -389,14 +386,12 @@ public class UserAdapter extends AbstractUserAdapterFederatedStorage {
         switch (name) {
             case "phone":
                 return entity.getPhone();
-//            case "address":
-//                return entity.getAddress();
+            case "region":
+                return entity.getUser_region().toString();
             case "salt":
                 return entity.getSalt();
             case "hash_type":
-                return entity.getHesh_type();
-            case "password_not_hash":
-                return entity.getPassword_not_hash();
+                return entity.getHesh_type();            
             case "thirdName":
                 return entity.getThirdName();
             default:
