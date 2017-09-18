@@ -66,8 +66,8 @@ public class UserEntity implements Serializable {
     @Column(name = "password", nullable = true)
     private String password;
     // Незашифрованный пароль
-    @Column(name = "password_not_hash", nullable = true)
-    private String password_not_hash;
+//    @Column(name = "password_not_hash", nullable = true)
+//    private String password_not_hash;
     // Телефон
     @Column(name = "phone", nullable = true)
     private String phone;
@@ -210,22 +210,6 @@ public class UserEntity implements Serializable {
      */
     public void setHesh_type(String hesh_type) {
         this.hesh_type = hesh_type;
-    }
-
-    /**
-     *
-     * @return
-     */
-    public String getPassword_not_hash() {
-        return password_not_hash;
-    }
-
-    /**
-     *
-     * @param password_not_hash
-     */
-    public void setPassword_not_hash(String password_not_hash) {
-        this.password_not_hash = password_not_hash;
     }
 
     /**
