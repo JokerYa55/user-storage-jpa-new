@@ -282,7 +282,7 @@ public class UserAdapter extends AbstractUserAdapterFederatedStorage {
      */
     @Override
     public void removeAttribute(String name) {
-        log.debug("removeAttribute => " + name);
+        log.debug("***** removeAttribute => " + name + "********");
 
         Pattern p = Pattern.compile("^id_app_[0-9]+$");
         Matcher m = p.matcher(name);
@@ -302,7 +302,7 @@ public class UserAdapter extends AbstractUserAdapterFederatedStorage {
 
         } else {
             switch (name) {
-                case "phone":
+                /*case "phone":
                     entity.setPhone(null);
                     break;
                 case "salt":
@@ -316,7 +316,7 @@ public class UserAdapter extends AbstractUserAdapterFederatedStorage {
                     break;
                 case "thirdName":
                     entity.setThirdName(null);
-                    break;
+                    break;*/
                 default:
                     super.removeAttribute(name);
                     break;
@@ -366,6 +366,9 @@ public class UserAdapter extends AbstractUserAdapterFederatedStorage {
                     case "description":
                         entity.setDescription(values.get(0));
                         break;
+                    case "user_status":
+                        entity.setUser_status(new Integer(values.get(0)));
+                        break;
                     default:
                         super.setAttribute(name, values);
                         break;
@@ -394,6 +397,9 @@ public class UserAdapter extends AbstractUserAdapterFederatedStorage {
                 return entity.getHesh_type();
             case "thirdName":
                 return entity.getThirdName();
+            case "user_status":
+                return entity.getUser_status().toString();
+
             default:
                 return super.getFirstAttribute(name);
         }
