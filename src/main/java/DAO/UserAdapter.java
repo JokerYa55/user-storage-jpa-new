@@ -356,7 +356,7 @@ public class UserAdapter extends AbstractUserAdapterFederatedStorage {
                         break;
                     case "hash_type":
                         entity.setHesh_type(values.get(0));
-                        break;                    
+                        break;
                     case "thirdName":
                         entity.setThirdName(values.get(0));
                         break;
@@ -391,7 +391,7 @@ public class UserAdapter extends AbstractUserAdapterFederatedStorage {
             case "salt":
                 return entity.getSalt();
             case "hash_type":
-                return entity.getHesh_type();            
+                return entity.getHesh_type();
             case "thirdName":
                 return entity.getThirdName();
             default:
@@ -421,31 +421,31 @@ public class UserAdapter extends AbstractUserAdapterFederatedStorage {
             all.add("phone", null);
         }
 
-        if ((entity.getHesh_type() != null) && (entity.getHesh_type().length() > 0)) {
+        /*if ((entity.getHesh_type() != null) && (entity.getHesh_type().length() > 0)) {
             //log.info("Add hash_type");
             all.add("hash_type", entity.getHesh_type());
         } else {
             all.add("hash_type", null);
-        }
+        }*/
 
-        if ((entity.getThirdName() != null) && (entity.getThirdName().length() > 0)) {
+        /*if ((entity.getThirdName() != null) && (entity.getThirdName().length() > 0)) {
             all.add("thirdName", entity.getThirdName());
         } else {
             all.add("thirdName", null);
-        }
+        }*/
 
-        if (entity.getUser_region() != null) {
+        /*if (entity.getUser_region() != null) {
             all.add("region", entity.getUser_region().toString());
         } else {
             all.add("region", null);
-        }
+        }*/
 
         if (entity.getDescription() != null) {
             all.add("description", entity.getDescription());
         } else {
             all.add("description", null);
         }
-        
+
         Collection<UserAttribute> attrList = entity.getUserAttributeCollection();
         attrList.forEach((t) -> {
             if (t.isVisible_flag()) {
