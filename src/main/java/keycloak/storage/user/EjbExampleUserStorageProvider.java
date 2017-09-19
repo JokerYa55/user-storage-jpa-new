@@ -216,8 +216,8 @@ public class EjbExampleUserStorageProvider implements UserStorageProvider,
      * @return
      */
     @Override
-    public UserModel addUser(RealmModel realm, String username) {        
-        UserEntity entity = new UserEntity();        
+    public UserModel addUser(RealmModel realm, String username) {
+        UserEntity entity = new UserEntity();
         //entity.setId(UUID.randomUUID().toString());
         entity.setUsername(username);
         entity.setUser_status(0);
@@ -743,6 +743,19 @@ public class EjbExampleUserStorageProvider implements UserStorageProvider,
 
     /**
      *
+     * @param attrName
+     * @param attrValue
+     * @param realm
+     * @return
+     */
+    @Override
+    public List<UserModel> searchForUserByUserAttribute(String attrName, String attrValue, RealmModel realm) {
+        log.info("searchForUserByUserAttribute");
+        return Collections.EMPTY_LIST;
+    }
+
+    /**
+     *
      * @param realm
      * @param group
      * @param firstResult
@@ -764,19 +777,6 @@ public class EjbExampleUserStorageProvider implements UserStorageProvider,
     @Override
     public List<UserModel> getGroupMembers(RealmModel realm, GroupModel group) {
         log.info("getGroupMembers_1");
-        return Collections.EMPTY_LIST;
-    }
-
-    /**
-     *
-     * @param attrName
-     * @param attrValue
-     * @param realm
-     * @return
-     */
-    @Override
-    public List<UserModel> searchForUserByUserAttribute(String attrName, String attrValue, RealmModel realm) {
-        log.info("searchForUserByUserAttribute");
         return Collections.EMPTY_LIST;
     }
 
