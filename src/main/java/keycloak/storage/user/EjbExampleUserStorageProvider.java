@@ -266,7 +266,7 @@ public class EjbExampleUserStorageProvider implements UserStorageProvider,
     }
 
     /**
-     * Добавляются данные пользователя в CASHE
+     * Добавляются данные пользователя в CACHE (password и salt)
      *
      * @param realm
      * @param user
@@ -277,16 +277,16 @@ public class EjbExampleUserStorageProvider implements UserStorageProvider,
         log.info("onCache\n\n\trealm = " + realm.getName() + "\n\tuser = " + user.getUsername() + "\n\tdelegate = " + delegate.getUsername());
         String password = ((UserAdapter) delegate).getPassword();
         String salt = ((UserAdapter) delegate).getSalt();
-        log.info("password = " + password);
+        log.info("PASSWORD = " + password);
         log.info("PASSWORD_CACHE_KEY = " + PASSWORD_CACHE_KEY);
         if (password != null) {
-            log.info("Add password in CACHE password = " + password);
+            log.info("Add PASSWORD in CACHE password = " + password);
             user.getCachedWith().put(PASSWORD_CACHE_KEY, password);
         }
 
         log.info("SALT_CACHE_KEY = " + SALT_CACHE_KEY);
         if (salt != null) {
-            log.info("Add salt in CAHE salt = " + salt);
+            log.info("Add SALT in CAHE salt = " + salt);
             user.getCachedWith().put(SALT_CACHE_KEY, salt);
         }
     }
@@ -350,7 +350,7 @@ public class EjbExampleUserStorageProvider implements UserStorageProvider,
      * @return
      */
     public UserAdapter getUserAdapter(UserModel user) {
-        log.info("getUserAdapter\n\tuser = " + user.getUsername());
+        log.info("getUserAdapter\n\tuser = " + user);
         UserAdapter adapter = null;
         if (user instanceof CachedUserModel) {
             log.info("User in cache Keycloak");
@@ -924,7 +924,7 @@ public class EjbExampleUserStorageProvider implements UserStorageProvider,
      */
     @Override
     public void addFederatedIdentity(RealmModel rm, String string, FederatedIdentityModel fim) {
-        log.info("addFederatedIdentity => " + string);
+        log.info("addFederatedIdentity => " + string + "fim => " + fim);
     }
 
     /**
