@@ -317,6 +317,9 @@ public class UserAdapter extends AbstractUserAdapterFederatedStorage {
                 case "thirdName":
                     entity.setThirdName(null);
                     break;*/
+                case "description":
+                    entity.setDescription(null);
+                    break;
                 default:
                     super.removeAttribute(name);
                     break;
@@ -359,6 +362,12 @@ public class UserAdapter extends AbstractUserAdapterFederatedStorage {
                         break;
                     case "thirdName":
                         entity.setThirdName(values.get(0));
+                        break;
+                    case "firstName":
+                        entity.setFirstName(values.get(0));
+                        break;
+                    case "lastName":
+                        entity.setLastName(values.get(0));
                         break;
                     case "region":
                         entity.setUser_region(new Integer(values.get(0)));

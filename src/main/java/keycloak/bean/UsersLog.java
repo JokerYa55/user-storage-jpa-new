@@ -45,7 +45,7 @@ public class UsersLog implements Serializable {
     @Column(name = "id")
     private Long id;
     @Basic(optional = false)
-    @Column(name = "flag")
+    @Column(name = "flag", columnDefinition = "boolean DEFAULT FALSE")
     private boolean flag;
     @Column(name = "oper_type")
     private String operType;
@@ -56,7 +56,7 @@ public class UsersLog implements Serializable {
     @Column(name = "username")
     private String username;
     @Basic(optional = false)
-    @Column(name = "date_oper")
+    @Column(name = "date_oper", columnDefinition = "timestamp without time zone DEFAULT CURRENT_TIMESTAMP")
     @Temporal(TemporalType.TIMESTAMP)
     private Date dateOper;
     @Column(name = "send_count", nullable = false, columnDefinition = "integer DEFAULT 0")
