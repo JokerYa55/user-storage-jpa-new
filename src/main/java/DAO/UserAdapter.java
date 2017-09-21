@@ -282,7 +282,7 @@ public class UserAdapter extends AbstractUserAdapterFederatedStorage {
      */
     @Override
     public void removeAttribute(String name) {
-        log.debug("***** removeAttribute => " + name + "********");
+        log.debug("***** REMOVE ATTRUBUTE => " + name + "********");
 
         Pattern p = Pattern.compile("^id_app_[0-9]+$");
         Matcher m = p.matcher(name);
