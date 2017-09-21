@@ -34,7 +34,7 @@ import org.keycloak.models.GroupModel;
  *
  */
 public class UserAdapter extends AbstractUserAdapterFederatedStorage {
-
+    
     private static final Logger log = Logger.getLogger(UserAdapter.class);
     protected UserEntity entity;
     protected String keycloakId;
@@ -164,19 +164,19 @@ public class UserAdapter extends AbstractUserAdapterFederatedStorage {
         entity.setCreate_date(new Date(timestamp));
         //super.setCreatedTimestamp(timestamp); //To change body of generated methods, choose Tools | Templates.
     }
-
+    
     @Override
     public Long getCreatedTimestamp() {
         //return super.getCreatedTimestamp(); //To change body of generated methods, choose Tools | Templates.
         return entity.getCreate_date().getTime();
     }
-
+    
     @Override
     public void setEnabled(boolean enabled) {
         //super.setEnabled(enabled); //To change body of generated methods, choose Tools | Templates.
         entity.setEnabled(enabled);
     }
-
+    
     @Override
     public boolean isEnabled() {
         //return super.isEnabled(); //To change body of generated methods, choose Tools | Templates.
@@ -200,7 +200,7 @@ public class UserAdapter extends AbstractUserAdapterFederatedStorage {
     @Override
     public void setUsername(String username) {
         entity.setUsername(username);
-
+        
     }
 
     /**
@@ -229,22 +229,22 @@ public class UserAdapter extends AbstractUserAdapterFederatedStorage {
     public String getId() {
         return keycloakId;
     }
-
+    
     @Override
     public void setLastName(String lastName) {
         entity.setLastName(lastName);
     }
-
+    
     @Override
     public String getLastName() {
         return entity.getLastName();
     }
-
+    
     @Override
     public void setFirstName(String firstName) {
         entity.setFirstName(firstName);
     }
-
+    
     @Override
     public String getFirstName() {
         return entity.getFirstName();
@@ -270,7 +270,7 @@ public class UserAdapter extends AbstractUserAdapterFederatedStorage {
             attr.setValue(value);
             attr.setUserId(entity);
             entity.addUserAttribute(attr);
-
+            
         } else {
             super.setSingleAttribute(name, value);
         }
@@ -283,23 +283,26 @@ public class UserAdapter extends AbstractUserAdapterFederatedStorage {
     @Override
     public void removeAttribute(String name) {
         log.debug("***** REMOVE ATTRUBUTE => " + name + "********");
-
+        
         Pattern p = Pattern.compile("^id_app_[0-9]+$");
         Matcher m = p.matcher(name);
-
+        
         if (m.matches()) {
-
+            
             UserAttribute temp = null;
             for (UserAttribute t : entity.getUserAttributeCollection()) {
-                if (t.getName().equals(name)) {
+                if ((t.getName().equals(name)) && (!t.getName().equals("id_app_1"))) {
                     temp = t;
                 }
             }
-
-            log.debug("len => " + entity.getUserAttributeCollection().size());
-            entity.getUserAttributeCollection().remove(temp);
-            log.debug("len => " + entity.getUserAttributeCollection().size());
-
+            if (temp != null) {
+                log.debug("len => " + entity.getUserAttributeCollection().size());
+                entity.getUserAttributeCollection().remove(temp);
+                log.debug("len => " + entity.getUserAttributeCollection().size());
+            } else {
+                log.debug("ATTR NotFound");
+            }
+            
         } else {
             switch (name) {
                 /*case "phone":
@@ -383,7 +386,7 @@ public class UserAdapter extends AbstractUserAdapterFederatedStorage {
                         break;
                 }
             }
-
+            
         }
     }
 
@@ -408,7 +411,7 @@ public class UserAdapter extends AbstractUserAdapterFederatedStorage {
                 return entity.getThirdName();
             case "user_status":
                 return entity.getUser_status().toString();
-
+            
             default:
                 return super.getFirstAttribute(name);
         }
@@ -423,51 +426,51 @@ public class UserAdapter extends AbstractUserAdapterFederatedStorage {
     public Map<String, List<String>> getAttributes() {
         log.debug("getAttributes");
         Map<String, List<String>> attrs = super.getAttributes();
-
+        
         MultivaluedHashMap<String, String> all = new MultivaluedHashMap<>();
         all.putAll(attrs);
         // Добавляем доп. аттрибуты в Keycloak
         log.info("************ Add user attibutes **************");
-
+        
         if ((entity.getPhone() != null) && (entity.getPhone().length() > 0)) {
             // log.info("Add phone => " + entity.getPhone());
             all.add("phone", entity.getPhone());
         } else {
             all.add("phone", null);
         }
-
+        
         if ((entity.getHesh_type() != null) && (entity.getHesh_type().length() > 0)) {
             //log.info("Add hash_type");
             all.add("hash_type", entity.getHesh_type());
         } else {
             all.add("hash_type", null);
         }
-
+        
         if ((entity.getThirdName() != null) && (entity.getThirdName().length() > 0)) {
             all.add("thirdName", entity.getThirdName());
         } else {
             all.add("thirdName", null);
         }
-
+        
         if (entity.getUser_region() != null) {
             all.add("region", entity.getUser_region().toString());
         } else {
             all.add("region", null);
         }
-
+        
         if (entity.getDescription() != null) {
             all.add("description", entity.getDescription());
         } else {
             all.add("description", null);
         }
-
+        
         Collection<UserAttribute> attrList = entity.getUserAttributeCollection();
         attrList.forEach((t) -> {
             if (t.isVisible_flag()) {
                 all.add(t.getName(), t.getValue());
             }
         });
-
+        
         return all;
     }
 
@@ -498,5 +501,5 @@ public class UserAdapter extends AbstractUserAdapterFederatedStorage {
         log.info("getGroups()");
         return super.getGroups(); //To change body of generated methods, choose Tools | Templates.
     }
-
+    
 }

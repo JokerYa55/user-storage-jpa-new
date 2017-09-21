@@ -436,7 +436,7 @@ public class EjbExampleUserStorageProvider implements UserStorageProvider,
             case "md5":
                 log.info("\n{"
                         + "\n\tcred device= " + cred.getDevice()
-                        + "\n\tuserpass    = " + cred.getValue()
+                        //+ "\n\tuserpass    = " + cred.getValue()
                         + "\n\tsalt        = " + salt
                         + "\n\tpassword    = " + password
                         + "\n\tuserpass    = " + encodeToHex(md5(cred.getValue() + salt))
@@ -449,7 +449,7 @@ public class EjbExampleUserStorageProvider implements UserStorageProvider,
             case "sha1":
                 log.info("\n{"
                         + "\n\tcred device= " + cred.getDevice()
-                        + "\n\tuserpass    = " + cred.getValue()
+                       // + "\n\tuserpass    = " + cred.getValue()
                         + "\n\tsalt        = " + salt
                         + "\n\tpassword    = " + password
                         + "\n\tuserpass    = " + encodeToHex(sha1(cred.getValue() + salt))
@@ -463,7 +463,10 @@ public class EjbExampleUserStorageProvider implements UserStorageProvider,
                 return flag;
             //(password != null) && ((password).equals(encodeToHex(sha1(cred.getValue() + salt))));
             default:
-                log.info("\n\tcred device= " + cred.getDevice() + "\n\tpassword = " + password + "\n\tuserpass = " + cred.getValue());
+                log.info("\n\tcred device= " + cred.getDevice()
+                        + "\n\tpassword = " + password
+                //     + "\n\tuserpass = " + cred.getValue()
+                );
                 return (password != null) && ((password).equals(cred.getValue()));
         }
 
