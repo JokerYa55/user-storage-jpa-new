@@ -694,7 +694,7 @@ public class EjbExampleUserStorageProvider implements UserStorageProvider,
      */
     @Override
     public List<UserModel> searchForUser(Map<String, String> params, RealmModel realm, int firstResult, int maxResults) {
-        log.info("searchForUser_2");
+        log.info("searchForUser_2 params => " + params.size() + " realm => " + realm + " firstResalt => " + firstResult + "maxResult => " + maxResults);
 
         List<UserEntity> res;
         List<UserModel> users = new LinkedList<>();
@@ -753,7 +753,7 @@ public class EjbExampleUserStorageProvider implements UserStorageProvider,
      */
     @Override
     public List<UserModel> searchForUserByUserAttribute(String attrName, String attrValue, RealmModel realm) {
-        log.info("searchForUserByUserAttribute");
+        log.info("searchForUserByUserAttribute attrName => " + attrName + " attrValue => " + attrValue + " realm => " + realm);
         return Collections.EMPTY_LIST;
     }
 
@@ -767,7 +767,7 @@ public class EjbExampleUserStorageProvider implements UserStorageProvider,
      */
     @Override
     public List<UserModel> getGroupMembers(RealmModel realm, GroupModel group, int firstResult, int maxResults) {
-        log.info("getGroupMembers");
+        log.info("getGroupMembers realm => " + realm + " group => " + group + " firstResult => " + firstResult + " maxResults => " + maxResults);
         return Collections.EMPTY_LIST;
     }
 
@@ -779,7 +779,7 @@ public class EjbExampleUserStorageProvider implements UserStorageProvider,
      */
     @Override
     public List<UserModel> getGroupMembers(RealmModel realm, GroupModel group) {
-        log.info("getGroupMembers_1");
+        log.info("getGroupMembers_1 realm => " + realm + " group => " + group);
         return Collections.EMPTY_LIST;
     }
 
@@ -792,7 +792,7 @@ public class EjbExampleUserStorageProvider implements UserStorageProvider,
      */
     @Override
     public List<String> getStoredUsers(RealmModel rm, int i, int i1) {
-        log.info("getStoredUsers");
+        log.info("getStoredUsers rm => " + rm + " i => " + i + " i1 => " + i1);
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
@@ -803,7 +803,7 @@ public class EjbExampleUserStorageProvider implements UserStorageProvider,
      */
     @Override
     public int getStoredUsersCount(RealmModel rm) {
-        log.info("getStoredUsersCount");
+        log.info("getStoredUsersCount rm => " + rm);
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
@@ -814,7 +814,7 @@ public class EjbExampleUserStorageProvider implements UserStorageProvider,
      */
     @Override
     public void preRemove(RealmModel rm, ClientModel cm) {
-        log.info("preRemove_1");
+        log.info("preRemove_1 rm => " + rm + " cm => " + cm);
     }
 
     /**
@@ -823,7 +823,7 @@ public class EjbExampleUserStorageProvider implements UserStorageProvider,
      */
     @Override
     public void preRemove(ProtocolMapperModel pmm) {
-        log.info("preRemove_2");
+        log.info("preRemove_2 pmm => " + pmm);
     }
 
     /**
@@ -833,7 +833,7 @@ public class EjbExampleUserStorageProvider implements UserStorageProvider,
      */
     @Override
     public void preRemove(RealmModel rm, UserModel um) {
-        log.info("preRemove_3");
+        log.info("preRemove_3 rm => " + rm + " um => " + um);
     }
 
     /**
@@ -843,7 +843,7 @@ public class EjbExampleUserStorageProvider implements UserStorageProvider,
      */
     @Override
     public void preRemove(RealmModel rm, ComponentModel cm) {
-        log.info("preRemove_4");
+        log.info("preRemove_4 rm=> " + rm + " cm => " + cm);
     }
 
     /**
@@ -855,7 +855,7 @@ public class EjbExampleUserStorageProvider implements UserStorageProvider,
      */
     @Override
     public void setSingleAttribute(RealmModel rm, String string, String string1, String string2) {
-        log.info("setSingleAttribute");
+        log.info("setSingleAttribute rm => " + rm + " string => " + string + " string1 => " + string1 + " string2 => " + string2);
     }
 
     /**
@@ -867,7 +867,7 @@ public class EjbExampleUserStorageProvider implements UserStorageProvider,
      */
     @Override
     public void setAttribute(RealmModel rm, String string, String string1, List<String> list) {
-        log.info("setAttribute_1");
+        log.info("setAttribute_1 rm => " + rm + " string => " + string + " string1 => " + string1 + " list => " + list.size());
     }
 
     /**
@@ -878,7 +878,7 @@ public class EjbExampleUserStorageProvider implements UserStorageProvider,
      */
     @Override
     public void removeAttribute(RealmModel rm, String string, String string1) {
-        log.info("setAttribute_2");
+        log.info("setAttribute_2 rm => " + rm + " string => " + string + " string1 => " + string1);
     }
 
     /**
@@ -889,7 +889,7 @@ public class EjbExampleUserStorageProvider implements UserStorageProvider,
      */
     @Override
     public MultivaluedHashMap<String, String> getAttributes(RealmModel rm, String string) {
-        log.info("getAttributes");
+        log.info("getAttributes rm => " + rm + " string => " + string);
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
@@ -902,7 +902,7 @@ public class EjbExampleUserStorageProvider implements UserStorageProvider,
      */
     @Override
     public List<String> getUsersByUserAttribute(RealmModel rm, String string, String string1) {
-        log.info("getUsersByUserAttribute");
+        log.info("getUsersByUserAttribute rm => " + rm + " string => " + string + " string1 => " + string1);
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
@@ -927,7 +927,7 @@ public class EjbExampleUserStorageProvider implements UserStorageProvider,
      */
     @Override
     public void addFederatedIdentity(RealmModel rm, String string, FederatedIdentityModel fim) {
-        log.info("addFederatedIdentity => " + string + "fim => " + fim);
+        log.info("addFederatedIdentity rm => " + rm + " string => " + string + "fim => " + fim);
     }
 
     /**
@@ -939,7 +939,7 @@ public class EjbExampleUserStorageProvider implements UserStorageProvider,
      */
     @Override
     public boolean removeFederatedIdentity(RealmModel rm, String string, String string1) {
-        log.info("removeFederatedIdentity => " + string);
+        log.info("removeFederatedIdentity rm => " + rm + " string => " + string + " string1 => " + string1);
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
@@ -951,7 +951,7 @@ public class EjbExampleUserStorageProvider implements UserStorageProvider,
      */
     @Override
     public void updateFederatedIdentity(RealmModel rm, String string, FederatedIdentityModel fim) {
-        log.info("updateFederatedIdentity");
+        log.info("updateFederatedIdentity rm => " + rm + " string => " + string + " fim => " + fim);
     }
 
     /**
@@ -962,7 +962,7 @@ public class EjbExampleUserStorageProvider implements UserStorageProvider,
      */
     @Override
     public Set<FederatedIdentityModel> getFederatedIdentities(String string, RealmModel rm) {
-        log.info("");
+        log.info("getFederatedIdentities string => " + string + " rm => " + rm);
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
@@ -975,7 +975,7 @@ public class EjbExampleUserStorageProvider implements UserStorageProvider,
      */
     @Override
     public FederatedIdentityModel getFederatedIdentity(String string, String string1, RealmModel rm) {
-        log.info("");
+        log.info("getFederatedIdentity string => " + string + " string1 => " + string1 + " rm => " + rm);
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
@@ -987,7 +987,7 @@ public class EjbExampleUserStorageProvider implements UserStorageProvider,
      */
     @Override
     public void addConsent(RealmModel rm, String string, UserConsentModel ucm) {
-        log.info("");
+        log.info("addConsent rm => " + rm + " string => " + string + " ucm => " + ucm);
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
@@ -1000,7 +1000,7 @@ public class EjbExampleUserStorageProvider implements UserStorageProvider,
      */
     @Override
     public UserConsentModel getConsentByClient(RealmModel rm, String string, String string1) {
-        log.info("");
+        log.info("getConsentByClient rm => " + rm + " string => " + string + " string1 => " + string1);
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
@@ -1012,7 +1012,7 @@ public class EjbExampleUserStorageProvider implements UserStorageProvider,
      */
     @Override
     public List<UserConsentModel> getConsents(RealmModel rm, String string) {
-        log.info("");
+        log.info("getConsents => " + rm + " string => " + string);
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
@@ -1049,7 +1049,7 @@ public class EjbExampleUserStorageProvider implements UserStorageProvider,
      */
     @Override
     public Set<GroupModel> getGroups(RealmModel rm, String string) {
-        log.info("getGroups => " + string);
+        log.info("getGroups rm => " + rm + " string => " + string);
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
@@ -1072,7 +1072,7 @@ public class EjbExampleUserStorageProvider implements UserStorageProvider,
      */
     @Override
     public void leaveGroup(RealmModel rm, String string, GroupModel gm) {
-        log.info("");
+        log.info("leaveGroup rm => " + rm + " string => " + string + " gm => " + gm);
     }
 
     /**
@@ -1085,7 +1085,7 @@ public class EjbExampleUserStorageProvider implements UserStorageProvider,
      */
     @Override
     public List<String> getMembership(RealmModel rm, GroupModel gm, int i, int i1) {
-        log.info("getMembership");
+        log.info("getMembership rm => " + rm + " gm => " + gm + " i => " + i + " i1 => " + i1);
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
@@ -1097,7 +1097,7 @@ public class EjbExampleUserStorageProvider implements UserStorageProvider,
      */
     @Override
     public Set<String> getRequiredActions(RealmModel rm, String string) {
-        log.info("");
+        log.info("getRequiredActions rm => " + rm + " string => " + string);
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
@@ -1109,7 +1109,7 @@ public class EjbExampleUserStorageProvider implements UserStorageProvider,
      */
     @Override
     public void addRequiredAction(RealmModel rm, String string, String string1) {
-        log.info("addRequiredAction");
+        log.info("addRequiredAction => " + rm + " string => " + string + " string1 => " + string1);
     }
 
     /**
@@ -1120,7 +1120,7 @@ public class EjbExampleUserStorageProvider implements UserStorageProvider,
      */
     @Override
     public void removeRequiredAction(RealmModel rm, String string, String string1) {
-        log.info("");
+        log.info("removeRequiredAction rm => " + rm + " string => " + string + " string1 => " + string1);
     }
 
     /**
@@ -1131,7 +1131,7 @@ public class EjbExampleUserStorageProvider implements UserStorageProvider,
      */
     @Override
     public void grantRole(RealmModel rm, String string, RoleModel rm1) {
-        log.info("grantRole");
+        log.info("grantRole rm => " + rm + " rm1 => " + rm1 + " string => " + string);
     }
 
     /**
@@ -1142,7 +1142,7 @@ public class EjbExampleUserStorageProvider implements UserStorageProvider,
      */
     @Override
     public Set<RoleModel> getRoleMappings(RealmModel rm, String string) {
-        log.info("getRoleMappings");
+        log.info("getRoleMappings rm => " + rm + " string => " + string);
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
@@ -1154,7 +1154,7 @@ public class EjbExampleUserStorageProvider implements UserStorageProvider,
      */
     @Override
     public void deleteRoleMapping(RealmModel rm, String string, RoleModel rm1) {
-        log.info("deleteRoleMapping");
+        log.info("deleteRoleMapping string => " + string + " rm1 => " + rm + " rm1 => " + rm1);
     }
 
     /**
@@ -1166,7 +1166,7 @@ public class EjbExampleUserStorageProvider implements UserStorageProvider,
      */
     @Override
     public CredentialModel createCredential(RealmModel rm, String string, CredentialModel cm) {
-        log.info("createCredential");
+        log.info("createCredential cm => " + cm);
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
@@ -1179,7 +1179,7 @@ public class EjbExampleUserStorageProvider implements UserStorageProvider,
      */
     @Override
     public boolean removeStoredCredential(RealmModel rm, String string, String string1) {
-        log.info("removeStoredCredential");
+        log.info("removeStoredCredential string => " + string + " String1 => " + string1);
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
@@ -1192,7 +1192,7 @@ public class EjbExampleUserStorageProvider implements UserStorageProvider,
      */
     @Override
     public CredentialModel getStoredCredentialById(RealmModel rm, String string, String string1) {
-        log.info("getStoredCredentialById");
+        log.info("getStoredCredentialById string => " + string);
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
@@ -1204,7 +1204,7 @@ public class EjbExampleUserStorageProvider implements UserStorageProvider,
      */
     @Override
     public List<CredentialModel> getStoredCredentials(RealmModel rm, String string) {
-        log.info("getStoredCredentials");
+        log.info("getStoredCredentials string => " + string);
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
@@ -1217,7 +1217,7 @@ public class EjbExampleUserStorageProvider implements UserStorageProvider,
      */
     @Override
     public List<CredentialModel> getStoredCredentialsByType(RealmModel rm, String string, String string1) {
-        log.info("getStoredCredentialsByType");
+        log.info("getStoredCredentialsByType string => " + string + " String1 => " + string1);
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
@@ -1231,7 +1231,7 @@ public class EjbExampleUserStorageProvider implements UserStorageProvider,
      */
     @Override
     public CredentialModel getStoredCredentialByNameAndType(RealmModel rm, String string, String string1, String string2) {
-        log.info("getStoredCredentialByNameAndType");
+        log.info("getStoredCredentialByNameAndType => " + string + " String1 => " + string1);
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
