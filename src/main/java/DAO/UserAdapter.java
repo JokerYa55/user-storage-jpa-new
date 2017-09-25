@@ -473,6 +473,7 @@ public class UserAdapter extends AbstractUserAdapterFederatedStorage {
             });
         }
 
+        // 
         return all;
     }
 
