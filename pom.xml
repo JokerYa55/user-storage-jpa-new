@@ -21,7 +21,7 @@
 
     <groupId>user-storage-jpa-example</groupId>
     <version>1</version>
-    <name>SPI JPA Provider DBUsers1</name>
+    <name>user-storage-jpa-dbusers1</name>
     <description/>
     <modelVersion>4.0.0</modelVersion>
 
