@@ -677,6 +677,7 @@ public class EjbExampleUserStorageProvider implements UserStorageProvider,
             });
 
         } catch (Exception e) {
+            log.log(Logger.Level.ERROR, e);
         }
 
         return users;
@@ -738,6 +739,7 @@ public class EjbExampleUserStorageProvider implements UserStorageProvider,
             });
 
         } catch (Exception e) {
+            log.log(Logger.Level.ERROR, e);
         }
 
         return users;
