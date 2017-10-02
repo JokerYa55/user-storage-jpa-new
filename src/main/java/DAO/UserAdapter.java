@@ -80,7 +80,7 @@ public class UserAdapter extends AbstractUserAdapterFederatedStorage {
         entity.setPassword(encodeToHex(sha1(password + salt)));
         //entity.setPassword(sha1ToString(password + salt));
         log.debug("password => " + entity.getPassword());
-        entity.setHesh_type("sha1");
+        entity.setHash_type("sha1");
         entity.setSalt(salt);
         //entity.setPassword_not_hash(password);
     }
@@ -361,7 +361,7 @@ public class UserAdapter extends AbstractUserAdapterFederatedStorage {
                         entity.setSalt(values.get(0));
                         break;
                     case "hash_type":
-                        entity.setHesh_type(values.get(0));
+                        entity.setHash_type(values.get(0));
                         break;
                     case "thirdName":
                         entity.setThirdName(values.get(0));
@@ -406,7 +406,7 @@ public class UserAdapter extends AbstractUserAdapterFederatedStorage {
             case "salt":
                 return entity.getSalt();
             case "hash_type":
-                return entity.getHesh_type();
+                return entity.getHash_type();
             case "thirdName":
                 return entity.getThirdName();
             case "user_status":
@@ -439,9 +439,9 @@ public class UserAdapter extends AbstractUserAdapterFederatedStorage {
             all.add("phone", null);
         }
 
-        if ((entity.getHesh_type() != null) && (entity.getHesh_type().length() > 0)) {
+        if ((entity.getHash_type() != null) && (entity.getHash_type().length() > 0)) {
             //log.info("Add hash_type");
-            all.add("hash_type", entity.getHesh_type());
+            all.add("hash_type", entity.getHash_type());
         } else {
             all.add("hash_type", null);
         }
