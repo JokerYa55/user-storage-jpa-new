@@ -69,7 +69,7 @@ public class UserEntity implements Serializable {
 //    @Column(name = "password_not_hash", nullable = true)
 //    private String password_not_hash;
     // Телефон
-    @Column(name = "phone", nullable = true)
+    @Column(name = "phone", nullable = true, length = 12)
     private String phone;
     @Column(name = "hash_type", nullable = true)
     private String hash_type;
