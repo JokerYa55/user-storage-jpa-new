@@ -199,7 +199,7 @@ public class UserAdapter extends AbstractUserAdapterFederatedStorage {
      */
     @Override
     public void setUsername(String username) {
-        entity.setUsername(username);
+        entity.setUsername(username.toLowerCase());
 
     }
 
