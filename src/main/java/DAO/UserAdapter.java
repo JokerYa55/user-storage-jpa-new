@@ -484,14 +484,17 @@ public class UserAdapter extends AbstractUserAdapterFederatedStorage {
      */
     @Override
     public List<String> getAttribute(String name) {
-        log.debug("getAttribute");
+        log.debug("getAttribute => " + name);
+        List<String> res = new LinkedList<>();
         if (name.equals("phone")) {
-            List<String> phone = new LinkedList<>();
-            phone.add(entity.getPhone());
-            return phone;
+            res.add(entity.getPhone());
+        }
+        if (name.equals("thirdName")) {
+            res.add(entity.getThirdName());
         } else {
             return super.getAttribute(name);
         }
+        return res;
     }
 
     /**
