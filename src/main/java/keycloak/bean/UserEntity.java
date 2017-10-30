@@ -39,9 +39,9 @@ import org.jboss.logging.Logger;
     ,
     @Index(name = "t_users_username_idx", columnList = "username")})
 public class UserEntity implements Serializable {
-    
+
     private static final Logger log = Logger.getLogger(UserEntity.class);
-    
+
     @Id
     @Column(name = "id", unique = true, nullable = false)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "t_users_id_seq")
@@ -96,10 +96,10 @@ public class UserEntity implements Serializable {
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "userId", orphanRemoval = true)
     private Collection<UserAttribute> userAttributeCollection;
-    
+
     public UserEntity() {
     }
-    
+
     public UserEntity(Long id) {
         this.id = id;
     }
@@ -185,18 +185,20 @@ public class UserEntity implements Serializable {
      */
     public void setPhone(String phone) {
         // преобразуем в нужный формат         
-        String[] s2 = phone.split("\\D+");
-        StringBuilder phone_temp = new StringBuilder();        
+        if (phone != null) {
+            String[] s2 = phone.split("\\D+");
+            StringBuilder phone_temp = new StringBuilder();
 //        if (!phone.contains("+")) {
 //            phone_temp.append("+7");
 //        }else
 //        {
 //            phone_temp.append("+");
 //        }
-        for (String str : s2) {
-            phone_temp.append(str);
+            for (String str : s2) {
+                phone_temp.append(str);
+            }
+            this.phone = phone_temp.toString();
         }
-        this.phone = phone_temp.toString();
     }
 
     /**
@@ -223,87 +225,87 @@ public class UserEntity implements Serializable {
     public void setSalt(String salt) {
         this.salt = salt;
     }
-    
+
     public Integer getUser_status() {
         return user_status;
     }
-    
+
     public void setUser_status(Integer user_status) {
         this.user_status = user_status;
     }
-    
+
     public Date getCreate_date() {
         return create_date;
     }
-    
+
     public void setCreate_date(Date create_date) {
         this.create_date = create_date;
     }
-    
+
     public boolean isEnabled() {
         return enabled;
     }
-    
+
     public void setEnabled(boolean enabled) {
         this.enabled = enabled;
     }
-    
+
     public Integer getUser_region() {
         return user_region;
     }
-    
+
     public void setUser_region(Integer user_region) {
         this.user_region = user_region;
     }
-    
+
     public String getDescription() {
         return description;
     }
-    
+
     public void setDescription(String description) {
         this.description = description;
     }
-    
+
     public String getFirstName() {
         return firstName;
     }
-    
+
     public void setFirstName(String firstName) {
         this.firstName = firstName;
     }
-    
+
     public String getLastName() {
         return lastName;
     }
-    
+
     public void setLastName(String lastName) {
         this.lastName = lastName;
     }
-    
+
     public Date getUpdate_date() {
         return update_date;
     }
-    
+
     public void setUpdate_date(Date update_date) {
         this.update_date = update_date;
     }
-    
+
     public String getThirdName() {
         return thirdName;
     }
-    
+
     public void setThirdName(String thirdName) {
         this.thirdName = thirdName;
     }
-    
+
     public Collection<UserAttribute> getUserAttributeCollection() {
         return userAttributeCollection;
     }
-    
+
     public void setUserAttributeCollection(Collection<UserAttribute> userAttributeCollection) {
         this.userAttributeCollection = userAttributeCollection;
     }
-    
+
     public void addUserAttribute(UserAttribute attr) {
         log.info("addUserAttribute => " + attr);
         log.info("addUserAttribute => " + this);
@@ -328,7 +330,7 @@ public class UserEntity implements Serializable {
             this.getUserAttributeCollection().add(attrTemp);
         }
     }
-    
+
     public void deleteAttribute(String attrName) {
         /*log.info("deleteAttribute => " + attrName);
         Object temp = null;
@@ -340,20 +342,20 @@ public class UserEntity implements Serializable {
         }
         log.info("temp = " + temp);
         if (temp != null)this.userAttributeCollection.remove(temp);     */
-        
+
     }
-    
+
     @Override
     public String toString() {
         return "UserEntity{" + "id=" + id + ", username=" + username + ", firstName=" + firstName + ", lastName=" + lastName + ", thirdName=" + thirdName + ", email=" + email + '}';
     }
-    
+
     public String getHash_type() {
         return hash_type;
     }
-    
+
     public void setHash_type(String hash_type) {
         this.hash_type = hash_type;
     }
-    
+
 }
