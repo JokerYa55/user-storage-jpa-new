@@ -192,6 +192,8 @@ public class UserEntity implements Serializable {
                 phone_temp.append(str);
             }
             this.phone = phone_temp.toString();
+        } else {
+            this.phone = phone;
         }
     }
 
