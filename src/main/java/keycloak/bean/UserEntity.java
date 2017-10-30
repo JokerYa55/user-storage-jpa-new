@@ -188,12 +188,6 @@ public class UserEntity implements Serializable {
         if (phone != null) {
             String[] s2 = phone.split("\\D+");
             StringBuilder phone_temp = new StringBuilder();
-//        if (!phone.contains("+")) {
-//            phone_temp.append("+7");
-//        }else
-//        {
-//            phone_temp.append("+");
-//        }
             for (String str : s2) {
                 phone_temp.append(str);
             }
