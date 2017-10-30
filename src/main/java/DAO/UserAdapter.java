@@ -363,7 +363,7 @@ public class UserAdapter extends AbstractUserAdapterFederatedStorage {
                     case "hash_type":
                         entity.setHash_type(values.get(0));
                         break;
-                    case "thirdName":
+                    case "get":
                         entity.setThirdName(values.get(0));
                         break;
                     case "firstName":
@@ -473,6 +473,10 @@ public class UserAdapter extends AbstractUserAdapterFederatedStorage {
             });
         }
 
+        all.forEach((t, u) -> {
+            log.info("t => " + t + " u => " + u);
+        });
+        
         // 
         return all;
     }
