@@ -436,32 +436,32 @@ public class UserAdapter extends AbstractUserAdapterFederatedStorage {
             // log.info("Add phone => " + entity.getPhone());
             all.add("phone", entity.getPhone());
         } else {
-            all.add("phone", null);
+            all.add("phone", "");
         }
 
         if ((entity.getHash_type() != null) && (entity.getHash_type().length() > 0)) {
             //log.info("Add hash_type");
             all.add("hash_type", entity.getHash_type());
         } else {
-            all.add("hash_type", null);
+            all.add("hash_type", "");
         }
 
         if ((entity.getThirdName() != null) && (entity.getThirdName().length() > 0)) {
             all.add("thirdName", entity.getThirdName());
         } else {
-            all.add("thirdName", null);
+            all.add("thirdName", "");
         }
 
         if (entity.getUser_region() != null) {
             all.add("region", entity.getUser_region().toString());
         } else {
-            all.add("region", null);
+            all.add("region", "");
         }
 
         if (entity.getDescription() != null) {
             all.add("description", entity.getDescription());
         } else {
-            all.add("description", null);
+            all.add("description", "");
         }
 
         Collection<UserAttribute> attrList = entity.getUserAttributeCollection();
@@ -473,10 +473,9 @@ public class UserAdapter extends AbstractUserAdapterFederatedStorage {
             });
         }
 
-        all.forEach((t, u) -> {
-            log.info("t => " + t + " u => " + u);
-        });
-
+//        all.forEach((t, u) -> {
+//            log.info("t => " + t + " u => " + u);
+//        });
         // 
         return all;
     }
@@ -490,39 +489,54 @@ public class UserAdapter extends AbstractUserAdapterFederatedStorage {
     public List<String> getAttribute(String name) {
         log.debug("getAttribute => " + name);
         List<String> res = new LinkedList<>();
-        switch (name) {
-            case "phone":
-                if (entity.getPhone() != null) {
-                    res.add(entity.getPhone());
-                } else {
-                    res.add("");
-                }
-                break;
-            case "thirdName":
-                if (entity.getThirdName() != null) {
-                    res.add(entity.getThirdName());
-                } else {
-                    res.add("");
-                }
-                break;
-            case "region":
-                if (entity.getUser_region() != null) {
-                    res.add(entity.getUser_region().toString());
-                } else {
-                    res.add("");
-                }
-                break;
 
-            case "hash_type":
-                if (entity.getHash_type() != null) {
-                    res.add(entity.getHash_type());
-                } else {
-                    res.add("");
-                }
-                break;
-            default:
-                return super.getAttribute(name);
+        if (name.contains("id_app_")) {
+            Collection<UserAttribute> attrList = entity.getUserAttributeCollection();
+            if (attrList != null) {
+                attrList.forEach((t) -> {
+                    if (t.isVisible_flag()) {
+                        if (name.equals(t.getName())) {
+                            res.add(t.getValue());
+                        }
+                    }
+                });
+            }
+        } else {
+            switch (name) {
+                case "phone":
+                    if (entity.getPhone() != null) {
+                        res.add(entity.getPhone());
+                    } else {
+                        res.add("null");
+                    }
+                    break;
+                case "thirdName":
+                    if (entity.getThirdName() != null) {
+                        res.add(entity.getThirdName());
+                    } else {
+                        res.add("null");
+                    }
+                    break;
+                case "region":
+                    if (entity.getUser_region() != null) {
+                        res.add(entity.getUser_region().toString());
+                    } else {
+                        res.add("null");
+                    }
+                    break;
+
+                case "hash_type":
+                    if (entity.getHash_type() != null) {
+                        res.add(entity.getHash_type());
+                    } else {
+                        res.add("null");
+                    }
+                    break;
+                default:
+                    return super.getAttribute(name);
+            }
         }
+
         return res;
     }
 
