@@ -476,7 +476,7 @@ public class UserAdapter extends AbstractUserAdapterFederatedStorage {
         all.forEach((t, u) -> {
             log.info("t => " + t + " u => " + u);
         });
-        
+
         // 
         return all;
     }
@@ -490,13 +490,38 @@ public class UserAdapter extends AbstractUserAdapterFederatedStorage {
     public List<String> getAttribute(String name) {
         log.debug("getAttribute => " + name);
         List<String> res = new LinkedList<>();
-        if (name.equals("phone")) {
-            res.add(entity.getPhone());
-        }
-        if (name.equals("thirdName")) {
-            res.add(entity.getThirdName());
-        } else {
-            return super.getAttribute(name);
+        switch (name) {
+            case "phone":
+                if (entity.getPhone() != null) {
+                    res.add(entity.getPhone());
+                } else {
+                    res.add("");
+                }
+                break;
+            case "thirdName":
+                if (entity.getThirdName() != null) {
+                    res.add(entity.getThirdName());
+                } else {
+                    res.add("");
+                }
+                break;
+            case "region":
+                if (entity.getUser_region() != null) {
+                    res.add(entity.getUser_region().toString());
+                } else {
+                    res.add("");
+                }
+                break;
+
+            case "hash_type":
+                if (entity.getHash_type() != null) {
+                    res.add(entity.getHash_type());
+                } else {
+                    res.add("");
+                }
+                break;
+            default:
+                return super.getAttribute(name);
         }
         return res;
     }
