@@ -507,21 +507,21 @@ public class UserAdapter extends AbstractUserAdapterFederatedStorage {
                     if (entity.getPhone() != null) {
                         res.add(entity.getPhone());
                     } else {
-                        res.add("null");
+                        res.add("");
                     }
                     break;
                 case "thirdName":
                     if (entity.getThirdName() != null) {
                         res.add(entity.getThirdName());
                     } else {
-                        res.add("null");
+                        res.add("");
                     }
                     break;
                 case "region":
                     if (entity.getUser_region() != null) {
                         res.add(entity.getUser_region().toString());
                     } else {
-                        res.add("null");
+                        res.add("");
                     }
                     break;
 
@@ -529,7 +529,7 @@ public class UserAdapter extends AbstractUserAdapterFederatedStorage {
                     if (entity.getHash_type() != null) {
                         res.add(entity.getHash_type());
                     } else {
-                        res.add("null");
+                        res.add("");
                     }
                     break;
                 default:
