@@ -363,7 +363,7 @@ public class UserAdapter extends AbstractUserAdapterFederatedStorage {
                     case "hash_type":
                         entity.setHash_type(values.get(0));
                         break;
-                    case "get":
+                    case "thirdName":
                         entity.setThirdName(values.get(0));
                         break;
                     case "firstName":
@@ -380,6 +380,9 @@ public class UserAdapter extends AbstractUserAdapterFederatedStorage {
                         break;
                     case "user_status":
                         entity.setUser_status(new Integer(values.get(0)));
+                        break;
+                    case "EMAIL_VERIFIED":
+                        entity.setEmail_verified(Boolean.parseBoolean(values.get(0)));
                         break;
                     default:
                         super.setAttribute(name, values);
@@ -415,6 +418,16 @@ public class UserAdapter extends AbstractUserAdapterFederatedStorage {
             default:
                 return super.getFirstAttribute(name);
         }
+    }
+
+    @Override
+    public void setEmailVerified(boolean verified) {
+        entity.setEmail_verified(verified);
+    }
+
+    @Override
+    public boolean isEmailVerified() {
+        return entity.isEmail_verified();
     }
 
     /**
@@ -464,6 +477,12 @@ public class UserAdapter extends AbstractUserAdapterFederatedStorage {
             all.add("description", "");
         }
 
+        if (entity.isEmail_verified()) {
+            all.add("EMAIL_VERIFIED", "true");
+        } else {
+            all.add("EMAIL_VERIFIED", "false");
+        }
+        
         Collection<UserAttribute> attrList = entity.getUserAttributeCollection();
         if (attrList != null) {
             attrList.forEach((t) -> {
@@ -530,6 +549,13 @@ public class UserAdapter extends AbstractUserAdapterFederatedStorage {
                         res.add(entity.getHash_type());
                     } else {
                         res.add("");
+                    }
+                    break;
+                case "EMAIL_VERIFIED":
+                    if (entity.isEmail_verified()) {
+                        res.add("true");
+                    } else {
+                        res.add("false");
                     }
                     break;
                 default:

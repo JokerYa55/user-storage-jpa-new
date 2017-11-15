@@ -87,8 +87,8 @@ public class UserEntity implements Serializable {
     private Integer user_region;
     @Column(name = "enabled", unique = false, nullable = false, columnDefinition = "boolean DEFAULT true")
     private boolean enabled;
-//    @Column(name = "email_verified", unique = false, nullable = false, columnDefinition = "boolean DEFAULT false")
-//    private boolean email_verified;
+    @Column(name = "email_verified", unique = false, nullable = false, columnDefinition = "boolean DEFAULT false")
+    private boolean email_verified;
     @Column(name = "description", unique = false, nullable = true)
     private String description;
 //    @Column(name = "federation_link", unique = false, nullable = true)
@@ -352,6 +352,14 @@ public class UserEntity implements Serializable {
 
     public void setHash_type(String hash_type) {
         this.hash_type = hash_type;
+    }
+
+    public boolean isEmail_verified() {
+        return email_verified;
+    }
+
+    public void setEmail_verified(boolean email_verified) {
+        this.email_verified = email_verified;
     }
 
 }
