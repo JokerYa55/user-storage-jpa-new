@@ -2,6 +2,7 @@ package DAO;
 
 import java.util.Collection;
 import java.util.Date;
+import java.util.HashSet;
 import org.jboss.logging.Logger;
 import org.keycloak.common.util.MultivaluedHashMap;
 import org.keycloak.component.ComponentModel;
@@ -13,6 +14,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.function.Consumer;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.persistence.EntityManager;
@@ -54,6 +56,7 @@ public class UserAdapter extends AbstractUserAdapterFederatedStorage {
         this.entity = entity;
         // внутренний ID
         keycloakId = StorageId.keycloakId(model, entity.getId().toString());
+        log.debug("keycloakId => " + keycloakId);
         this.em = em;
     }
 
@@ -579,59 +582,95 @@ public class UserAdapter extends AbstractUserAdapterFederatedStorage {
 //
     @Override
     public void removeRequiredAction(RequiredAction action) {
-        log.debug("removeRequiredAction => " + action);
-        //super.removeRequiredAction(action); //To change body of generated methods, choose Tools | Templates.
+        log.debug("removeRequiredAction => " + action.name());
+        UserRequiredAction temp = null;
+        for (UserRequiredAction t : entity.getUserRequiredActionCollection()) {
+            if (t.getTUserRequiredActionPK().getRequiredAction().equalsIgnoreCase(action.name())) {
+                temp = t;
+            }
+        }
 
-        //entity.setUserRequiredActionCollection(userRequiredActionCollection);
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        if (temp != null) {
+            entity.getUserRequiredActionCollection().remove(temp);
+        } else {
+            log.debug("ACTION NotFound => " + action);
+        }
     }
 
     @Override
     public void addRequiredAction(RequiredAction action) {
         log.debug("addRequiredAction => " + action);
         //super.addRequiredAction(action); //To change body of generated methods, choose Tools | Templates.
-        if (entity.getUserRequiredActionCollection() != null) {
-            UserRequiredAction tempRA = new UserRequiredAction(action.name(), entity.getId());
-            entity.getUserRequiredActionCollection().add(tempRA);
-        } else {
-            Collection<UserRequiredAction> tempList = new LinkedList<>();
-            UserRequiredAction tempRA = new UserRequiredAction(action.name(), entity.getId());
-            tempList.add(tempRA);
-            entity.setUserRequiredActionCollection(tempList);
+        UserRequiredAction temp = null;
+        for (UserRequiredAction t : entity.getUserRequiredActionCollection()) {
+            if (t.getTUserRequiredActionPK().getRequiredAction().equalsIgnoreCase(action.name())) {
+                temp = t;
+            }
+        }
+
+        if (temp == null) {
+            if (entity.getUserRequiredActionCollection() != null) {
+                UserRequiredAction tempRA = new UserRequiredAction(action.name(), entity.getId());
+                entity.getUserRequiredActionCollection().add(tempRA);
+            } else {
+                Collection<UserRequiredAction> tempList = new LinkedList<>();
+                UserRequiredAction tempRA = new UserRequiredAction(action.name(), entity.getId());
+                tempList.add(tempRA);
+                entity.setUserRequiredActionCollection(tempList);
+            }
         }
     }
 
     @Override
     public void removeRequiredAction(String action) {
         log.debug("removeRequiredAction => " + action);
-        //super.removeRequiredAction(action); //To change body of generated methods, choose Tools | Templates.
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        UserRequiredAction temp = null;
+        for (UserRequiredAction t : entity.getUserRequiredActionCollection()) {
+            if (t.getTUserRequiredActionPK().getRequiredAction().equalsIgnoreCase(action)) {
+                temp = t;
+            }
+        }
+
+        if (temp != null) {
+            entity.getUserRequiredActionCollection().remove(temp);
+        } else {
+            log.debug("ACTION NotFound => " + action);
+        }
     }
 
     @Override
     public void addRequiredAction(String action) {
         log.debug("addRequiredAction => " + action);
-        log.debug("addRequiredAction => " + action);
         //super.addRequiredAction(action); //To change body of generated methods, choose Tools | Templates.
-        if (entity.getUserRequiredActionCollection() != null) {
-            UserRequiredAction tempRA = new UserRequiredAction(action, entity.getId());
-            entity.getUserRequiredActionCollection().add(tempRA);
-        } else {
-            Collection<UserRequiredAction> tempList = new LinkedList<>();
-            UserRequiredAction tempRA = new UserRequiredAction(action, entity.getId());
-            tempList.add(tempRA);
-            entity.setUserRequiredActionCollection(tempList);
+        UserRequiredAction temp = null;
+        for (UserRequiredAction t : entity.getUserRequiredActionCollection()) {
+            if (t.getTUserRequiredActionPK().getRequiredAction().equalsIgnoreCase(action)) {
+                temp = t;
+            }
+        }
+
+        if (temp == null) {
+            if (entity.getUserRequiredActionCollection() != null) {
+                UserRequiredAction tempRA = new UserRequiredAction(action, entity.getId());
+                entity.getUserRequiredActionCollection().add(tempRA);
+            } else {
+                Collection<UserRequiredAction> tempList = new LinkedList<>();
+                UserRequiredAction tempRA = new UserRequiredAction(action, entity.getId());
+                tempList.add(tempRA);
+                entity.setUserRequiredActionCollection(tempList);
+            }
         }
     }
 
     @Override
     public Set<String> getRequiredActions() {
         log.debug("getRequiredActions");
-        super.getRequiredActions().forEach((t) -> {
-            log.debug("t => " + t);
-        });
-        return super.getRequiredActions(); //To change body of generated methods, choose Tools | Templates.
-        //return null;
+        Set<String> res = new HashSet();
+        for (UserRequiredAction item : entity.getUserRequiredActionCollection()) {
+            res.add(item.getTUserRequiredActionPK().getRequiredAction());
+        }
+        //return super.getRequiredActions(); //To change body of generated methods, choose Tools | Templates.
+        return res;
     }
 
 //    @Override
