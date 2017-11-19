@@ -18,12 +18,12 @@ import java.util.regex.Pattern;
 import javax.persistence.EntityManager;
 import keycloak.bean.UserAttribute;
 import keycloak.bean.UserEntity;
+import keycloak.bean.UserRequiredAction;
 import static keycloak.storage.util.hashUtil.encodeToHex;
 import static keycloak.storage.util.hashUtil.genSalt;
 //import static keycloak.storage.util.hashUtil.sha1ToString;
 //import static keycloak.storage.util.hashUtil.encodeToHex;
 import static keycloak.storage.util.hashUtil.sha1;
-import org.keycloak.models.GroupModel;
 
 // <!-- <property name="hibernate.show_sql" value="true"/> -->
 /**
@@ -482,7 +482,7 @@ public class UserAdapter extends AbstractUserAdapterFederatedStorage {
         } else {
             all.add("EMAIL_VERIFIED", "false");
         }
-        
+
         Collection<UserAttribute> attrList = entity.getUserAttributeCollection();
         if (attrList != null) {
             attrList.forEach((t) -> {
@@ -571,10 +571,194 @@ public class UserAdapter extends AbstractUserAdapterFederatedStorage {
      *
      * @return возвращает списое групп пользователя
      */
+//    @Override
+//    public Set<GroupModel> getGroups() {
+//        log.info("getGroups()");
+//        return super.getGroups(); //To change body of generated methods, choose Tools | Templates.
+//    }
+//
     @Override
-    public Set<GroupModel> getGroups() {
-        log.info("getGroups()");
-        return super.getGroups(); //To change body of generated methods, choose Tools | Templates.
+    public void removeRequiredAction(RequiredAction action) {
+        log.debug("removeRequiredAction => " + action);
+        //super.removeRequiredAction(action); //To change body of generated methods, choose Tools | Templates.
+
+        //entity.setUserRequiredActionCollection(userRequiredActionCollection);
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
+    @Override
+    public void addRequiredAction(RequiredAction action) {
+        log.debug("addRequiredAction => " + action);
+        //super.addRequiredAction(action); //To change body of generated methods, choose Tools | Templates.
+        if (entity.getUserRequiredActionCollection() != null) {
+            UserRequiredAction tempRA = new UserRequiredAction(action.name(), entity.getId());
+            entity.getUserRequiredActionCollection().add(tempRA);
+        } else {
+            Collection<UserRequiredAction> tempList = new LinkedList<>();
+            UserRequiredAction tempRA = new UserRequiredAction(action.name(), entity.getId());
+            tempList.add(tempRA);
+            entity.setUserRequiredActionCollection(tempList);
+        }
+    }
+
+    @Override
+    public void removeRequiredAction(String action) {
+        log.debug("removeRequiredAction => " + action);
+        //super.removeRequiredAction(action); //To change body of generated methods, choose Tools | Templates.
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void addRequiredAction(String action) {
+        log.debug("addRequiredAction => " + action);
+        log.debug("addRequiredAction => " + action);
+        //super.addRequiredAction(action); //To change body of generated methods, choose Tools | Templates.
+        if (entity.getUserRequiredActionCollection() != null) {
+            UserRequiredAction tempRA = new UserRequiredAction(action, entity.getId());
+            entity.getUserRequiredActionCollection().add(tempRA);
+        } else {
+            Collection<UserRequiredAction> tempList = new LinkedList<>();
+            UserRequiredAction tempRA = new UserRequiredAction(action, entity.getId());
+            tempList.add(tempRA);
+            entity.setUserRequiredActionCollection(tempList);
+        }
+    }
+
+    @Override
+    public Set<String> getRequiredActions() {
+        log.debug("getRequiredActions");
+        super.getRequiredActions().forEach((t) -> {
+            log.debug("t => " + t);
+        });
+        return super.getRequiredActions(); //To change body of generated methods, choose Tools | Templates.
+        //return null;
+    }
+
+//    @Override
+//    public UserFederatedStorageProvider getFederatedStorage() {
+//        try {
+//            log.debug("UserFederatedStorageProvider");
+//            UserFederatedStorageProvider fed = super.getFederatedStorage();
+//            log.debug("realm = " + realm + " EMAIL => " + EMAIL);
+//            log.debug("fed => " + fed);
+//            return super.getFederatedStorage(); //To change body of generated methods, choose Tools | Templates.
+//        } catch (Exception e) {
+//            log.log(Logger.Level.ERROR, e);
+//        }
+//        return null;
+//    }
+//
+//    @Override
+//    public int hashCode() {
+//        log.debug("hashCode");
+//        return super.hashCode(); //To change body of generated methods, choose Tools | Templates.
+//    }
+//
+//    @Override
+//    public boolean equals(Object o) {
+//        log.debug("equals");
+//        return super.equals(o); //To change body of generated methods, choose Tools | Templates.
+//    }
+//
+//    @Override
+//    public void setServiceAccountClientLink(String clientInternalId) {
+//        log.debug("setServiceAccountClientLink");
+//        super.setServiceAccountClientLink(clientInternalId); //To change body of generated methods, choose Tools | Templates.
+//    }
+//
+//    @Override
+//    public String getServiceAccountClientLink() {
+//        log.debug("getServiceAccountClientLink");
+//        return super.getServiceAccountClientLink(); //To change body of generated methods, choose Tools | Templates.
+//    }
+//
+//    @Override
+//    public void setFederationLink(String link) {
+//        log.debug("setFederationLink => " + link);
+//        super.setFederationLink(link); //To change body of generated methods, choose Tools | Templates.
+//    }
+//
+//    @Override
+//    public String getFederationLink() {
+//        log.debug("getFederationLink");
+//        return super.getFederationLink(); //To change body of generated methods, choose Tools | Templates.
+//    }
+//
+//    @Override
+//    public void deleteRoleMapping(RoleModel role) {
+//        log.debug("deleteRoleMapping => " + role);
+//        super.deleteRoleMapping(role); //To change body of generated methods, choose Tools | Templates.
+//    }
+//
+//    @Override
+//    protected Set<RoleModel> getFederatedRoleMappings() {
+//        log.debug("getFederatedRoleMappings");
+//        return super.getFederatedRoleMappings(); //To change body of generated methods, choose Tools | Templates.
+//    }
+//
+//    @Override
+//    public Set<RoleModel> getRoleMappings() {
+//        log.debug("getRoleMappings");
+//        return super.getRoleMappings(); //To change body of generated methods, choose Tools | Templates.
+//    }
+//
+//    @Override
+//    protected Set<RoleModel> getRoleMappingsInternal() {
+//        log.debug("getRoleMappingsInternal");
+//        return super.getRoleMappingsInternal(); //To change body of generated methods, choose Tools | Templates.
+//    }
+//
+//    @Override
+//    protected boolean appendDefaultRolesToRoleMappings() {
+//        log.debug("appendDefaultRolesToRoleMappings");
+//        return super.appendDefaultRolesToRoleMappings(); //To change body of generated methods, choose Tools | Templates.
+//    }
+//
+//    @Override
+//    public void grantRole(RoleModel role) {
+//        log.debug("grantRole => " + role);
+//        super.grantRole(role); //To change body of generated methods, choose Tools | Templates.
+//    }
+//
+//    @Override
+//    public boolean hasRole(RoleModel role) {
+//        log.debug("hasRole => " + role);
+//        return super.hasRole(role); //To change body of generated methods, choose Tools | Templates.
+//    }
+//
+//    @Override
+//    public Set<RoleModel> getClientRoleMappings(ClientModel app) {
+//        log.debug("getClientRoleMappings => " + app);
+//        return super.getClientRoleMappings(app); //To change body of generated methods, choose Tools | Templates.
+//    }
+//
+//    @Override
+//    public Set<RoleModel> getRealmRoleMappings() {
+//        log.debug("getRealmRoleMappings");
+//        return super.getRealmRoleMappings(); //To change body of generated methods, choose Tools | Templates.
+//    }
+//
+//    @Override
+//    public boolean isMemberOf(GroupModel group) {
+//        log.debug("isMemberOf => " + group);
+//        return super.isMemberOf(group); //To change body of generated methods, choose Tools | Templates.
+//    }
+//
+//    @Override
+//    public void leaveGroup(GroupModel group) {
+//        log.debug("leaveGroup => " + group);
+//        super.leaveGroup(group); //To change body of generated methods, choose Tools | Templates.
+//    }
+//
+//    @Override
+//    protected boolean appendDefaultGroups() {
+//        log.debug("appendDefaultGroups");
+//        return super.appendDefaultGroups(); //To change body of generated methods, choose Tools | Templates.
+//    }
+//
+//    @Override
+//    protected Set<GroupModel> getGroupsInternal() {
+//        log.debug("getGroupsInternal");
+//        return super.getGroupsInternal(); //To change body of generated methods, choose Tools | Templates.
+//    }
 }

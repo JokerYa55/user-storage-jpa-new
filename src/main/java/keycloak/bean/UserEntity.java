@@ -41,6 +41,7 @@ import org.jboss.logging.Logger;
 public class UserEntity implements Serializable {
 
     private static final Logger log = Logger.getLogger(UserEntity.class);
+    private static final long serialVersionUID = 1L;
 
     @Id
     @Column(name = "id", unique = true, nullable = false)
@@ -96,6 +97,9 @@ public class UserEntity implements Serializable {
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "userId", orphanRemoval = true)
     private Collection<UserAttribute> userAttributeCollection;
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "tUsers", orphanRemoval = true)
+    private Collection<UserRequiredAction> userRequiredActionCollection;
 
     public UserEntity() {
     }
@@ -360,6 +364,34 @@ public class UserEntity implements Serializable {
 
     public void setEmail_verified(boolean email_verified) {
         this.email_verified = email_verified;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 0;
+        hash += (id != null ? id.hashCode() : 0);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object object) {
+        // TODO: Warning - this method won't work in the case the id fields are not set
+        if (!(object instanceof UserEntity)) {
+            return false;
+        }
+        UserEntity other = (UserEntity) object;
+        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
+            return false;
+        }
+        return true;
+    }
+
+    public Collection<UserRequiredAction> getUserRequiredActionCollection() {
+        return userRequiredActionCollection;
+    }
+
+    public void setUserRequiredActionCollection(Collection<UserRequiredAction> userRequiredActionCollection) {
+        this.userRequiredActionCollection = userRequiredActionCollection;
     }
 
 }

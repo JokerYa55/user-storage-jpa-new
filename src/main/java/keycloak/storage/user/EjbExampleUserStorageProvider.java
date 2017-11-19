@@ -298,7 +298,8 @@ public class EjbExampleUserStorageProvider implements UserStorageProvider,
      */
     @Override
     public boolean supportsCredentialType(String credentialType) {
-        log.info("supportsCredentialType\n\n\tcredentialType = " + credentialType);
+        log.info("supportsCredentialType\n\n\tcredentialType = " + credentialType);        
+        CredentialModel.TOTP.equals(credentialType);
         return CredentialModel.PASSWORD.equals(credentialType);
     }
 
@@ -1109,10 +1110,12 @@ public class EjbExampleUserStorageProvider implements UserStorageProvider,
      * @param string
      * @param string1
      */
-    @Override
-    public void addRequiredAction(RealmModel rm, String string, String string1) {
-        log.info("addRequiredAction => " + rm + " string => " + string + " string1 => " + string1);
-    }
+    
+    // TODO : requaredAction
+//    @Override
+//    public void addRequiredAction(RealmModel rm, String string, String string1) {
+//        log.info("addRequiredAction => " + rm + " string => " + string + " string1 => " + string1);
+//    }
 
     /**
      *
@@ -1120,10 +1123,10 @@ public class EjbExampleUserStorageProvider implements UserStorageProvider,
      * @param string
      * @param string1
      */
-    @Override
-    public void removeRequiredAction(RealmModel rm, String string, String string1) {
-        log.info("removeRequiredAction rm => " + rm + " string => " + string + " string1 => " + string1);
-    }
+//    @Override
+//    public void removeRequiredAction(RealmModel rm, String string, String string1) {
+//        log.info("removeRequiredAction rm => " + rm + " string => " + string + " string1 => " + string1);
+//    }
 
     /**
      *
@@ -1234,6 +1237,18 @@ public class EjbExampleUserStorageProvider implements UserStorageProvider,
     @Override
     public CredentialModel getStoredCredentialByNameAndType(RealmModel rm, String string, String string1, String string2) {
         log.info("getStoredCredentialByNameAndType => " + string + " String1 => " + string1);
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void addRequiredAction(RealmModel rm, String string, String string1) {
+        log.debug("addRequiredAction => " + rm + " string => " + string + " string1 => " + string1);
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void removeRequiredAction(RealmModel rm, String string, String string1) {
+        log.debug("removeRequiredAction => " + rm + " string => " + string + " string1 => " + string1);
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 

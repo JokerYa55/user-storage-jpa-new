@@ -5,6 +5,7 @@
     <class>keycloak.bean.UserAttribute</class>
     <class>keycloak.bean.UserEntity</class>
     <class>keycloak.bean.UsersLog</class>
+    <class>keycloak.bean.UserRequiredAction</class>
     <properties>
       <property name="hibernate.hbm2ddl.auto" value="update"/>
       <property name="hibernate.format_sql" value="true"/>

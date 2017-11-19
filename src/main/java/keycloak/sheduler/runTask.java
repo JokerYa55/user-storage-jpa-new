@@ -19,7 +19,7 @@ public class runTask {
 
     Logger log = Logger.getLogger(runTask.class.getName());
     long count = 0;
-    @Schedule(hour="*", minute="1")
+    //@Schedule(hour="*", minute="1")
     public void runsEveryMinute() {
         count ++;
         log.info(" runs EveryMinute " + count);
