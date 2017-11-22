@@ -209,6 +209,8 @@ public class EjbExampleUserStorageProvider implements UserStorageProvider,
         return new UserAdapter(session, realm, model, result.get(0), em);
     }
 
+    
+    
     /**
      *
      * @param realm

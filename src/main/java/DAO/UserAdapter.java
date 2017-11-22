@@ -666,11 +666,14 @@ public class UserAdapter extends AbstractUserAdapterFederatedStorage {
     public Set<String> getRequiredActions() {
         log.debug("getRequiredActions");
         Set<String> res = new HashSet();
-        for (UserRequiredAction item : entity.getUserRequiredActionCollection()) {
-            res.add(item.getTUserRequiredActionPK().getRequiredAction());
+        if (entity.getUserRequiredActionCollection() != null) {
+            for (UserRequiredAction item : entity.getUserRequiredActionCollection()) {
+                res.add(item.getTUserRequiredActionPK().getRequiredAction());
+            }
+            return res;
         }
-        //return super.getRequiredActions(); //To change body of generated methods, choose Tools | Templates.
-        return res;
+
+        return super.getRequiredActions();
     }
 
 //    @Override
