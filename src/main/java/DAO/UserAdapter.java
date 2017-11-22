@@ -584,9 +584,11 @@ public class UserAdapter extends AbstractUserAdapterFederatedStorage {
     public void removeRequiredAction(RequiredAction action) {
         log.debug("removeRequiredAction => " + action.name());
         UserRequiredAction temp = null;
-        for (UserRequiredAction t : entity.getUserRequiredActionCollection()) {
-            if (t.getTUserRequiredActionPK().getRequiredAction().equalsIgnoreCase(action.name())) {
-                temp = t;
+        if (entity.getUserRequiredActionCollection() != null) {
+            for (UserRequiredAction t : entity.getUserRequiredActionCollection()) {
+                if (t.getTUserRequiredActionPK().getRequiredAction().equalsIgnoreCase(action.name())) {
+                    temp = t;
+                }
             }
         }
 
@@ -602,9 +604,11 @@ public class UserAdapter extends AbstractUserAdapterFederatedStorage {
         log.debug("addRequiredAction => " + action);
         //super.addRequiredAction(action); //To change body of generated methods, choose Tools | Templates.
         UserRequiredAction temp = null;
-        for (UserRequiredAction t : entity.getUserRequiredActionCollection()) {
-            if (t.getTUserRequiredActionPK().getRequiredAction().equalsIgnoreCase(action.name())) {
-                temp = t;
+        if (entity.getUserRequiredActionCollection() != null) {
+            for (UserRequiredAction t : entity.getUserRequiredActionCollection()) {
+                if (t.getTUserRequiredActionPK().getRequiredAction().equalsIgnoreCase(action.name())) {
+                    temp = t;
+                }
             }
         }
 
@@ -625,9 +629,11 @@ public class UserAdapter extends AbstractUserAdapterFederatedStorage {
     public void removeRequiredAction(String action) {
         log.debug("removeRequiredAction => " + action);
         UserRequiredAction temp = null;
-        for (UserRequiredAction t : entity.getUserRequiredActionCollection()) {
-            if (t.getTUserRequiredActionPK().getRequiredAction().equalsIgnoreCase(action)) {
-                temp = t;
+        if (entity.getUserRequiredActionCollection() != null) {
+            for (UserRequiredAction t : entity.getUserRequiredActionCollection()) {
+                if (t.getTUserRequiredActionPK().getRequiredAction().equalsIgnoreCase(action)) {
+                    temp = t;
+                }
             }
         }
 
@@ -643,9 +649,11 @@ public class UserAdapter extends AbstractUserAdapterFederatedStorage {
         log.debug("addRequiredAction => " + action);
         //super.addRequiredAction(action); //To change body of generated methods, choose Tools | Templates.
         UserRequiredAction temp = null;
-        for (UserRequiredAction t : entity.getUserRequiredActionCollection()) {
-            if (t.getTUserRequiredActionPK().getRequiredAction().equalsIgnoreCase(action)) {
-                temp = t;
+        if (entity.getUserRequiredActionCollection() != null) {
+            for (UserRequiredAction t : entity.getUserRequiredActionCollection()) {
+                if (t.getTUserRequiredActionPK().getRequiredAction().equalsIgnoreCase(action)) {
+                    temp = t;
+                }
             }
         }
 
