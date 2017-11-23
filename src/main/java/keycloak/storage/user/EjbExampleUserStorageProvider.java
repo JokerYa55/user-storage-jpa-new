@@ -181,8 +181,17 @@ public class EjbExampleUserStorageProvider implements UserStorageProvider,
     @Override
     public UserModel getUserByUsername(String username, RealmModel realm) {
         log.info("getUserByUsername: " + username);
-        TypedQuery<UserEntity> query = em.createNamedQuery("getUserByUsername", UserEntity.class);
-        query.setParameter("username", username);
+        TypedQuery<UserEntity> query = null;
+        if (!username.contains("+7")) {
+            log.debug("FIND BY USERNAME");
+            query = em.createNamedQuery("getUserByUsername", UserEntity.class);
+            query.setParameter("username", username);
+        } else {
+            log.debug("FIND BY PHONE => " + username.substring(2));
+            query = em.createNamedQuery("getUserByPhone", UserEntity.class);
+            query.setParameter("phone", username.substring(1));
+        }
+
         List<UserEntity> result = query.getResultList();
         if (result.isEmpty()) {
             log.info("could not find username: " + username);
@@ -209,8 +218,6 @@ public class EjbExampleUserStorageProvider implements UserStorageProvider,
         return new UserAdapter(session, realm, model, result.get(0), em);
     }
 
-    
-    
     /**
      *
      * @param realm
@@ -300,7 +307,7 @@ public class EjbExampleUserStorageProvider implements UserStorageProvider,
      */
     @Override
     public boolean supportsCredentialType(String credentialType) {
-        log.info("supportsCredentialType\n\n\tcredentialType = " + credentialType);        
+        log.info("supportsCredentialType\n\n\tcredentialType = " + credentialType);
         CredentialModel.TOTP.equals(credentialType);
         return CredentialModel.PASSWORD.equals(credentialType);
     }
@@ -452,7 +459,7 @@ public class EjbExampleUserStorageProvider implements UserStorageProvider,
             case "sha1":
                 log.info("\n{"
                         + "\n\tcred device= " + cred.getDevice()
-                       // + "\n\tuserpass    = " + cred.getValue()
+                        // + "\n\tuserpass    = " + cred.getValue()
                         + "\n\tsalt        = " + salt
                         + "\n\tpassword    = " + password
                         + "\n\tuserpass    = " + encodeToHex(sha1(cred.getValue() + salt))
@@ -1112,13 +1119,11 @@ public class EjbExampleUserStorageProvider implements UserStorageProvider,
      * @param string
      * @param string1
      */
-    
     // TODO : requaredAction
 //    @Override
 //    public void addRequiredAction(RealmModel rm, String string, String string1) {
 //        log.info("addRequiredAction => " + rm + " string => " + string + " string1 => " + string1);
 //    }
-
     /**
      *
      * @param rm
@@ -1129,7 +1134,6 @@ public class EjbExampleUserStorageProvider implements UserStorageProvider,
 //    public void removeRequiredAction(RealmModel rm, String string, String string1) {
 //        log.info("removeRequiredAction rm => " + rm + " string => " + string + " string1 => " + string1);
 //    }
-
     /**
      *
      * @param rm

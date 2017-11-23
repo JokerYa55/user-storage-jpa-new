@@ -25,6 +25,8 @@ import org.jboss.logging.Logger;
 @NamedQueries({
     @NamedQuery(name = "getUserByUsername", query = "select u from UserEntity u where u.username = :username and u.user_status=0")
     ,
+    @NamedQuery(name = "getUserByPhone", query = "select u from UserEntity u where u.phone = :phone and u.user_status=0")
+    ,
     @NamedQuery(name = "getUserByEmail", query = "select u from UserEntity u where u.email = :email and u.user_status=0")
     ,
     @NamedQuery(name = "getUserCount", query = "select count(u) from UserEntity u where u.user_status=0")
