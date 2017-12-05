@@ -6,9 +6,7 @@
 package keycloak.sheduler;
 
 import java.util.logging.Logger;
-import javax.ejb.Schedule;
 import javax.ejb.Singleton;
-import org.keycloak.examples.storage.HTTPUtil.Util;
 
 /**
  *
