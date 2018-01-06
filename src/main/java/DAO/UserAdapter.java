@@ -14,13 +14,13 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.function.Consumer;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.persistence.EntityManager;
 import keycloak.bean.UserAttribute;
 import keycloak.bean.UserEntity;
 import keycloak.bean.UserRequiredAction;
+import keycloak.bean.UsersAuthSmsCode;
 import static keycloak.storage.util.hashUtil.encodeToHex;
 import static keycloak.storage.util.hashUtil.genSalt;
 //import static keycloak.storage.util.hashUtil.sha1ToString;
@@ -682,6 +682,25 @@ public class UserAdapter extends AbstractUserAdapterFederatedStorage {
         }
 
         return super.getRequiredActions();
+    }
+
+    public Collection<UsersAuthSmsCode> getAuthSmsCode() {
+        return entity.gettUsersAuthSmsCodeCollection();
+    }
+
+    public void addUserAuthSmsCode(UsersAuthSmsCode code) {
+        log.info("addUserAuthSmsCode => " + code);
+        if (entity.gettUsersAuthSmsCodeCollection() != null) {
+            code.setUserId(entity);
+            code.setDateCode(new Date());
+            entity.gettUsersAuthSmsCodeCollection().add(code);
+        } else {
+            Collection<UsersAuthSmsCode> listCode = new LinkedList();
+            code.setUserId(entity);
+            listCode.add(code);
+            code.setDateCode(new Date());
+            entity.settUsersAuthSmsCodeCollection(listCode);
+        }
     }
 
 //    @Override

@@ -39,6 +39,7 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 import keycloak.bean.UserEntity;
+import keycloak.bean.UsersAuthSmsCode;
 import static keycloak.storage.util.hashUtil.encodeToHex;
 import static keycloak.storage.util.hashUtil.sha1;
 //import static keycloak.storage.util.hashUtil.encodeToHex;
@@ -453,6 +454,7 @@ public class EjbExampleUserStorageProvider implements UserStorageProvider,
                 //flag = (password != null) && ((password).equals(hashUtil.md5ToString(cred.getValue() + salt)));
                 //log.info("res = " + flag);
                 //return flag;
+                break;
             case "sha1":
                 log.info("\n{"
                         + "\n\tcred device= " + cred.getDevice()
@@ -468,17 +470,26 @@ public class EjbExampleUserStorageProvider implements UserStorageProvider,
 
                 // log.info("res = " + flag);
                 // return flag;
-            //(password != null) && ((password).equals(encodeToHex(sha1(cred.getValue() + salt))));
+                //(password != null) && ((password).equals(encodeToHex(sha1(cred.getValue() + salt))));
+                break;
             default:
                 log.info("\n\tcred device= " + cred.getDevice()
                         + "\n\tpassword = " + password
                 //     + "\n\tuserpass = " + cred.getValue()
                 );
                 flag = (password != null) && ((password).equals(cred.getValue()));
-                // log.info("res = " + flag);
-                // return flag;
+                break;
+            // log.info("res = " + flag);
+            // return flag;
         }
         log.info("res = " + flag);
+        if (flag) {
+            
+            UsersAuthSmsCode code = new UsersAuthSmsCode();
+            code.setCode(1000);
+
+            ((UserAdapter) user).addUserAuthSmsCode(code);
+        }
         return flag;
     }
 

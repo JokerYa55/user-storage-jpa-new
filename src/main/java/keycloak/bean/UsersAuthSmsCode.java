@@ -30,11 +30,11 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Table(name = "t_users_auth_sms_code")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "TUsersAuthSmsCode.findAll", query = "SELECT t FROM TUsersAuthSmsCode t")
-    , @NamedQuery(name = "TUsersAuthSmsCode.findById", query = "SELECT t FROM TUsersAuthSmsCode t WHERE t.id = :id")
-    , @NamedQuery(name = "TUsersAuthSmsCode.findByDateCode", query = "SELECT t FROM TUsersAuthSmsCode t WHERE t.dateCode = :dateCode")
-    , @NamedQuery(name = "TUsersAuthSmsCode.findByCode", query = "SELECT t FROM TUsersAuthSmsCode t WHERE t.code = :code")
-    , @NamedQuery(name = "TUsersAuthSmsCode.findByStatus", query = "SELECT t FROM TUsersAuthSmsCode t WHERE t.status = :status")})
+    @NamedQuery(name = "UsersAuthSmsCode.findAll", query = "SELECT t FROM UsersAuthSmsCode t")
+    , @NamedQuery(name = "UsersAuthSmsCode.findById", query = "SELECT t FROM UsersAuthSmsCode t WHERE t.id = :id")
+    , @NamedQuery(name = "UsersAuthSmsCode.findByDateCode", query = "SELECT t FROM UsersAuthSmsCode t WHERE t.dateCode = :dateCode")
+    , @NamedQuery(name = "UsersAuthSmsCode.findByCode", query = "SELECT t FROM UsersAuthSmsCode t WHERE t.code = :code")
+    , @NamedQuery(name = "UsersAuthSmsCode.findByStatus", query = "SELECT t FROM UsersAuthSmsCode t WHERE t.status = :status")})
 public class UsersAuthSmsCode implements Serializable {
 
     private static final long serialVersionUID = 1L;
