@@ -1,7 +1,6 @@
 package keycloak.storage.user;
 
 import DAO.UserAdapter;
-import DAO.UsersLogDAO;
 import org.jboss.logging.Logger;
 import org.keycloak.component.ComponentModel;
 import org.keycloak.credential.CredentialInput;
@@ -40,8 +39,6 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 import keycloak.bean.UserEntity;
-import keycloak.bean.UsersLog;
-import keycloak.storage.util.hashUtil;
 import static keycloak.storage.util.hashUtil.encodeToHex;
 import static keycloak.storage.util.hashUtil.sha1;
 //import static keycloak.storage.util.hashUtil.encodeToHex;
@@ -454,8 +451,8 @@ public class EjbExampleUserStorageProvider implements UserStorageProvider,
                         + "\n}");
                 flag = (password != null) && ((password).equals(encodeToHex(md5(cred.getValue() + salt))));
                 //flag = (password != null) && ((password).equals(hashUtil.md5ToString(cred.getValue() + salt)));
-                log.info("res = " + flag);
-                return flag;
+                //log.info("res = " + flag);
+                //return flag;
             case "sha1":
                 log.info("\n{"
                         + "\n\tcred device= " + cred.getDevice()
@@ -469,17 +466,20 @@ public class EjbExampleUserStorageProvider implements UserStorageProvider,
                 flag = (password != null) && ((password).equals(encodeToHex(sha1(cred.getValue() + salt))));
                 //flag = (password != null) && ((password).equals(hashUtil.sha1ToString(cred.getValue() + salt)));
 
-                log.info("res = " + flag);
-                return flag;
+                // log.info("res = " + flag);
+                // return flag;
             //(password != null) && ((password).equals(encodeToHex(sha1(cred.getValue() + salt))));
             default:
                 log.info("\n\tcred device= " + cred.getDevice()
                         + "\n\tpassword = " + password
                 //     + "\n\tuserpass = " + cred.getValue()
                 );
-                return (password != null) && ((password).equals(cred.getValue()));
+                flag = (password != null) && ((password).equals(cred.getValue()));
+                // log.info("res = " + flag);
+                // return flag;
         }
-
+        log.info("res = " + flag);
+        return flag;
     }
 
     /**

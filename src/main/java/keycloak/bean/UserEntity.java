@@ -103,6 +103,9 @@ public class UserEntity implements Serializable {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "tUsers", orphanRemoval = true)
     private Collection<UserRequiredAction> userRequiredActionCollection;
 
+    @OneToMany(mappedBy = "userId")
+    private Collection<UsersAuthSmsCode> tUsersAuthSmsCodeCollection;
+    
     public UserEntity() {
     }
 
