@@ -222,6 +222,7 @@ public class EjbExampleUserStorageProvider implements UserStorageProvider,
      * @param username
      * @return
      */
+    //TODO: Исправлено 07/01/2018 
     @Override
     public UserModel addUser(RealmModel realm, String username) {
         UserEntity entity = new UserEntity();
@@ -245,7 +246,17 @@ public class EjbExampleUserStorageProvider implements UserStorageProvider,
         } catch (Exception e) {
             log.error(e.getMessage());
         }*/
-        return new UserAdapter(session, realm, model, entity, em);
+        
+        UserCredentialModel input = new UserCredentialModel();
+        input.setType("SECRET_QUESTION");
+        String answer = Math.round(Math.random()*1000000)+"";
+        input.setValue(answer);
+        
+        
+        UserAdapter user = new UserAdapter(session, realm, model, entity, em); 
+        
+        session.userCredentialManager().updateCredential(realm, (UserModel) user , input);
+        return user;
     }
 
     /**
