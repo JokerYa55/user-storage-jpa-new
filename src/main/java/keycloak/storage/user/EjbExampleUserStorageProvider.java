@@ -46,6 +46,7 @@ import static keycloak.storage.util.hashUtil.sha1;
 import static keycloak.storage.util.hashUtil.md5;
 //import static keycloak.storage.util.hashUtil.sha1;
 import org.keycloak.common.util.MultivaluedHashMap;
+import org.keycloak.common.util.Time;
 import org.keycloak.models.ClientModel;
 import org.keycloak.models.FederatedIdentityModel;
 import org.keycloak.models.ProtocolMapperModel;
@@ -222,7 +223,7 @@ public class EjbExampleUserStorageProvider implements UserStorageProvider,
      * @param username
      * @return
      */
-    //TODO: Исправлено 07/01/2018 
+    //TODO: 07/01/2018  Исправлено 
     @Override
     public UserModel addUser(RealmModel realm, String username) {
         UserEntity entity = new UserEntity();
@@ -246,16 +247,14 @@ public class EjbExampleUserStorageProvider implements UserStorageProvider,
         } catch (Exception e) {
             log.error(e.getMessage());
         }*/
-        
         UserCredentialModel input = new UserCredentialModel();
         input.setType("SECRET_QUESTION");
-        String answer = Math.round(Math.random()*1000000)+"";
+        String answer = Math.round(Math.random() * 1000000) + "";
         input.setValue(answer);
-        
-        
-        UserAdapter user = new UserAdapter(session, realm, model, entity, em); 
-        
-        session.userCredentialManager().updateCredential(realm, (UserModel) user , input);
+
+        UserAdapter user = new UserAdapter(session, realm, model, entity, em);
+
+        session.userCredentialManager().updateCredential(realm, (UserModel) user, input);
         return user;
     }
 
@@ -494,12 +493,33 @@ public class EjbExampleUserStorageProvider implements UserStorageProvider,
             // return flag;
         }
         log.info("res = " + flag);
+        //TODO: 08/01/2018  меняем код для подтверждения по СМС
         if (flag) {
-            
-            UsersAuthSmsCode code = new UsersAuthSmsCode();
-            code.setCode(1000);
 
-            ((UserAdapter) user).addUserAuthSmsCode(code);
+//            UsersAuthSmsCode code = new UsersAuthSmsCode();
+//            code.setCode(1000);
+//
+//            ((UserAdapter) user).addUserAuthSmsCode(code);
+//            UserCredentialModel input = new UserCredentialModel();
+//            input.setType("SECRET_QUESTION");
+//            String answer = Math.round(Math.random() * 1000000) + "";
+//            input.setValue(answer);
+//
+//            UserAdapter user = new UserAdapter(session, realm, model, entity, em);
+//
+//            session.userCredentialManager().updateCredential(realm, (UserModel) user, input);
+            List<CredentialModel> creds = session.userCredentialManager().getStoredCredentialsByType(realm, user, "SECRET_QUESTION");
+            if (creds.isEmpty()) {
+            CredentialModel secret = new CredentialModel();
+            secret.setType("SECRET_QUESTION");
+            secret.setValue(Math.round(Math.random() * 1000000) + "");
+            secret.setCreatedDate(Time.currentTimeMillis());
+            session.userCredentialManager().createCredential(realm, user, secret);
+        } else {
+            creds.get(0).setValue(Math.round(Math.random() * 1000000) + "");
+            session.userCredentialManager().updateCredential(realm, user, creds.get(0));
+        }
+        session.userCache().evict(realm, user);
         }
         return flag;
     }
