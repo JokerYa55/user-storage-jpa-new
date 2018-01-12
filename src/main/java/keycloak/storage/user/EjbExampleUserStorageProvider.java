@@ -39,7 +39,6 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 import keycloak.bean.UserEntity;
-import keycloak.bean.UsersAuthSmsCode;
 import static keycloak.storage.util.hashUtil.encodeToHex;
 import static keycloak.storage.util.hashUtil.genSalt;
 import static keycloak.storage.util.hashUtil.sha1;
@@ -47,7 +46,6 @@ import static keycloak.storage.util.hashUtil.sha1;
 import static keycloak.storage.util.hashUtil.md5;
 //import static keycloak.storage.util.hashUtil.sha1;
 import org.keycloak.common.util.MultivaluedHashMap;
-import org.keycloak.common.util.Time;
 import org.keycloak.models.ClientModel;
 import org.keycloak.models.FederatedIdentityModel;
 import org.keycloak.models.ProtocolMapperModel;
@@ -67,7 +65,7 @@ public class EjbExampleUserStorageProvider implements UserStorageProvider,
         CredentialInputValidator,
         OnUserCache,
         UserFederatedStorageProvider {
-
+    
     private static final Logger log = Logger.getLogger(EjbExampleUserStorageProvider.class);
 
     /**
@@ -75,6 +73,7 @@ public class EjbExampleUserStorageProvider implements UserStorageProvider,
      */
     public static final String PASSWORD_CACHE_KEY = UserAdapter.class.getName() + ".password";
     public static final String SALT_CACHE_KEY = UserAdapter.class.getName() + ".salt";
+    public static final int SECRET_QUESTION_SIZE = 6;
 
     /**
      *
@@ -159,9 +158,9 @@ public class EjbExampleUserStorageProvider implements UserStorageProvider,
         log.debug("Get EXT ID = > " + StorageId.externalId(id));
         //TODO: ¬ случае смены типа пол€ ID нужно внести изменени€
         Long persistenceId = new Long(StorageId.externalId(id));
-
+        
         log.debug("persistenceId => " + persistenceId);
-
+        
         UserEntity entity = em.find(UserEntity.class, persistenceId);
         if (entity == null) {
             log.info("could not find user by id: " + id);
@@ -191,7 +190,7 @@ public class EjbExampleUserStorageProvider implements UserStorageProvider,
             query = em.createNamedQuery("getUserByPhone", UserEntity.class);
             query.setParameter("phone", username.substring(1));
         }
-
+        
         List<UserEntity> result = query.getResultList();
         if (result.isEmpty()) {
             log.info("could not find username: " + username);
@@ -243,12 +242,12 @@ public class EjbExampleUserStorageProvider implements UserStorageProvider,
 
         //UserCredentialModel input = new UserCredentialModel();
         //input.setType("SECRET_QUESTION");
-        String answer = genSalt().substring(0, 5);
+        //String answer = genSalt().substring(0, 6);
         //Math.round(Math.random() * 1000000) + "";
         //input.setValue(answer);
 
         UserAdapter user = new UserAdapter(session, realm, model, entity, em);
-        user.setSecretQuestion(answer);
+        //user.setSecretQuestion(answer);
 
         //session.userCredentialManager().updateCredential(realm, (UserModel) user, input);
         return user;
@@ -296,7 +295,7 @@ public class EjbExampleUserStorageProvider implements UserStorageProvider,
             log.info("Add PASSWORD in CACHE password = " + password);
             user.getCachedWith().put(PASSWORD_CACHE_KEY, password);
         }
-
+        
         log.info("SALT_CACHE_KEY = " + SALT_CACHE_KEY);
         if (salt != null) {
             log.info("Add SALT in CAHE salt = " + salt);
@@ -329,7 +328,7 @@ public class EjbExampleUserStorageProvider implements UserStorageProvider,
     public boolean updateCredential(RealmModel realm, UserModel user, CredentialInput input) {
         log.info("updateCredential \n\n\trealm = " + realm.getName() + "\n\tuser = " + user.getUsername() + "\n\tinput = " + input.getClass().getName());
         log.info("input.getType() => " + input.getType());
-
+        
         if (!supportsCredentialType(input.getType()) || !(input instanceof UserCredentialModel)) {
             return false;
         }
@@ -439,7 +438,7 @@ public class EjbExampleUserStorageProvider implements UserStorageProvider,
         if (!supportsCredentialType(input.getType()) || !(input instanceof UserCredentialModel)) {
             return false;
         }
-
+        
         UserCredentialModel cred = (UserCredentialModel) input;
         log.info("getHashType");
         String password = getPassword(user);
@@ -470,7 +469,7 @@ public class EjbExampleUserStorageProvider implements UserStorageProvider,
                         + "\n\tuserpass    = " + encodeToHex(sha1(cred.getValue() + salt))
                         //+ "\n\tuserpass    = " + hashUtil.sha1ToString(cred.getValue() + salt)
                         + "\n}");
-
+                
                 flag = (password != null) && ((password).equals(encodeToHex(sha1(cred.getValue() + salt))));
                 //flag = (password != null) && ((password).equals(hashUtil.sha1ToString(cred.getValue() + salt)));
 
@@ -504,17 +503,19 @@ public class EjbExampleUserStorageProvider implements UserStorageProvider,
 //            UserAdapter user = new UserAdapter(session, realm, model, entity, em);
 //
 //            session.userCredentialManager().updateCredential(realm, (UserModel) user, input);
-            List<CredentialModel> creds = session.userCredentialManager().getStoredCredentialsByType(realm, user, "SECRET_QUESTION");
-            if (creds.isEmpty()) {
-                CredentialModel secret = new CredentialModel();
-                secret.setType("SECRET_QUESTION");
-                secret.setValue(Math.round(Math.random() * 1000000) + "");
-                secret.setCreatedDate(Time.currentTimeMillis());
-                session.userCredentialManager().createCredential(realm, user, secret);
-            } else {
-                creds.get(0).setValue(Math.round(Math.random() * 1000000) + "");
-                session.userCredentialManager().updateCredential(realm, user, creds.get(0));
-            }
+//            List<CredentialModel> creds = session.userCredentialManager().getStoredCredentialsByType(realm, user, "SECRET_QUESTION");
+//            if (creds.isEmpty()) {
+//                CredentialModel secret = new CredentialModel();
+//                secret.setType("SECRET_QUESTION");
+//                secret.setValue(Math.round(Math.random() * 1000000) + "");
+//                secret.setCreatedDate(Time.currentTimeMillis());
+//                session.userCredentialManager().createCredential(realm, user, secret);
+//            } else {
+//                creds.get(0).setValue(Math.round(Math.random() * 1000000) + "");
+//                session.userCredentialManager().updateCredential(realm, user, creds.get(0));
+//            }
+            String answer = genSalt().substring(0, SECRET_QUESTION_SIZE);
+            ((UserAdapter) user).setSecretQuestion(answer);
             session.userCache().evict(realm, user);
         }
         return flag;
@@ -690,7 +691,7 @@ public class EjbExampleUserStorageProvider implements UserStorageProvider,
             CriteriaQuery<UserEntity> criteriaQuery = cb.createQuery(UserEntity.class);
             Root<UserEntity> userEntityRoot = criteriaQuery.from(UserEntity.class);
             Predicate criteriaWhere = cb.conjunction();
-
+            
             for (Map.Entry<String, String> entry : params.entrySet()) {
                 String key = entry.getKey();
                 String value = entry.getValue();
@@ -699,35 +700,35 @@ public class EjbExampleUserStorageProvider implements UserStorageProvider,
                     Predicate p = cb.equal(userEntityRoot.get(UserModel.USERNAME), value);
                     criteriaWhere = cb.and(criteriaWhere, p);
                 }
-
+                
                 if (key.equalsIgnoreCase("email")) {
                     Predicate p = cb.equal(userEntityRoot.get(UserModel.EMAIL), value);
                     criteriaWhere = cb.and(criteriaWhere, p);
                 }
-
+                
                 if (key.equalsIgnoreCase("firstName")) {
                     Predicate p = cb.equal(userEntityRoot.get(UserModel.FIRST_NAME), value);
                     criteriaWhere = cb.and(criteriaWhere, p);
                 }
-
+                
                 if (key.equalsIgnoreCase("lastName")) {
                     Predicate p = cb.equal(userEntityRoot.get(UserModel.LAST_NAME), value);
                     criteriaWhere = cb.and(criteriaWhere, p);
                 }
             }
-
+            
             criteriaQuery.where(criteriaWhere);
-
+            
             res = em.createQuery(criteriaQuery).getResultList();
             log.info("res = " + res.size());
             res.forEach((item) -> {
                 users.add(new UserAdapter(session, realm, model, item, em));
             });
-
+            
         } catch (Exception e) {
             log.log(Logger.Level.ERROR, e);
         }
-
+        
         return users;
         //return Collections.EMPTY_LIST;
     }
@@ -744,7 +745,7 @@ public class EjbExampleUserStorageProvider implements UserStorageProvider,
     @Override
     public List<UserModel> searchForUser(Map<String, String> params, RealmModel realm, int firstResult, int maxResults) {
         log.info("searchForUser_2 params => " + params.size() + " realm => " + realm + " firstResalt => " + firstResult + "maxResult => " + maxResults);
-
+        
         List<UserEntity> res;
         List<UserModel> users = new LinkedList<>();
         try {
@@ -752,7 +753,7 @@ public class EjbExampleUserStorageProvider implements UserStorageProvider,
             CriteriaQuery<UserEntity> criteriaQuery = cb.createQuery(UserEntity.class);
             Root<UserEntity> userEntityRoot = criteriaQuery.from(UserEntity.class);
             Predicate criteriaWhere = cb.conjunction();
-
+            
             for (Map.Entry<String, String> entry : params.entrySet()) {
                 String key = entry.getKey();
                 String value = entry.getValue();
@@ -761,35 +762,35 @@ public class EjbExampleUserStorageProvider implements UserStorageProvider,
                     Predicate p = cb.equal(userEntityRoot.get(UserModel.USERNAME), value);
                     criteriaWhere = cb.and(criteriaWhere, p);
                 }
-
+                
                 if (key.equalsIgnoreCase("email")) {
                     Predicate p = cb.equal(userEntityRoot.get(UserModel.EMAIL), value);
                     criteriaWhere = cb.and(criteriaWhere, p);
                 }
-
+                
                 if (key.equalsIgnoreCase("firstName")) {
                     Predicate p = cb.equal(userEntityRoot.get(UserModel.FIRST_NAME), value);
                     criteriaWhere = cb.and(criteriaWhere, p);
                 }
-
+                
                 if (key.equalsIgnoreCase("lastName")) {
                     Predicate p = cb.equal(userEntityRoot.get(UserModel.LAST_NAME), value);
                     criteriaWhere = cb.and(criteriaWhere, p);
                 }
             }
-
+            
             criteriaQuery.where(criteriaWhere);
-
+            
             res = em.createQuery(criteriaQuery).setFirstResult(firstResult).setMaxResults(maxResults).getResultList();
             log.info("res = " + res.size());
             res.forEach((item) -> {
                 users.add(new UserAdapter(session, realm, model, item, em));
             });
-
+            
         } catch (Exception e) {
             log.log(Logger.Level.ERROR, e);
         }
-
+        
         return users;
         //Collections.EMPTY_LIST;
     }
@@ -1283,17 +1284,17 @@ public class EjbExampleUserStorageProvider implements UserStorageProvider,
         log.info("getStoredCredentialByNameAndType => " + string + " String1 => " + string1);
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-
+    
     @Override
     public void addRequiredAction(RealmModel rm, String string, String string1) {
         log.debug("addRequiredAction => " + rm + " string => " + string + " string1 => " + string1);
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-
+    
     @Override
     public void removeRequiredAction(RealmModel rm, String string, String string1) {
         log.debug("removeRequiredAction => " + rm + " string => " + string + " string1 => " + string1);
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-
+    
 }
