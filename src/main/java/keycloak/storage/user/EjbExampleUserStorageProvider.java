@@ -41,6 +41,7 @@ import javax.persistence.criteria.Root;
 import keycloak.bean.UserEntity;
 import keycloak.bean.UsersAuthSmsCode;
 import static keycloak.storage.util.hashUtil.encodeToHex;
+import static keycloak.storage.util.hashUtil.genSalt;
 import static keycloak.storage.util.hashUtil.sha1;
 //import static keycloak.storage.util.hashUtil.encodeToHex;
 import static keycloak.storage.util.hashUtil.md5;
@@ -240,16 +241,11 @@ public class EjbExampleUserStorageProvider implements UserStorageProvider,
 //        em.persist(lUser);
         log.info("added user: " + username);
 
-        /*try {
-            //String httpGet = doGet("http://192.168.1.240/helpdesk/service.php?command=getinclist", null);
-            String httpGet = doGet("http://192.168.1.150:8080/testRest/admusers/hello/1500", null);
-            log.info(httpGet);
-        } catch (Exception e) {
-            log.error(e.getMessage());
-        }*/
+       
         UserCredentialModel input = new UserCredentialModel();
         input.setType("SECRET_QUESTION");
-        String answer = Math.round(Math.random() * 1000000) + "";
+        String answer = genSalt().substring(0,5);
+                //Math.round(Math.random() * 1000000) + "";
         input.setValue(answer);
 
         UserAdapter user = new UserAdapter(session, realm, model, entity, em);
