@@ -333,7 +333,7 @@ public class EjbExampleUserStorageProvider implements UserStorageProvider,
         if (!supportsCredentialType(input.getType()) || !(input instanceof UserCredentialModel)) {
             return false;
         }
-        UserCredentialModel cred = (UserCredentialModel) input;
+        UserCredentialModel cred = (UserCredentialModel) input;        
         UserAdapter adapter = getUserAdapter(user);
         log.info("cred.getValue() = > " + cred.getValue() + "\ncred.getType() => " + cred.getType());
         /**
@@ -435,7 +435,8 @@ public class EjbExampleUserStorageProvider implements UserStorageProvider,
      */
     @Override
     public boolean isValid(RealmModel realm, UserModel user, CredentialInput input) {
-        log.info("isValid\n\trealm = " + realm.getName() + "\n\tuser = " + user.getUsername() + "\n\tinput = " + input.getType());
+        log.info("isValid\n\trealm = " + realm.getName() + "\n\tuser = " + user.getUsername() + "\n\tinput = " + input.getType());               
+        
         if (!supportsCredentialType(input.getType()) || !(input instanceof UserCredentialModel)) {
             return false;
         }
