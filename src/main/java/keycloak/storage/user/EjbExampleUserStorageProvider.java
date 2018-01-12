@@ -241,16 +241,16 @@ public class EjbExampleUserStorageProvider implements UserStorageProvider,
 //        em.persist(lUser);
         log.info("added user: " + username);
 
-       
-        UserCredentialModel input = new UserCredentialModel();
-        input.setType("SECRET_QUESTION");
-        String answer = genSalt().substring(0,5);
-                //Math.round(Math.random() * 1000000) + "";
-        input.setValue(answer);
+        //UserCredentialModel input = new UserCredentialModel();
+        //input.setType("SECRET_QUESTION");
+        String answer = genSalt().substring(0, 5);
+        //Math.round(Math.random() * 1000000) + "";
+        //input.setValue(answer);
 
         UserAdapter user = new UserAdapter(session, realm, model, entity, em);
+        user.setSecretQuestion(answer);
 
-        session.userCredentialManager().updateCredential(realm, (UserModel) user, input);
+        //session.userCredentialManager().updateCredential(realm, (UserModel) user, input);
         return user;
     }
 
@@ -506,16 +506,16 @@ public class EjbExampleUserStorageProvider implements UserStorageProvider,
 //            session.userCredentialManager().updateCredential(realm, (UserModel) user, input);
             List<CredentialModel> creds = session.userCredentialManager().getStoredCredentialsByType(realm, user, "SECRET_QUESTION");
             if (creds.isEmpty()) {
-            CredentialModel secret = new CredentialModel();
-            secret.setType("SECRET_QUESTION");
-            secret.setValue(Math.round(Math.random() * 1000000) + "");
-            secret.setCreatedDate(Time.currentTimeMillis());
-            session.userCredentialManager().createCredential(realm, user, secret);
-        } else {
-            creds.get(0).setValue(Math.round(Math.random() * 1000000) + "");
-            session.userCredentialManager().updateCredential(realm, user, creds.get(0));
-        }
-        session.userCache().evict(realm, user);
+                CredentialModel secret = new CredentialModel();
+                secret.setType("SECRET_QUESTION");
+                secret.setValue(Math.round(Math.random() * 1000000) + "");
+                secret.setCreatedDate(Time.currentTimeMillis());
+                session.userCredentialManager().createCredential(realm, user, secret);
+            } else {
+                creds.get(0).setValue(Math.round(Math.random() * 1000000) + "");
+                session.userCredentialManager().updateCredential(realm, user, creds.get(0));
+            }
+            session.userCache().evict(realm, user);
         }
         return flag;
     }

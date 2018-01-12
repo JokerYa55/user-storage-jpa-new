@@ -36,7 +36,7 @@ import static keycloak.storage.util.hashUtil.sha1;
  *
  */
 public class UserAdapter extends AbstractUserAdapterFederatedStorage {
-
+    
     private static final Logger log = Logger.getLogger(UserAdapter.class);
     protected UserEntity entity;
     protected String keycloakId;
@@ -167,19 +167,19 @@ public class UserAdapter extends AbstractUserAdapterFederatedStorage {
         entity.setCreate_date(new Date(timestamp));
         //super.setCreatedTimestamp(timestamp); //To change body of generated methods, choose Tools | Templates.
     }
-
+    
     @Override
     public Long getCreatedTimestamp() {
         //return super.getCreatedTimestamp(); //To change body of generated methods, choose Tools | Templates.
         return entity.getCreate_date().getTime();
     }
-
+    
     @Override
     public void setEnabled(boolean enabled) {
         //super.setEnabled(enabled); //To change body of generated methods, choose Tools | Templates.
         entity.setEnabled(enabled);
     }
-
+    
     @Override
     public boolean isEnabled() {
         //return super.isEnabled(); //To change body of generated methods, choose Tools | Templates.
@@ -203,7 +203,7 @@ public class UserAdapter extends AbstractUserAdapterFederatedStorage {
     @Override
     public void setUsername(String username) {
         entity.setUsername(username.toLowerCase());
-
+        
     }
 
     /**
@@ -232,22 +232,22 @@ public class UserAdapter extends AbstractUserAdapterFederatedStorage {
     public String getId() {
         return keycloakId;
     }
-
+    
     @Override
     public void setLastName(String lastName) {
         entity.setLastName(lastName);
     }
-
+    
     @Override
     public String getLastName() {
         return entity.getLastName();
     }
-
+    
     @Override
     public void setFirstName(String firstName) {
         entity.setFirstName(firstName);
     }
-
+    
     @Override
     public String getFirstName() {
         return entity.getFirstName();
@@ -273,7 +273,7 @@ public class UserAdapter extends AbstractUserAdapterFederatedStorage {
             attr.setValue(value);
             attr.setUserId(entity);
             entity.addUserAttribute(attr);
-
+            
         } else {
             super.setSingleAttribute(name, value);
         }
@@ -286,12 +286,12 @@ public class UserAdapter extends AbstractUserAdapterFederatedStorage {
     @Override
     public void removeAttribute(String name) {
         log.debug("***** REMOVE ATTRUBUTE => " + name + "********");
-
+        
         Pattern p = Pattern.compile("^id_app_[0-9]+$");
         Matcher m = p.matcher(name);
-
+        
         if (m.matches()) {
-
+            
             UserAttribute temp = null;
             for (UserAttribute t : entity.getUserAttributeCollection()) {
                 if ((t.getName().equals(name)) && (!t.getName().equals("id_app_1"))) {
@@ -305,7 +305,7 @@ public class UserAdapter extends AbstractUserAdapterFederatedStorage {
             } else {
                 log.debug("ATTR NotFound");
             }
-
+            
         } else {
             switch (name) {
                 /*case "phone":
@@ -392,7 +392,7 @@ public class UserAdapter extends AbstractUserAdapterFederatedStorage {
                         break;
                 }
             }
-
+            
         }
     }
 
@@ -417,17 +417,17 @@ public class UserAdapter extends AbstractUserAdapterFederatedStorage {
                 return entity.getThirdName();
             case "user_status":
                 return entity.getUser_status().toString();
-
+            
             default:
                 return super.getFirstAttribute(name);
         }
     }
-
+    
     @Override
     public void setEmailVerified(boolean verified) {
         entity.setEmail_verified(verified);
     }
-
+    
     @Override
     public boolean isEmailVerified() {
         return entity.isEmail_verified();
@@ -442,50 +442,50 @@ public class UserAdapter extends AbstractUserAdapterFederatedStorage {
     public Map<String, List<String>> getAttributes() {
         log.debug("getAttributes");
         Map<String, List<String>> attrs = super.getAttributes();
-
+        
         MultivaluedHashMap<String, String> all = new MultivaluedHashMap<>();
         all.putAll(attrs);
         // Добавляем доп. аттрибуты в Keycloak
         log.info("************ Add user attibutes **************");
-
+        
         if ((entity.getPhone() != null) && (entity.getPhone().length() > 0)) {
             // log.info("Add phone => " + entity.getPhone());
             all.add("phone", entity.getPhone());
         } else {
             all.add("phone", "");
         }
-
+        
         if ((entity.getHash_type() != null) && (entity.getHash_type().length() > 0)) {
             //log.info("Add hash_type");
             all.add("hash_type", entity.getHash_type());
         } else {
             all.add("hash_type", "");
         }
-
+        
         if ((entity.getThirdName() != null) && (entity.getThirdName().length() > 0)) {
             all.add("thirdName", entity.getThirdName());
         } else {
             all.add("thirdName", "");
         }
-
+        
         if (entity.getUser_region() != null) {
             all.add("region", entity.getUser_region().toString());
         } else {
             all.add("region", "");
         }
-
+        
         if (entity.getDescription() != null) {
             all.add("description", entity.getDescription());
         } else {
             all.add("description", "");
         }
-
+        
         if (entity.isEmail_verified()) {
             all.add("EMAIL_VERIFIED", "true");
         } else {
             all.add("EMAIL_VERIFIED", "false");
         }
-
+        
         Collection<UserAttribute> attrList = entity.getUserAttributeCollection();
         if (attrList != null) {
             attrList.forEach((t) -> {
@@ -511,7 +511,7 @@ public class UserAdapter extends AbstractUserAdapterFederatedStorage {
     public List<String> getAttribute(String name) {
         log.debug("getAttribute => " + name);
         List<String> res = new LinkedList<>();
-
+        
         if (name.contains("id_app_")) {
             Collection<UserAttribute> attrList = entity.getUserAttributeCollection();
             if (attrList != null) {
@@ -546,7 +546,7 @@ public class UserAdapter extends AbstractUserAdapterFederatedStorage {
                         res.add("");
                     }
                     break;
-
+                
                 case "hash_type":
                     if (entity.getHash_type() != null) {
                         res.add(entity.getHash_type());
@@ -565,7 +565,7 @@ public class UserAdapter extends AbstractUserAdapterFederatedStorage {
                     return super.getAttribute(name);
             }
         }
-
+        
         return res;
     }
 
@@ -591,14 +591,14 @@ public class UserAdapter extends AbstractUserAdapterFederatedStorage {
                 }
             }
         }
-
+        
         if (temp != null) {
             entity.getUserRequiredActionCollection().remove(temp);
         } else {
             log.debug("ACTION NotFound => " + action);
         }
     }
-
+    
     @Override
     public void addRequiredAction(RequiredAction action) {
         log.debug("addRequiredAction => " + action);
@@ -611,7 +611,7 @@ public class UserAdapter extends AbstractUserAdapterFederatedStorage {
                 }
             }
         }
-
+        
         if (temp == null) {
             if (entity.getUserRequiredActionCollection() != null) {
                 UserRequiredAction tempRA = new UserRequiredAction(action.name(), entity.getId());
@@ -624,7 +624,7 @@ public class UserAdapter extends AbstractUserAdapterFederatedStorage {
             }
         }
     }
-
+    
     @Override
     public void removeRequiredAction(String action) {
         log.debug("removeRequiredAction => " + action);
@@ -636,14 +636,14 @@ public class UserAdapter extends AbstractUserAdapterFederatedStorage {
                 }
             }
         }
-
+        
         if (temp != null) {
             entity.getUserRequiredActionCollection().remove(temp);
         } else {
             log.debug("ACTION NotFound => " + action);
         }
     }
-
+    
     @Override
     public void addRequiredAction(String action) {
         log.debug("addRequiredAction => " + action);
@@ -656,7 +656,7 @@ public class UserAdapter extends AbstractUserAdapterFederatedStorage {
                 }
             }
         }
-
+        
         if (temp == null) {
             if (entity.getUserRequiredActionCollection() != null) {
                 UserRequiredAction tempRA = new UserRequiredAction(action, entity.getId());
@@ -669,7 +669,7 @@ public class UserAdapter extends AbstractUserAdapterFederatedStorage {
             }
         }
     }
-
+    
     @Override
     public Set<String> getRequiredActions() {
         log.debug("getRequiredActions");
@@ -680,14 +680,14 @@ public class UserAdapter extends AbstractUserAdapterFederatedStorage {
             }
             return res;
         }
-
+        
         return super.getRequiredActions();
     }
-
+    
     public Collection<UsersAuthSmsCode> getAuthSmsCode() {
         return entity.gettUsersAuthSmsCodeCollection();
     }
-
+    
     public void addUserAuthSmsCode(UsersAuthSmsCode code) {
         log.info("addUserAuthSmsCode => " + code);
         if (entity.gettUsersAuthSmsCodeCollection() != null) {
@@ -830,4 +830,12 @@ public class UserAdapter extends AbstractUserAdapterFederatedStorage {
 //        log.debug("getGroupsInternal");
 //        return super.getGroupsInternal(); //To change body of generated methods, choose Tools | Templates.
 //    }
+    //TODO: 12/01/2018 SECRET_QUESTION
+    public void setSecretQuestion(String question) {
+        entity.setSecret_question(question);
+    }
+        
+    public String getSecretQuestion() {
+        return entity.getSecret_question();
+    }
 }
