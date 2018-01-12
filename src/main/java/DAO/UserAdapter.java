@@ -830,12 +830,12 @@ public class UserAdapter extends AbstractUserAdapterFederatedStorage {
 //        log.debug("getGroupsInternal");
 //        return super.getGroupsInternal(); //To change body of generated methods, choose Tools | Templates.
 //    }
-    //TODO: 12/01/2018 SECRET_QUESTION
-    public void setSecretQuestion(String question) {
-        entity.setSecret_question(question);
-    }
-        
-    public String getSecretQuestion() {
-        return entity.getSecret_question();
-    }
+//    //TODO: 12/01/2018 SECRET_QUESTION
+//    public void setSecretQuestion(String question) {
+//        entity.setSecret_question(question);
+//    }
+//        
+//    public String getSecretQuestion() {
+//        return entity.getSecret_question();
+//    }
 }

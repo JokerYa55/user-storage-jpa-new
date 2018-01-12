@@ -94,8 +94,8 @@ public class UserEntity implements Serializable {
     private boolean email_verified;
     @Column(name = "description", unique = false, nullable = true)
     private String description;
-    @Column(name = "secret_question", unique = false, nullable = true)
-    private String secret_question;
+//    @Column(name = "secret_question", unique = false, nullable = true)
+//    private String secret_question;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "userId", orphanRemoval = true)
     private Collection<UserAttribute> userAttributeCollection;
@@ -405,14 +405,6 @@ public class UserEntity implements Serializable {
 
     public void settUsersAuthSmsCodeCollection(Collection<UsersAuthSmsCode> tUsersAuthSmsCodeCollection) {
         this.tUsersAuthSmsCodeCollection = tUsersAuthSmsCodeCollection;
-    }
-
-    public String getSecret_question() {
-        return secret_question;
-    }
-
-    public void setSecret_question(String secret_question) {
-        this.secret_question = secret_question;
     }
 
 }
