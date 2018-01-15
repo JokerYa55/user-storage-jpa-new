@@ -104,7 +104,7 @@ public class UserEntity implements Serializable {
     private Collection<UserRequiredAction> userRequiredActionCollection;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "userId", orphanRemoval = true)
-    private Collection<UsersAuthSmsCode> tUsersAuthSmsCodeCollection;
+    private Collection<UsersSmsMessages> tUsersAuthSmsCodeCollection;
 
     public UserEntity() {
     }
@@ -399,11 +399,11 @@ public class UserEntity implements Serializable {
         this.userRequiredActionCollection = userRequiredActionCollection;
     }
 
-    public Collection<UsersAuthSmsCode> gettUsersAuthSmsCodeCollection() {
+    public Collection<UsersSmsMessages> gettUsersAuthSmsCodeCollection() {
         return tUsersAuthSmsCodeCollection;
     }
 
-    public void settUsersAuthSmsCodeCollection(Collection<UsersAuthSmsCode> tUsersAuthSmsCodeCollection) {
+    public void settUsersAuthSmsCodeCollection(Collection<UsersSmsMessages> tUsersAuthSmsCodeCollection) {
         this.tUsersAuthSmsCodeCollection = tUsersAuthSmsCodeCollection;
     }
 
