@@ -28,7 +28,7 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author vasil
  */
 @Entity
-@Table(name = "t_users_auth_sms_code")
+@Table(name = "t_users_sms")
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "UsersSmsMessages.findAll", query = "SELECT t FROM UsersSmsMessages t")
@@ -63,6 +63,8 @@ public class UsersSmsMessages implements Serializable {
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     @ManyToOne
     private UserEntity userId;
+    @Column(name = "message_type", length = 30)
+    private String message_type;
 
     public UsersSmsMessages() {
     }
@@ -158,5 +160,12 @@ public class UsersSmsMessages implements Serializable {
         return "UsersSmsMessages{" + "id=" + id + ", message=" + message + ", status=" + status + ", check_code=" + check_code + ", check_code_date=" + check_code_date + '}';
     }
 
-    
+    public String getMessage_type() {
+        return message_type;
+    }
+
+    public void setMessage_type(String message_type) {
+        this.message_type = message_type;
+    }
+
 }
